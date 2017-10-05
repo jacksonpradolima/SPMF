@@ -1,11 +1,38 @@
 # SPMF
-An Open-Source Data Mining Library - GitHub Fork
+[An Open-Source Data Mining Library](http://www.philippe-fournier-viger.com/spmf/) - GitHub Fork
 
-Project site: http://www.philippe-fournier-viger.com/spmf/
+# About
+(Direct from the website project)
 
-# License
+SPMF is an open-source data mining mining library written in Java, specialized in pattern mining.
 
-The code is licensed under the open-source GNU GPL version 3 license.
+It is distributed under the GPL v3 license.
+
+It offers implementations of 133 data mining algorithms for:
+- association rule mining,
+- itemset mining,
+- sequential pattern mining,
+- sequential rule mining,
+- sequence prediction,
+- periodic pattern mining, 
+- high-utility pattern mining,
+- clustering and classification,
+- time-series mining.
+
+The source code of each algorithm can be easily integrated in other Java software.
+
+Moreover, SPMF can be used as a standalone program with a simple user interface or from the command line.
+
+SPMF is fast and lightweight (no dependencies to other libraries).
+
+The current version is v2.18 and was released the 6th August 2017. 
+
+Informations:
+- [Documentation](http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php)
+- [Developers' guide](http://www.philippe-fournier-viger.com/spmf/developers.php)
+- [Datasets](http://www.philippe-fournier-viger.com/spmf/index.php?link=datasets.php)
+- [FAQ](http://www.philippe-fournier-viger.com/spmf/index.php?link=FAQ.php)
+
 
 # HOW TO INSTALL
 
@@ -74,6 +101,10 @@ examples of how to use the software. All of these examples are  described in the
 and then choose "Run file".
  4. That's it! You can modify the test files to take other files 
  as input or change the parameters of the algorithms.
+
+# License
+
+The code is licensed under the open-source GNU GPL version 3 license.
 
 # Citation
 

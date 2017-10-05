@@ -28,10 +28,12 @@ SPMF is fast and lightweight (no dependencies to other libraries).
 The current version is v2.18 and was released the 6th August 2017. 
 
 Informations:
+- [Algorithms](http://www.philippe-fournier-viger.com/spmf/index.php?link=algorithms.php)
 - [Documentation](http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php)
 - [Developers' guide](http://www.philippe-fournier-viger.com/spmf/developers.php)
 - [Datasets](http://www.philippe-fournier-viger.com/spmf/index.php?link=datasets.php)
 - [FAQ](http://www.philippe-fournier-viger.com/spmf/index.php?link=FAQ.php)
+- [Other resources](http://www.philippe-fournier-viger.com/spmf/index.php?link=resources.php): Tutorials, Research Papers, and Related Projects.
 
 
 # HOW TO INSTALL

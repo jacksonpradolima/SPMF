@@ -1,0 +1,56 @@
+@CONVERTED_FROM_TEXT
+@ITEM=1=the
+@ITEM=2=spmf
+@ITEM=3=software
+@ITEM=4=is
+@ITEM=5=a
+@ITEM=6=data
+@ITEM=7=mining
+@ITEM=8=platform
+@ITEM=9=that
+@ITEM=10=can
+@ITEM=11=be
+@ITEM=12=used
+@ITEM=13=to
+@ITEM=14=discover
+@ITEM=15=patterns
+@ITEM=16=in
+1 -1  2 -1  3 -1  4 -1  5 -1  6 -1  7 -1  8 -1  9 -1  10 -1  11 -1  12 -1  13 -1  14 -1  15 -1  16 -1  6 -1  -2
+@ITEM=17=it
+@ITEM=18=has
+@ITEM=19=been
+@ITEM=20=downloaded
+@ITEM=21=by
+@ITEM=22=many
+@ITEM=23=researchers
+17 -1  18 -1  19 -1  20 -1  21 -1  22 -1  6 -1  7 -1  23 -1  -2
+@ITEM=24=such
+@ITEM=25=as
+@ITEM=26=itemsets
+@ITEM=27=and
+@ITEM=28=sequential
+@ITEM=29=rules
+2 -1  10 -1  11 -1  12 -1  13 -1  14 -1  15 -1  24 -1  25 -1  26 -1  27 -1  28 -1  29 -1  16 -1  6 -1  -2
+@ITEM=30=this
+@ITEM=31=file
+@ITEM=32=contains
+@ITEM=33=text
+@ITEM=34=show
+@ITEM=35=how
+@ITEM=36=utilized
+@ITEM=37=
+@ITEM=38=find
+@ITEM=39=pattern
+@ITEM=40=documents
+30 -1  31 -1  32 -1  33 -1  6 -1  27 -1  17 -1  4 -1  12 -1  13 -1  34 -1  35 -1  2 -1  10 -1  11 -1  36 -1  13 -1  37 -1  38 -1  39 -1  16 -1  33 -1  40 -1  -2
+@ITEM=41=document
+@ITEM=42=will
+@ITEM=43=automatically
+@ITEM=44=transformed
+@ITEM=45=into
+@ITEM=46=format
+@ITEM=47=which
+@ITEM=48=then
+@ITEM=49=analyzed
+@ITEM=50=interesting
+1 -1  33 -1  41 -1  42 -1  11 -1  43 -1  44 -1  45 -1  1 -1  2 -1  46 -1  47 -1  10 -1  48 -1  11 -1  49 -1  21 -1  2 -1  13 -1  38 -1  50 -1  15 -1  -2

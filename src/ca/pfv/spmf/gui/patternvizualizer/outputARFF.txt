@@ -1,0 +1,7 @@
+ssn='ssn:333445555'  #SUP: 4
+hours='hours:10.0'  #SUP: 4
+eName='eName:Franklin Wong'  #SUP: 4
+ssn='ssn:333445555' hours='hours:10.0'  #SUP: 4
+ssn='ssn:333445555' eName='eName:Franklin Wong'  #SUP: 4
+hours='hours:10.0' eName='eName:Franklin Wong'  #SUP: 4
+ssn='ssn:333445555' hours='hours:10.0' eName='eName:Franklin Wong'  #SUP: 4

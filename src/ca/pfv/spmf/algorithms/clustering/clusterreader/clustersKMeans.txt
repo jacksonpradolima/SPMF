@@ -1,0 +1,2 @@
+[Instance1 1.0 2.0 3.0 4.0][Instance3 1.0 2.0 3.0 3.0][Instance4 2.0 4.0 5.0 5.0][Instance7 4.0 4.0 3.0 3.0][Instance8 2.0 2.0 5.0 5.0][Instance9 7.0 5.0 5.0 5.0]
+[Instance2 1.0 6.0 8.0 8.0][Instance5 4.0 7.0 8.0 7.0][Instance6 7.0 6.0 8.0 9.0][Instance10 5.0 6.0 8.0 9.0]

@@ -1,0 +1,22 @@
+@ATTRIBUTEDEF=X
+@ATTRIBUTEDEF=Y
+@NAME=Instance1
+1 1
+@NAME=Instance2
+0 1
+@NAME=Instance3
+1 0
+@NAME=Instance4
+10 10
+@NAME=Instance5
+10 13
+@NAME=Instance6
+13 13
+@NAME=Instance7
+54 54 
+@NAME=Instance8
+55 55
+@NAME=Instance9
+89 89
+@NAME=Instance10
+57 55

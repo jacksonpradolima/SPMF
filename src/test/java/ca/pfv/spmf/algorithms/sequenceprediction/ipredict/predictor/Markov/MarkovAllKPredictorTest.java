@@ -75,6 +75,7 @@ public class MarkovAllKPredictorTest {
 
             assertTrue(true);
         } catch (Exception e) {
+            e.printStackTrace();
             assertTrue(false);
         }
     }

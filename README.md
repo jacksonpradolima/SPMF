@@ -1,6 +1,9 @@
 # SPMF
 [An Open-Source Data Mining Library](http://www.philippe-fournier-viger.com/spmf/) - GitHub Fork
 
+**NOTE** The [owner][jacksonpradolima] of this repository has no affiliation with official SPMF project. This repo is periodically updated as a kindness to others who
+have shown interest in it.Therefore, this exists to provide an easy way to access and contribute with the project, nothing more.
+
 # About
 (Direct from the website project)
 

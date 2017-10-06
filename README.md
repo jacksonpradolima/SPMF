@@ -43,9 +43,18 @@ Informations:
 
 The project use Maven.
 
+# How to run the test files:
+
+Once you have installed the project you are ready for running the software. 
+
+1. You should go to "ca.pfv.spmf.tests" folder. In this folder there are all the examples of how to use the software. All of these examples are  described in the documentation on the [website](http://www.philippe-fournier-viger.com/spmf/);
+2. Let say that you want to run Example #9 on the website (the CHARM algorithm). This is the file **MainTestCharm_saveToMemory.java**;
+3. To run it, you just "run the file";
+4. That's it! You can modify the test files to take other files as input or change the parameters of the algorithms.
+
 # Code Quality
 
-It's available at sonarcloud (SonarQube) [here](https://sonarcloud.io/dashboard?id=ca.pfv%3ASPMF)
+It's available at sonarcloud (SonarQube) [here](https://sonarcloud.io/dashboard?id=ca.pfv%3ASPMF).
 
 # License
 

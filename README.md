@@ -36,73 +36,13 @@ Informations:
 - [Other resources](http://www.philippe-fournier-viger.com/spmf/index.php?link=resources.php): Tutorials, Research Papers, and Related Projects.
 
 
-# HOW TO INSTALL
+# How to install
 
-## INSTRUCTIONS FOR COMPILING & RUNNING THE SOFTWARE
+The project use Maven.
 
-To run the examples,  you will need to compile the source code. Because there is a lot of files to compile, it is preferable to use a development environment such as Eclipse or Netbeans.
+# Code Quality
 
-Below, I provide instructions for ECLIPSE and NETBEANS.
-
-## COMPILING THE SOURCE CODE WITH ECLIPSE
-
-How to import the source code in Eclipse, and compile the project:
-
-1. Install Eclipse. Make sure that you have installed the 
-latest version of the JAVA SDK on your machine.
-2. Open Eclipse. Do "File / New / Java Project /"
-3. Type the name of the project and then click on "Finish"
-4 Then, right-click on the "src" folder of the Java project that 
-you have created. Choose "Properties". Copy the name of the 
-directory that is shown in the properties. It should be something 
- like that: "C:\eclipse\Workspace\test2\src"
- 5 Go to this directory and then uncompress the file 
- "spmf.zip" that you have downloaded, so that the folder "ca" should appear directly in the folder "src".
- 6. Go back into Eclipse.
-7. Right-click on! the Java project and select "Refresh".
- 8. This is it. The project is now installed.
-
-How to run the test files:
-
- Once you have installed the project you are ready for running the 
- software. 
-1. In Eclipse, you should go to "ca.pfv.spmf.tests" 
- folder, in your Java project. In this folder there are all the 
-examples of how to use the software. All of these examples are  described on the website : (  http://www.philippe-fournier-viger.com/spmf/ )
-2. Let say that you want to run Example #9 on the website (the 
- CHARM algorithm). This is the file ""MainTestCharm_saveToMemory.java""
-3. To run it, you have to right click on MainTestCharm_saveToMemory.java" 
-and then choose "Run as. / Java application".
- 4. That's it! You can modify the test files to take other files 
- as input or change the parameters of the algorithms.
-
-
-## COMPILING THE SOURCE CODE WITH NETBEANS
-
-How to import the source code in Netbeans, and compile the project:
-
-1. Install Netbeans. Make sure that you have installed the 
-latest version of the JAVA SDK on your machine.
-2. Open NetBeans. Do "File" > New project > Java Application > Next > 
-3. Type the name of the project and then click on "Finish"
-4. Then, right click on "Source packages" and go to "Properties". This will open a window showing the project path. The project path should be something like that: "C:\Users\ph\Documents\NetBeansProjects\JavaApplication1" 
-5. Go to this directory and then uncompress the file 
- "spmf.zip" that you have downloaded, so that the folder "ca" should appear directly in the folder "src".
-6. Go back into NetBeans.
-7. This is it. The project is now installed.
-
-How to run the test files:
-
-Once you have installed the project you are ready for running the software. 
-1. In NetBeans, you should go to "ca.pfv.spmf.tests" 
- folder, in your Java project. In this folder there are all the 
-examples of how to use the software. All of these examples are  described in the documentation on the website : (  http://www.philippe-fournier-viger.com/spmf/ )
-2. Let say that you want to run Example #9 on the website (the 
- CHARM algorithm). This is the file ""MainTestCharm_saveToMemory.java""
-3. To run it, you have to right click on MainTestCharm_saveToMemory.java" 
-and then choose "Run file".
- 4. That's it! You can modify the test files to take other files 
- as input or change the parameters of the algorithms.
+It's available at sonarcloud (SonarQube) [here](https://sonarcloud.io/dashboard?id=ca.pfv%3ASPMF)
 
 # License
 

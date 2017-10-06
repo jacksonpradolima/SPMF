@@ -208,7 +208,7 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
                 openWebPage("http://www.philippe-fournier-viger.com/spmf/");
             }
         });
-        lblNewLabel.setIcon(new ImageIcon(MainWindow.class.getResource("spmf.png")));
+        lblNewLabel.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/gui/spmf.png")));
         lblNewLabel.setBounds(12, 13, 140, 47);
         contentPane.add(lblNewLabel);
 

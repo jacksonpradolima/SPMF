@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 
 import ca.pfv.spmf.algorithmmanager.AlgorithmManager;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * This is a simple user interface to run the main algorithms in SPMF.
@@ -129,7 +130,7 @@ public class Main {
             }catch (NumberFormatException e) {
                 System.out.println("Error. Please check the parameters of the algorithm.  The format for numbers is incorrect. \n"
                         + "\n ERROR MESSAGE = " + e.toString());
-            } catch (Throwable e) {
+            } catch (Exception e) {
             	System.out.println("An error while trying to run the algorithm. \n ERROR MESSAGE = " + e.toString());
                 e.printStackTrace();
             }
@@ -143,7 +144,7 @@ public class Main {
 				Method mainMethod = testClass.getMethod("main", String[].class);
                 String[] params = null;
                 mainMethod.invoke(null, (Object) params);
-            } catch (Exception e) {
+            } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException e) {
                 e.printStackTrace();
             }
 

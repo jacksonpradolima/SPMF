@@ -10,7 +10,7 @@ import ca.pfv.spmf.input.sequence_database_array_integers.SequenceDatabase;
 
 /**
  *  * Example of how to use the TopSeqRules algorithm in source code.
- * @author Philippe Fournier-Viger (Copyright 2012)
+ * @author Philippe Fournier-Viger (Copyright 2018)
  */
 public class MainTestTopSeqRules {
 
@@ -23,12 +23,24 @@ public class MainTestTopSeqRules {
 			e.printStackTrace();
 		}
 		sequenceDatabase.printDatabaseStats();
-		
+		 
 		int k = 3;
-		double minconf = 0.8;
+		double minconf = 0.5;
+		
 //
 		AlgoTopSeqRules algo = new AlgoTopSeqRules();
-		RedBlackTree<ca.pfv.spmf.algorithms.sequential_rules.topseqrules_and_tns.Rule> rules = algo.runAlgorithm(k, sequenceDatabase, minconf);
+		
+		
+//		// This optional parameter allows to specify the maximum number of items in the 
+//		// left side (antecedent) of rules found:
+//		algo.setMaxAntecedentSize(1);  // optional
+		
+//		// This optional parameter allows to specify the maximum number of items in the 
+//		// right side (consequent) of rules found:
+//		algo.setMaxConsequentSize(1);  // optional
+		
+		RedBlackTree<ca.pfv.spmf.algorithms.sequential_rules.topseqrules_and_tns.Rule> rules 
+		 = algo.runAlgorithm(k, sequenceDatabase, minconf);
 		algo.printStats();
 		algo.writeResultTofile(".//output.txt");   // to save results to file
 	}

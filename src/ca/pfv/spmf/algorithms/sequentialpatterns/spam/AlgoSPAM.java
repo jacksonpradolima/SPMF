@@ -206,6 +206,8 @@ public class AlgoSPAM{
 						tid =0;
 					}else{  // indicate an item
 						// Get the bitmap for this item. If none, create one.
+//						System.err.println(thisLine);
+//						System.err.println("==" + token + "===");
 						Integer item = Integer.parseInt(token);
 						Bitmap bitmapItem = verticalDB.get(item);
 						if(bitmapItem == null){

@@ -97,11 +97,29 @@ public class TDAGPredictor extends Predictor {
 					//if the node has not the maximal allowed height
 					if(node.pathFromRoot.size() <= maxTreeHeight) {
 						
+						/** START OF BUGFIX 2018-01-24
+						 * Removed redundant size
+						 * increments.
+						 *
+						 * size was incremented although
+						 * the child node might have
+						 * already existed. Now the
+						 * absence of the child node is
+						 * checked before the size is
+						 * incremented.
+						 */
+						
+						//Only increase the size if a new node will be added
+						if (!node.hasChild(item.val)) {
+							size++;
+						}
+//						size++;
+						/**  END OF BUGFIX **/
+
 						//Create and insert the node
 						TDAGNode child = node.addChild(item.val);
-						size++;
 						mDictionary.put(child.pathFromRoot, child);
-						
+
 						//Pushing the new child in the next state
 						newState.add(child);
 					}
@@ -132,13 +150,37 @@ public class TDAGPredictor extends Predictor {
 		//Looking for a Node in the tree that contains the same symbols as a 
 		//path from the root.
 		TDAGNode context = mDictionary.get(symbols);
-		while(context == null && symbols.size() > 0) {
-			
+		
+		/*** START BUG FIX 2018-01-25 
+		 * Fixed TDAG Prediction Bug 1: Because symbols(0) is the root
+ 		 * node of the sequence, the symbol with the least relevance is
+ 		 * always at position 1. This bug is one reason why the TDAG
+ 		 * algorithm has high 'No Match' values.*/
+		//while(context == null && symbols.size() > 0) {
+		while(context == null && symbols.size() > 1) {
+
 			//removing the less relevant symbol from the symbols
-			symbols.remove(0);
+//			symbols.remove(0);
+			//as symbols(0) is the rootNode, we have to remove element (1)
+			symbols.remove(1);
+			/** END OF BUG FIX */
 			
 			//Attempting to extract the right node
 			context = mDictionary.get(symbols);
+			
+			/** START BUG FIX 2018-01-25 
+			* Fixed TDAG Prediction Bug 2: When searching for a
+			* suitable context in the tree, ignore all contexts
+			* that do not have any children, as they do not provide
+			* any information. Else the prediction will return an
+			* empty Sequence, although there might be a context of
+			* a lower order that can provide information.
+			*/
+			//Do not use a Context that does not have any children
+			if (context != null && context.children.size() == 0) {
+				context = null;
+			}
+			/** END OF BUG FIX */
 		}
 		
 		
@@ -165,8 +207,19 @@ public class TDAGPredictor extends Predictor {
 			//Generating a prediction with candidate1 only if
 			//candidate1 has a higher score than candidate2 
 			Double treshold = 0.0;
+			/** START OF BUG FIX 2018-01-24 
+			 * /**
+			 * Fixed TDAG Prediction Bug 3: If a context has two
+			 * children with the same score, the predictor returned
+			 * an empty sequence instead of one of the two symbols.
+			 *
+			 * Instead of changing > to >=, the whole determination
+			 * of candidate 2 could be skipped too.
+			 */
 			if(candidate1 != null && 
-					(candidate2 == null || candidate1.score - candidate2.score > treshold)) {
+					//(candidate2 == null || candidate1.score - candidate2.score > treshold)) {
+					(candidate2 == null || candidate1.score - candidate2.score >= treshold)) {
+				/** END OF BUG FIX */
 				predicted.addItem(new Item(candidate1.symbol));
 			}
 		}
@@ -180,11 +233,14 @@ public class TDAGPredictor extends Predictor {
 	}
 
 	/**
-	 * Each node has a list of children, the sum of the lists for all children is equals to the number of nodes (2 * size).
-	 * Each nodes has also three integers (12 bytes)
+	 *  Each node has a list of children, the sum of the lists for all children is equals to the number of nodes.
++	 * Each nodes has also three integers one child ref (4 bytes) + 3 integers (12 bytes) = 16 bytes
 	 */
 	public float memoryUsage() {
-		return 2 * size * 12;
+		/** START OF BUG FIX 2018-01-24 */
+//		return 2 * size * 12;
+		return size * 16;
+		/** END OF BUG FIX */
 	}
 	
 	public static void main(String...args) {

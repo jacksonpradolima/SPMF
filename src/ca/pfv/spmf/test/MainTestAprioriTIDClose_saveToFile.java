@@ -6,7 +6,6 @@ import java.net.URL;
 
 import ca.pfv.spmf.algorithms.frequentpatterns.aprioriTIDClose.AlgoAprioriTIDClose;
 import ca.pfv.spmf.input.transaction_database_list_integers.TransactionDatabase;
-import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemsets;
 
 
 /**

@@ -1,4 +1,5 @@
 package ca.pfv.spmf.algorithms.frequentpatterns.HUIM_GA_tree;
+
 /**
  * This class represents the OR/NOR-tree node.
  * 

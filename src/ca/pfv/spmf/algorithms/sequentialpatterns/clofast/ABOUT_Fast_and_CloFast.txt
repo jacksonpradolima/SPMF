@@ -1,0 +1,10 @@
+This package contains code obtained from Fabiana Lanotte, Fabio Fumarola, M. Ceci and D. Malerba
+It contains the implementation of the Fast and CloFast algorithm, described in these papers:
+
+Fumarola, F., Lanotte, P. F., Ceci, M., & Malerba, D. (2016).
+CloFAST: closed sequential pattern mining using sparse and vertical 
+id-lists. Knowledge and Information Systems, 48(2), 429-463.
+
+Salvemini E, Fumarola F, Malerba D, Han J (2011) FAST sequence mining based 
+on sparse id-lists. In: Kryszkiewicz M, Rybinski H, Skowron A, Ras ZW (eds) 
+ISMIS, vol 6804 of Lecture Notes in Computer Science, Springer, Berlin, pp 316–325

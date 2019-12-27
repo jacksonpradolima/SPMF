@@ -49,7 +49,7 @@ public class DescriptionAlgoAprioriInverse extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#example18";
+		return "http://www.philippe-fournier-viger.com/spmf/AprioriInverse.php";
 	}
 
 	@Override

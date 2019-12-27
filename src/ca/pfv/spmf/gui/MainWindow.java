@@ -32,6 +32,8 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -54,7 +56,6 @@ import ca.pfv.spmf.algorithmmanager.AlgorithmManager;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfParameter;
 import ca.pfv.spmf.algorithmmanager.descriptions.DescriptionAlgoClusterViewer;
-import ca.pfv.spmf.algorithmmanager.descriptions.DescriptionAlgoTimeSeriesViewer;
 import ca.pfv.spmf.algorithms.timeseries.TimeSeries;
 import ca.pfv.spmf.algorithms.timeseries.reader_writer.AlgoTimeSeriesReader;
 import ca.pfv.spmf.gui.patternvizualizer.PatternVizualizer;
@@ -120,22 +121,43 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
 	private JCheckBox checkboxOpenOutputTimeSeriesViewer;
 	private JLabel lblOpenOutputFile;
 	private JCheckBox checkboxClusterViewer;
+	
+	/**  show the tools */
+	private boolean showTools;
+	
+
+	/**  show the algorithms*/
+	private boolean showAlgorithms;
 
     /**
      * Create the frame.
      * @throws Exception 
      */
-    public MainWindow() throws Exception {
+    public MainWindow(boolean showTools, boolean showAlgorithms) {
+    	this.showTools = showTools;
+    	this.showAlgorithms = showAlgorithms;
+    	
         setResizable(false);
         addWindowListener(new WindowAdapter() {
 
+        	@Override
             public void windowClosed(WindowEvent arg0) {
                 System.exit(0);
             }
         });
-        // set the title of the window
-        setTitle("SPMF v" + Main.SPMF_VERSION);
-
+        
+        // For the new version of SPMF
+        // We want to distinguish if the windows is used to run a dataset tool or another algorithm.
+        if(showTools && !showAlgorithms){
+        	setTitle("Prepare data (run a dataset tool)");
+        }
+        else if(!showTools && showAlgorithms){
+        	setTitle("Run an algorithm");
+        }
+        else{
+        	// set the title of the window
+        	setTitle("SPMF v" + Main.SPMF_VERSION);
+        }
         // When the user clicks the "x" the software will close.
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // size of the window
@@ -153,9 +175,14 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
         //********* Use the algorithm manager to populate the list of algorithms ******* //
         comboBox.addItem("");
         
-        AlgorithmManager manager = AlgorithmManager.getInstance();
+        AlgorithmManager manager = null;
+		try {
+			manager = AlgorithmManager.getInstance();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		
-		List<String> algorithmList = manager.getListOfAlgorithmsAsString();
+		List<String> algorithmList = manager.getListOfAlgorithmsAsString(showTools, showAlgorithms);
 		for(String algorithmOrCategoryName : algorithmList){
 			comboBox.addItem(algorithmOrCategoryName);
 		}
@@ -217,8 +244,8 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
         contentPane.add(textFieldParam1);
         textFieldParam1.setColumns(10);
         
-        {String buffer = new String(new byte[]{83,80,77,70});
-        if(getTitle().startsWith(buffer) != true){setTitle(buffer);}}
+      //  {String buffer = new String(new byte[]{83,80,77,70});
+       // if(getTitle().startsWith(buffer) != true){setTitle(buffer);}}
 
         buttonInput = new JButton("...");
         buttonInput.addActionListener(new ActionListener() {
@@ -462,10 +489,10 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
             //********* Prepare the user interface for this algorithm  ******* //
             hideAllParams();
             
-            JTextField textFieldsParams [] = new JTextField[]{textFieldParam1, textFieldParam2, textFieldParam3, textFieldParam4,
+            JTextField[] textFieldsParams  = new JTextField[]{textFieldParam1, textFieldParam2, textFieldParam3, textFieldParam4,
             		textFieldParam5, textFieldParam6, textFieldParam7};
             
-            JLabel labelsParams [] = new JLabel[]{labelParam1, labelParam2, labelParam3, labelParam4,
+            JLabel[] labelsParams  = new JLabel[]{labelParam1, labelParam2, labelParam3, labelParam4,
             		labelParam5, labelParam6, labelParam7};
             
             AlgorithmManager manager = AlgorithmManager.getInstance();
@@ -505,6 +532,12 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
 //                    	checkboxOpenOutputPatternViewer.setVisible(false);
                     }else{
                     	checkboxClusterViewer.setVisible(false);
+                    }
+                    
+                    if(algorithm.getOutputFileTypes().length >1 && 
+                    		(algorithm.getOutputFileTypes()[1].equals("Subgraphs") ||
+                    		algorithm.getOutputFileTypes()[1].equals("Subgraphs"))){
+                    	checkboxOpenOutputPatternViewer.setVisible(false);
                     }
 				}
 				//************************************************************************
@@ -615,6 +648,7 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
             this.textArea = textArea;
         }
 
+        @Override
         public void flush() {
             textArea.repaint();
         }
@@ -756,8 +790,8 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
 		}
 		
 
-        {String buffer = new String(new byte[]{83,80,77,70});
-        if(getTitle().startsWith(buffer) != true){setTitle(buffer);}}
+        String buffer = new String(new byte[]{83,80,77,70});
+        if(getTitle().startsWith(buffer) != true){setTitle(buffer);}
 	}
 	
 	
@@ -792,7 +826,7 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
 			            JOptionPane.showMessageDialog(null,
 			                    "A security error occured while trying to open the output file. ERROR MESSAGE = " + e.toString(), "Error",
 			                    JOptionPane.ERROR_MESSAGE);
-			        } catch (Throwable e) {
+			        } catch (Exception e) {
 			            JOptionPane.showMessageDialog(null,
 			                    "An error occured while opening the output file. ERROR MESSAGE = " + e.toString(), "Error",
 			                    JOptionPane.ERROR_MESSAGE);
@@ -804,12 +838,12 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
 			else if(checkboxOpenOutputPatternViewer.isSelected()) {
 			    // open the output file if the checkbox is checked 
 				try {
-				    PatternVizualizer patternViz = new PatternVizualizer(outputFile);
+				    new PatternVizualizer(outputFile);
 				}  catch (SecurityException e) {
 		            JOptionPane.showMessageDialog(null,
 		                    "A security error occured while trying to open the output file. ERROR MESSAGE = " + e.toString(), "Error",
 		                    JOptionPane.ERROR_MESSAGE);
-		        } catch (Throwable e) {
+		        } catch (Exception e) {
 		            JOptionPane.showMessageDialog(null,
 		                    "An error occured while opening the output file. ERROR MESSAGE = " + e.toString(), "Error",
 		                    JOptionPane.ERROR_MESSAGE);
@@ -853,8 +887,8 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
 					}
 					
 					// Then call the time series viewer
-					DescriptionAlgoTimeSeriesViewer clusterViewer = new DescriptionAlgoTimeSeriesViewer();
-					clusterViewer.runAlgorithm(new String[]{separator}, outputFile, null);
+//					DescriptionAlgoTimeSeriesViewer clusterViewer = new DescriptionAlgoTimeSeriesViewer();
+//					clusterViewer.runAlgorithm(new String[]{separator}, outputFile, null);
 					
 					AlgoTimeSeriesReader reader = new AlgoTimeSeriesReader();
 					List<TimeSeries> timeSeries = reader.runAlgorithm(outputFile, separator);
@@ -865,7 +899,7 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
 		            JOptionPane.showMessageDialog(null,
 		                    "A security error occured while trying to open the output file. ERROR MESSAGE = " + e.toString(), "Error",
 		                    JOptionPane.ERROR_MESSAGE);
-		        } catch (Throwable e) {
+		        } catch (Exception e) {
 		            JOptionPane.showMessageDialog(null,
 		                    "An error occured while opening the output file. ERROR MESSAGE = " + e.toString(), "Error",
 		                    JOptionPane.ERROR_MESSAGE);
@@ -883,7 +917,7 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
 		            JOptionPane.showMessageDialog(null,
 		                    "A security error occured while trying to open the output file. ERROR MESSAGE = " + e.toString(), "Error",
 		                    JOptionPane.ERROR_MESSAGE);
-		        } catch (Throwable e) {
+		        } catch (Exception e) {
 		            JOptionPane.showMessageDialog(null,
 		                    "An error occured while opening the output file. ERROR MESSAGE = " + e.toString(), "Error",
 		                    JOptionPane.ERROR_MESSAGE);
@@ -946,7 +980,7 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
 		
 		// Get the parameters
 		final String choice = (String) comboBox.getSelectedItem();
-		final String parameters[] = new String[7];
+		final String[] parameters = new String[7];
 		parameters[0] = textFieldParam1.getText();
 		parameters[1] = textFieldParam2.getText();
 		parameters[2] = textFieldParam3.getText();
@@ -954,7 +988,12 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
 		parameters[4] = textFieldParam5.getText();
 		parameters[5] = textFieldParam6.getText();
 		parameters[6] = textFieldParam7.getText();
-		textArea.setText("Algorithm is running...\n");
+		
+		// Get the current time
+		SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("hh:mm:ss aa");
+		String time = dateTimeInGMT.format(new Date());
+		
+		textArea.setText("Algorithm is running... (" + time + ")  \n");
 		
         progressBar.setIndeterminate(true);
         buttonRun.setText("Stop algorithm");

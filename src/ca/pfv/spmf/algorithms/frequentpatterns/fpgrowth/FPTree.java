@@ -150,6 +150,50 @@ public class FPTree {
 			}
 		}
 	}
+	
+	/**
+	 * Method for adding a prefixpath to a fp-tree for GRGrowth.
+	 * @param prefixPath  The prefix path
+	 * @param mapSupportBeta  The frequencies of items in the prefixpaths
+	 * @param relativeMinsupp
+	 */
+	void addPrefixPathGRGrowth(List<FPNode> prefixPath, Map<Integer, Integer> mapSupportBeta, int relativeMinsupp) {
+		// the first element of the prefix path contains the path support
+		int pathCount = prefixPath.get(0).counter;  
+		
+		FPNode currentNode = root;
+		// For each item in the transaction  (in backward order)
+		// (and we ignore the first element of the prefix path)
+		for(int i = prefixPath.size() -1; i >=1; i--){ 
+			FPNode pathItem = prefixPath.get(i);
+			// if the item is not frequent we skip it
+			int support = mapSupportBeta.get(pathItem.itemID);
+			if(support >= relativeMinsupp
+					// ============ GR-GROWTH ==========
+					&& support < prefixPath.size()){
+					// ============ END GR-GROWTH ===========
+	
+				// look if there is a node already in the FP-Tree
+				FPNode child = currentNode.getChildWithID(pathItem.itemID);
+				if(child == null){ 
+					// there is no node, we create a new one
+					FPNode newNode = new FPNode();
+					newNode.itemID = pathItem.itemID;
+					newNode.parent = currentNode;
+					newNode.counter = pathCount;  // set its support
+					currentNode.childs.add(newNode);
+					currentNode = newNode;
+					// We update the header table.
+					// and the node links
+					fixNodeLinks(pathItem.itemID, newNode);		
+				}else{ 
+					// there is a node already, we update it
+					child.counter += pathCount;
+					currentNode = child;
+				}
+			}
+		}
+	}
 
 	/**
 	 * Method for creating the list of items in the header table, 

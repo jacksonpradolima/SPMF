@@ -59,28 +59,34 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemset;
  */
 public class AlgoVME {
 	
-	// variables for counting support of items
-	// key: item    value:  tidset of the item as a set of integers
+	/** variables for counting support of items
+	// key: item    value:  tidset of the item as a set of integers */
 	Map<Integer, Set<Integer>> mapItemTIDs = new HashMap<Integer, Set<Integer>>();
 	
-	// variables for storing the profit of each transaction
-	// key: transaction id     value: transaction profit
+	/** variables for storing the profit of each transaction
+	// key: transaction id     value: transaction profit */
 	Map<Integer, Integer> mapTransactionProfit = new HashMap<Integer, Integer>();
 
-	// for statistics
-	long startTimestamp = 0; //start time of latest execution
-	long endTimeStamp = 0; //end time of latest execution
+	/** start time of latest execution */
+	long startTimestamp = 0;
 	
-	// the maximum profit loss
+	/** end time of latest execution */
+	long endTimeStamp = 0; 
+	
+	/** the maximum profit loss */
 	double maxProfitLoss =0;
-	// the overall profit
+	
+	/** the overall profit */
 	double overallProfit = 0;
 	
-	// the number of erasable itemsets found by the latest execution
+	/** the number of erasable itemsets found by the latest execution */
 	private int erasableItemsetCount = 0;
 
-	//object to write the output file
+	/** object to write the output file */
 	BufferedWriter writer = null;
+	
+	/** Special parameter to set the maximum size of itemsets to be discovered */
+	int maxItemsetSize = Integer.MAX_VALUE;
 	
 	/**
 	 * Default constructor
@@ -188,7 +194,7 @@ public class AlgoVME {
 				loss += mapTransactionProfit.get(tid);
 			}
 			// if the looss is less than the max profit loss
-			if(loss <= maxProfitLoss){
+			if(loss <= maxProfitLoss && maxItemsetSize >=1){
 				// it is an erasable itemset
 				Itemset itemset = new Itemset(entry.getKey());
 				itemset.setTIDs(mapItemTIDs.get(entry.getKey()));
@@ -212,9 +218,11 @@ public class AlgoVME {
 		// Recursively generate candidate erasable itemsets of size k>1 by using
 		// erasable itemsets of size k-1 and stop
 		// when no candidates can be generated
-		while (!level.isEmpty()) {
+		int k = 2;
+		while (!level.isEmpty() && k <= maxItemsetSize) {
 			// Generate candidates of size K
 			level = generateCandidateSizeK(level);
+			k++;
 		}
 		
 		// close the file
@@ -320,5 +328,12 @@ loop2:		for(int j=i+1; j< levelK_1.size(); j++){
 		System.out.println(" Total time ~ " + temps + " ms");
 		System.out
 				.println("===================================================");
+	}
+	/** 
+	 * Set the maximum pattern length
+	 * @param length the maximum length
+	 */
+	public void setMaximumPatternLength(int length) {
+		this.maxItemsetSize = length;
 	}
 }

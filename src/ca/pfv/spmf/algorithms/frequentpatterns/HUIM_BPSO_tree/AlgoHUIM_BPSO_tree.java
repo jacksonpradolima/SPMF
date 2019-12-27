@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * * * * This is an implementation of the high utility itemset mining algorithm
  * based on Binary Particle Swarm Optimization and using OR/NOR-tree structure.
@@ -44,12 +45,14 @@ public class AlgoHUIM_BPSO_tree {
 	double maxMemory = 0; // the maximum memory usage
 	long startTimestamp = 0; // the time the algorithm started
 	long endTimestamp = 0; // the time the algorithm terminated
-	final int pop_size = 5;// the size of populations
-	final int iterations = 20;// the iterations of algorithms
+	final int pop_size = 20;// the size of populations
+	final int iterations = 2000;// the iterations of algorithms
 	final int c1 = 2, c2 = 2;// the parameter used in BPSO algorithm
 	final double w = 0.9;// the parameter used in BPSO algorithm
 
 	Map<Integer, Integer> mapItemToTWU;
+	Map<Integer, Integer> mapItemToTWU0;//�����Ƴ���ЩTWUС��minUtil��item
+	
 	List<Integer> twuPattern;// the items which has twu value more than minUtil
 
 	BufferedWriter writer = null; // writer to write the output file
@@ -74,6 +77,13 @@ public class AlgoHUIM_BPSO_tree {
 			for (int i = 0; i < length; i++) {
 				X.add(i, 0);
 			}
+		}
+		//��֮������
+		public void copyParticle(Particle particle1){
+			for(int i=0;i<particle1.X.size();++i){
+				this.X.set(i, particle1.X.get(i).intValue());
+			}
+			this.fitness=particle1.fitness;
 		}
 	}
 
@@ -132,6 +142,7 @@ public class AlgoHUIM_BPSO_tree {
 
 		// We create a map to store the TWU of each item
 		mapItemToTWU = new HashMap<Integer, Integer>();
+		mapItemToTWU0 = new HashMap<Integer, Integer>();
 
 		// We scan the database a first time to calculate the TWU of each item.
 		BufferedReader myInput = null;
@@ -162,11 +173,15 @@ public class AlgoHUIM_BPSO_tree {
 					Integer item = Integer.parseInt(items[i]);
 					// get the current TWU of that item
 					Integer twu = mapItemToTWU.get(item);
+					Integer twu0 = mapItemToTWU0.get(item);
 					// add the utility of the item in the current transaction to
 					// its twu
 					twu = (twu == null) ? transactionUtility : twu
 							+ transactionUtility;
+					twu0 = (twu0 == null) ? transactionUtility : twu0
+							+ transactionUtility;
 					mapItemToTWU.put(item, twu);
+					mapItemToTWU0.put(item, twu0);
 				}
 			}
 		} catch (Exception e) {
@@ -177,9 +192,10 @@ public class AlgoHUIM_BPSO_tree {
 				myInput.close();
 			}
 		}
-
-		twuPattern = new ArrayList<Integer>(mapItemToTWU.keySet());
-		Collections.sort(twuPattern);
+		//���������д�����Դ�����еģ�Ȼ�������д��������Ǵ����
+		//���뱾����twuPattern����HTWU-1item�����²�����û�дﵽ���Ŀ��
+		/*twuPattern = new ArrayList<Integer>(mapItemToTWU.keySet());
+		Collections.sort(twuPattern);*/
 
 		// SECOND DATABASE PASS TO CONSTRUCT THE DATABASE
 		// OF 1-ITEMSETS HAVING TWU >= minutil (promising items)
@@ -221,6 +237,8 @@ public class AlgoHUIM_BPSO_tree {
 						// add it
 						revisedTransaction.add(pair);
 						pattern.add(pair.item);
+					}else{
+						mapItemToTWU0.remove(pair.item);
 					}
 				}
 				// Copy the transaction into database but
@@ -237,6 +255,19 @@ public class AlgoHUIM_BPSO_tree {
 				myInput.close();
 			}
 		}
+		
+		twuPattern = new ArrayList<Integer>(mapItemToTWU0.keySet());//����������ݴ�list���б���
+		Collections.sort(twuPattern);//���ֵ�����
+		
+	
+		
+		for(int i=0;i<pop_size;++i){
+			//List<Particle> pBest = new ArrayList<Particle>();
+			pBest.add(new Particle(twuPattern.size()));
+		}
+		
+		gBest = new Particle(twuPattern.size());
+		
 		// check the memory usage
 		checkMemory();
 		// Mine the database recursively
@@ -410,17 +441,17 @@ public class AlgoHUIM_BPSO_tree {
 			tempParticle.fitness = fitCalculate(tempParticle.X, k);
 			population.add(i, tempParticle);
 			// initial pBest
-			pBest.add(i, population.get(i));
+			pBest.get(i).copyParticle(tempParticle);
 			// update huiSets
 			if (population.get(i).fitness >= minUtility) {
 				insert(population.get(i));
 			}
 			// update gBest
 			if (i == 0) {
-				gBest = pBest.get(i);
+				gBest.copyParticle(pBest.get(i));
 			} else {
 				if (pBest.get(i).fitness > gBest.fitness) {
-					gBest = pBest.get(i);
+					gBest.copyParticle(pBest.get(i));
 				}
 			}
 			// update velocity
@@ -468,9 +499,9 @@ public class AlgoHUIM_BPSO_tree {
 			population.get(i).fitness = fitCalculate(population.get(i).X, k);
 			// update pBest & gBest
 			if (population.get(i).fitness > pBest.get(i).fitness) {
-				pBest.set(i, population.get(i));
+				pBest.get(i).copyParticle(population.get(i));
 				if (pBest.get(i).fitness > gBest.fitness) {
-					gBest = pBest.get(i);
+					gBest.copyParticle(pBest.get(i));
 				}
 			}
 			// update huiSets

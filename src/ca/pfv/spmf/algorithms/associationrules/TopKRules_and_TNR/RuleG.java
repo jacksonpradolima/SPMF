@@ -37,19 +37,28 @@ import java.util.BitSet;
  */
 public class RuleG implements Comparable<RuleG>{
 
-	private Integer[] itemset1; // antecedent of the rule
-	private Integer[] itemset2; // consequent of the rule
-	public BitSet    tids1;  // tidset of the antecedent
-	public BitSet    common; // tidset of the rule
+	/** antecedent of the rule */
+	private Integer[] itemset1; 
 	
-	public int maxLeft; // maximum item id in the antecedent
-	public int maxRight;  // maximum item id in the consequent
+	/** consequent of the rule */
+	private Integer[] itemset2; 
 	
-	// variable to indicate if this rule is a candidate for both left and right
-	// expansions (true) or just for right expansion (false)
+	/** tidset of the antecedent */
+	public BitSet    tids1;  
+	
+	/**  tidset of the rule */
+	public BitSet    common;
+	
+	/** maximum item id in the antecedent */
+	public int maxLeft; 
+	/** maximum item id in the consequent */
+	public int maxRight;  
+	
+	/** variable to indicate if this rule is a candidate for both left and right
+	// expansions (true) or just for right expansion (false) */
 	public boolean expandLR = false;
 	
-	// the support of this rule
+	/** the support of this rule */
 	private int count; 
 		
 	/**

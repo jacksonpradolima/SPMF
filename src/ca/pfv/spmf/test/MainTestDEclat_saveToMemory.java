@@ -26,9 +26,14 @@ public class MainTestDEclat_saveToMemory {
 			e.printStackTrace();
 		}
 //		context.printContext();
-		
+		 
 		// Applying the dECLAT algorithm
 		AlgoEclat algo = new AlgoDEclat();
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(3);
+		
+		
 		Itemsets patterns = algo.runAlgorithm(null, database, 0.4, true);
 		// NOTE 0: We use "null" as output file path, because in this
 		// example, we want to save the result to memory instead of

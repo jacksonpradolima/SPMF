@@ -46,29 +46,36 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoMSApriori {
 
-	// the current level in the apriori generation (itemsets of size k)
+	/** the current level in the apriori generation (itemsets of size k) **/
 	protected int k;
 	
-	// the array of MIS value where the position i indicate the MIS of item with ID i.
+	/** the array of MIS value where the position i indicate the MIS of item with ID i. */
 	int MIS[];
 
-	// for statistics
-	protected long startTimestamp;  // start time of latest execution
-	protected long endTimestamp;   // end time of latest execution
-	private int itemsetCount;  // number of frequent itemsets generated
+	/** start time of latest execution */
+	protected long startTimestamp; 
+	
+	/** end time of latest execution */
+	protected long endTimestamp;   
+	
+	/**  number of frequent itemsets generated */
+	private int itemsetCount; 
 
-	// the LS value as an integer
+	/** the LS value as an integer */
 	private int LSRelative;
 
-	// an in-memory representation of the transaction database
-	// where position i represents the ith transaction as an integer array
+	/** an in-memory representation of the transaction database
+	// where position i represents the ith transaction as an integer array */
 	private List<Integer[]> database = null;
 	
-	// the  comparator that is used to sort items by MIS values
+	/** the  comparator that is used to sort items by MIS values */
 	final Comparator<Integer> itemComparator;
 
-	// object to write the output file
+	/** object to write the output file */
 	BufferedWriter writer = null;
+	
+	/** Special parameter to set the maximum size of itemsets to be discovered */
+	int maxItemsetSize = Integer.MAX_VALUE;
 
 	/**
 	 * Constructor
@@ -187,7 +194,7 @@ public class AlgoMSApriori {
 				MIS[entry.getKey()] = LSRelative;  	
 			}
 			//if the support of the item is higher than its MIS value
-			if (entry.getValue() >= MIS[entry.getKey()]) {
+			if (entry.getValue() >= MIS[entry.getKey()] && maxItemsetSize >=1) {
 				// save the item to the output file with its support
 				saveItemsetToFile(entry.getKey(), entry.getValue());
 			}
@@ -233,75 +240,77 @@ public class AlgoMSApriori {
 			Arrays.sort(transaction, itemComparator);  
 		}
 		
-		// Now, the algorithm will discover itemset of size k > 1 starting from k=2
-		List<Itemset> level = null;
-		k = 2;
-		// Generate candidates and test them for k>1 by inscreasing k at each iteration
-		// until no candidates can be generated
-		do {
-			// check the memory usage
-			MemoryLogger.getInstance().checkMemory();
-			
-			// Generate candidates of size K
-			List<Itemset> candidatesK;
-
-			// Generate candidates
-			if (k == 2) {
-				// if k=2 we use an optimization for candidate generation
-				candidatesK = generateCandidate2(F, mapItemCount);
-			} else {
-				// otherwise, we use the general procedure for candidate generation
-				candidatesK = generateCandidateSizeK(level);
-			}
-
-			// We scan the database one time to calculate the support
-			// of each candidates and keep those with higher suport.
-			
-			// for each transaction
-			for (Integer[] transaction : database) {
-				// for each candidate
-				loopCand: for (Itemset candidate : candidatesK) {
-					// We will check if the candidate is contained in the transaction by
-					// looking for each item one by one starting from pos =0.
-					int pos = 0;
-					// for each item in the transaction
-					for (int item : transaction) {
-						// if we have found the item at position pos
-						if (item == candidate.get(pos)) {
-							// search the next item from the candidate
-							pos++;
-							// if all items have been found
-							if (pos == candidate.size()) {
-								// then increase the support count of the candidate
-								candidate.increaseTransactionCount();
+		if(maxItemsetSize >1){
+			// Now, the algorithm will discover itemset of size k > 1 starting from k=2
+			List<Itemset> level = null;
+			k = 2;
+			// Generate candidates and test them for k>1 by inscreasing k at each iteration
+			// until no candidates can be generated
+			do {
+				// check the memory usage
+				MemoryLogger.getInstance().checkMemory();
+				
+				// Generate candidates of size K
+				List<Itemset> candidatesK;
+	
+				// Generate candidates
+				if (k == 2) {
+					// if k=2 we use an optimization for candidate generation
+					candidatesK = generateCandidate2(F, mapItemCount);
+				} else {
+					// otherwise, we use the general procedure for candidate generation
+					candidatesK = generateCandidateSizeK(level);
+				}
+	
+				// We scan the database one time to calculate the support
+				// of each candidates and keep those with higher suport.
+				
+				// for each transaction
+				for (Integer[] transaction : database) {
+					// for each candidate
+					loopCand: for (Itemset candidate : candidatesK) {
+						// We will check if the candidate is contained in the transaction by
+						// looking for each item one by one starting from pos =0.
+						int pos = 0;
+						// for each item in the transaction
+						for (int item : transaction) {
+							// if we have found the item at position pos
+							if (item == candidate.get(pos)) {
+								// search the next item from the candidate
+								pos++;
+								// if all items have been found
+								if (pos == candidate.size()) {
+									// then increase the support count of the candidate
+									candidate.increaseTransactionCount();
+									continue loopCand;
+								}
+							// because of the total order, if the item at position pos is larger 
+							// than the current item in the transaction we can stop checking
+							// this candidate because it will not be contained in the transaction.
+							} else if (itemComparator.compare(item, candidate.get(pos)) > 0){   // pfv 
 								continue loopCand;
 							}
-						// because of the total order, if the item at position pos is larger 
-						// than the current item in the transaction we can stop checking
-						// this candidate because it will not be contained in the transaction.
-						} else if (itemComparator.compare(item, candidate.get(pos)) > 0){   // pfv 
-							continue loopCand;
 						}
 					}
 				}
-			}
-
-			// We build the level k+1 with all the candidates that have
-			// a support higher than MIS[0]
-			level = new ArrayList<Itemset>();
-			// for each candidate
-			for (Itemset candidate : candidatesK) {
-				// if its support is higher than the MIS of the first item 
-				// (because they are sorted by MIS order)
-				if (candidate.getAbsoluteSupport() >= MIS[candidate.get(0)]) {
-					// add it to the next level of candidate
-					level.add(candidate);
-					// save the itemset to the file
-					saveItemsetToFile(candidate);
+	
+				// We build the level k+1 with all the candidates that have
+				// a support higher than MIS[0]
+				level = new ArrayList<Itemset>();
+				// for each candidate
+				for (Itemset candidate : candidatesK) {
+					// if its support is higher than the MIS of the first item 
+					// (because they are sorted by MIS order)
+					if (candidate.getAbsoluteSupport() >= MIS[candidate.get(0)]) {
+						// add it to the next level of candidate
+						level.add(candidate);
+						// save the itemset to the file
+						saveItemsetToFile(candidate);
+					}
 				}
-			}
-			k++;
-		} while (level.isEmpty() == false);
+				k++;
+			} while (level.isEmpty() == false && k <= maxItemsetSize);
+		}
 
 		// record the end time
 		endTimestamp = System.currentTimeMillis();
@@ -512,5 +521,13 @@ public class AlgoMSApriori {
 				+ " ms");
 		System.out
 				.println("===================================================");
+	}
+
+	/** 
+	 * Set the maximum pattern length
+	 * @param length the maximum length
+	 */
+	public void setMaximumPatternLength(int length) {
+		this.maxItemsetSize = length;
 	}
 }

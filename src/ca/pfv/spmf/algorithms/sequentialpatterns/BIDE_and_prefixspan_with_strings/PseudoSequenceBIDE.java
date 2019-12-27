@@ -192,7 +192,7 @@ class PseudoSequenceBIDE extends PseudoSequence {
 			r.append("{");
 			for(int j=0; j < getSizeOfItemsetAt(i); j++){
 				if(!isLastItemset(i) || (j <= lastItem)){
-					r.append(getItemAtInItemsetAt(j, i).toString());
+					r.append(getItemAtInItemsetAt(j, i));
 					if(isPostfix(i)){
 						r.append('*');
 					}
@@ -261,7 +261,7 @@ class PseudoSequenceBIDE extends PseudoSequence {
 				String id = getItemAtInItemsetAt(j, i);
 				if(id.equals(iDCourant)){// l'item match
 					listPositions.add(new Position(i,j));
-					if(listPositions.size()+ listPositionsTotal.size()	== getItemOccurencesTotalCount(prefix))  // si on a trouvé tout le préfix
+					if(listPositions.size()+ listPositionsTotal.size()	== getItemOccurencesTotalCount(prefix))  // si on a trouvï¿½ tout le prï¿½fix
 					{
 						List<Position> newList = new ArrayList<Position>(listPositionsTotal);
 						newList.addAll(listPositions);
@@ -338,7 +338,7 @@ class PseudoSequenceBIDE extends PseudoSequence {
 	 *                                          LL1 =  second A in S and 
 	 *                                          LL2 = third C in S
 	 * @param prefix : le prefix
-	 * @param i : le ième élément du préfixe.
+	 * @param i : le iï¿½me ï¿½lï¿½ment du prï¿½fixe.
 	 * @return
 	 */
 	protected Position getIthLastInLastApearanceWithRespectToPrefix(List<Itemset> prefix, int i){
@@ -526,7 +526,7 @@ class PseudoSequenceBIDE extends PseudoSequence {
 	 * If 0 <= i < n, it is the last appearance of ei in the first instance of Sp, and LFi must appear
 	 *   before LFi+1.
 	 * @param prefix : the prefix
-	 * @param i : the ième element of the prefix.
+	 * @param i : the iï¿½me element of the prefix.
 	 * @return
 	 */
 	protected Position getIthLastInFirstApearanceWithRespectToPrefix(List<Itemset> prefix, int i){

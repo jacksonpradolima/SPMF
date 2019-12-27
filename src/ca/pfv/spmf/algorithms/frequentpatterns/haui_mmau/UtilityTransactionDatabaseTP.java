@@ -114,7 +114,7 @@ public class UtilityTransactionDatabaseTP {
 	 * Process a line (transaction) from the input file
 	 * @param line  a line
 	 */
-	private void processTransaction(String line[]){
+	private void processTransaction(String[] line){
 		
 		String[] items = line[0].split(" ");
 		String[] utilities = line[2].split(" ");
@@ -166,17 +166,17 @@ public class UtilityTransactionDatabaseTP {
 	 * Get LMAU value
 	 * @return a int
 	 */
-	public int getLMAU(int GLMAU){
-		int LMAU=Integer.MAX_VALUE;
+	public int getLMAU(int glmau){
+		int lmau=Integer.MAX_VALUE;
 		java.util.Iterator<Entry<Integer, Integer>> iter1 =mutipleMinUtilities.entrySet().iterator();  
         while (iter1.hasNext()) {
-            Map.Entry<Integer, Integer> entry = (Map.Entry<Integer, Integer>) iter1.next();  
-            if(entry.getValue()<LMAU)
-            	LMAU=entry.getValue();
+            Map.Entry<Integer, Integer> entry = iter1.next();  
+            if(entry.getValue()<lmau)
+            	lmau=entry.getValue();
         }
-		if(LMAU<GLMAU)
-			LMAU=GLMAU;
-		return LMAU;
+		if(lmau<glmau)
+			lmau=glmau;
+		return lmau;
 	}
 
 	/**

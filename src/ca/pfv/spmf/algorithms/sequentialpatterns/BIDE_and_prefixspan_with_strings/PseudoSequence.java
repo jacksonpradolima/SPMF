@@ -197,7 +197,7 @@ class PseudoSequence {
 			for(int j=0; j < getSizeOfItemsetAt(i); j++){
 				if(!isLastItemset(i) ){
 					// append the item
-					r.append(getItemAtInItemsetAt(j, i).toString());
+					r.append(getItemAtInItemsetAt(j, i));
 					// if it is in a postfix, we add a "*" symbol beside the item
 					if(isPostfix(i)){
 						r.append('*');

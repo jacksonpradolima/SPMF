@@ -31,7 +31,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with SPMF.  If not, see <http://www.gnu.org/licenses/>.
  */
-class Pair{
+public class Pair{
 	// the item
 	protected final int item;
 	
@@ -44,7 +44,7 @@ class Pair{
 	 *  in an itemset that is cut at the left because of a projection
 	 * @param item the item
 	 */
-	Pair(Integer item){
+	public Pair(Integer item){
 		this.item = item;
 	}
 	

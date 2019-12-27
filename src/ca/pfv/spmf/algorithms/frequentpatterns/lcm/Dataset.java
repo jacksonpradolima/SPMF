@@ -75,8 +75,6 @@ public class Dataset {
         }
         Arrays.sort(transactionsItems);
         
-        // TODO :  maybe sorting items and transactions by decreasing order of support
-        // could help
     }
 
     /**

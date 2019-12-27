@@ -58,8 +58,7 @@ public class LeftEquivalenceClass {
 			return false;
 		}
 		LeftEquivalenceClass eq = (LeftEquivalenceClass) obj;
-		
-		// TODO Auto-generated method stub
+	
 		return Arrays.equals(itemsetJ, eq.itemsetJ);
 	}
 

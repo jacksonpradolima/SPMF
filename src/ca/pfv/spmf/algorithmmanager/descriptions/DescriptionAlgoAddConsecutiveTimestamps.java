@@ -64,7 +64,7 @@ public class DescriptionAlgoAddConsecutiveTimestamps extends DescriptionOfAlgori
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#addtimestamps";
+		return "http://www.philippe-fournier-viger.com/spmf/Add_consecutive_timestamps.php";
 	}
 
 	@Override

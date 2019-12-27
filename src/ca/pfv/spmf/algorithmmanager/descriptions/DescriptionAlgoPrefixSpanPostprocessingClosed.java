@@ -51,7 +51,7 @@ public class DescriptionAlgoPrefixSpanPostprocessingClosed extends DescriptionOf
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#examplePrefixSpan";
+		return "http://www.philippe-fournier-viger.com/spmf/SPAM_PrefixSpan_Closed.php";
 	}
 
 	@Override

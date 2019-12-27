@@ -48,38 +48,60 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * @author Philippe Fournier-Viger
  */
 public class AlgoTNS {
-	// last execution start time and end time for stats
-	long timeStart = 0; // start time of latest execution
-	long timeEnd = 0; // end time of latest execution
+	/** start time of latest execution */
+	long timeStart = 0;  
+	
+	/**  end time of latest execution */
+	long timeEnd = 0;  
 	
 	// parameters
-	double minConfidence;   // minimum confidence
-	double delta;   // the delta parameter
-	double initialK;  // the k parameter
-	SequenceDatabase database;  // the sequence database
+	/** minimum confidence */
+	double minConfidence;  
 	
-	// internal variables
-	int minsuppRelative;  // minimum support which will be raised dynamically
+	/** delta */
+	double delta;  
 	
-	int k=0; // the calculated value of k   :  k + delta
+	/** the k parameter */
+	double initialK; 
 	
-	RedBlackTree<Rule> kRules;  // the top k rules found until now 
-	RedBlackTree<Rule> candidates;  // the candidates for expansion
+	/** the sequence database */
+	SequenceDatabase database;  
 	
-	// the max number of candidates at the same time during the last execution
+	/**  minimum support which will be raised dynamically */
+	int minsuppRelative;  
+	
+	/**  the calculated value of k   :  k + delta */
+	int k=0; 
+	
+	/** the top k rules found until now  */
+	RedBlackTree<Rule> kRules;  
+	
+	/** the candidates for expansion */
+	RedBlackTree<Rule> candidates;  
+	
+	/** the max number of candidates at the same time during the last execution */
 	int maxCandidateCount = 0;
 	
-	//Arrays where the ith position contains
+	/**Arrays where the ith position contains
 	// the map of last or first occurrences for the item i
-	// The key of the maps is a sequence ID and the value is an occurence.
+	// The key of the maps is a sequence ID and the value is an occurence. */
 	Map<Integer, Short>  arrayMapItemCountFirst[];  // item, <tid, occurence>
 	Map<Integer, Short>  arrayMapItemCountLast[];  // item, <tid, occurence>
 	
 	// for statistics
-	private int totalremovedCount;  // rules removed by Strategy 2 
-	private int notAdded;  // rules removed by Strategy 1
+	/** count of rules removed by Strategy 2  */
+	private int totalremovedCount; 
+	
+	/** count of rules removed by Strategy 1 */
+	private int notAdded;  
 	
 //	public Set<Rule> rulesRemoved = new HashSet<Rule>(); // DEBUG
+	
+	/**  the maximum size of the antecedent of rules (optional) */
+	int maxAntecedentSize = Integer.MAX_VALUE;
+	
+	/** the maximum size of the consequent of rules (optional) */
+	int maxConsequentSize = Integer.MAX_VALUE;
 
 	/**
 	 * Default constructor
@@ -125,14 +147,19 @@ public class AlgoTNS {
 		candidates = new RedBlackTree<Rule>();
 
 		timeStart = System.currentTimeMillis(); // save start time
-		// scan the database to count the occurence of each item
-		scanDatabase(database);	
-		// start the algorithm
-		start();
+		
+		if(maxAntecedentSize >=1 && maxConsequentSize >=1){
+			// scan the database to count the occurence of each item
+			scanDatabase(database);	
+			// start the algorithm
+			start();
+
+			// if too many rules, we remove the extra rules.
+			cleanResult();
+		}
+		
 		timeEnd = System.currentTimeMillis(); // save end time
 
-		// if too many rules, we remove the extra rules.
-		cleanResult();
 		
 		return kRules;
 	}
@@ -301,7 +328,10 @@ main2:		for(int itemJ=itemI+1; itemJ <= database.maxItem; itemJ++){
 						save(ruleIJ, supIJ); 
 					}
 					// register the rule as candidate for future left and right expansions
-					registerAsCandidate(true, ruleIJ);
+					if(ruleIJ.getItemset1().length < maxAntecedentSize ||
+							ruleIJ.getItemset2().length < maxConsequentSize	){
+						registerAsCandidate(true, ruleIJ);
+					}
 				}
 
 				int supJI = tidsJI.size();
@@ -321,7 +351,10 @@ main2:		for(int itemJ=itemI+1; itemJ <= database.maxItem; itemJ++){
 						save(ruleJI, supJI);
 					}
 					// register the rule as candidate for future left and right expansions
-					registerAsCandidate(true, ruleJI);
+					if(ruleJI.getItemset1().length < maxAntecedentSize ||
+							ruleJI.getItemset2().length < maxConsequentSize	){
+						registerAsCandidate(true, ruleJI);
+					}
 				}
 			}
 		}
@@ -497,7 +530,11 @@ loop1:		for(int i =0; i < array2.length; i++){
 	 *   - c appear at least minsup time in tidsIJ before last occurence of J
 	 *   - c is lexically bigger than all items in I
 	 */
-    private void expandL(Rule rule ) {    	
+    private void expandL(Rule rule ) {   
+    	if(rule.getItemset1().length == maxAntecedentSize){
+    		return;
+    	}
+    	
     	// The following map will be used to count the support of each item
     	// c that could potentially extend the rule.
     	// The map associated a set of tids (value) to an item (key).
@@ -604,7 +641,10 @@ itemLoop:	for(int k=0; k < end; k++){
 	 *  @param rule  the rule I --> J to be extended
 	 */
     private void expandR(Rule rule) {
-	
+     	if(rule.getItemset2().length == maxConsequentSize){
+    		return;
+    	}
+     	
     	// The following map will be used to count the support of each item
     	// c that could potentially extend the rule.
     	// The map associated a set of tids (value) to an item (key).
@@ -764,23 +804,24 @@ itemLoop:	for(int k=0; k < end; k++){
 	 */
 	public void writeResultTofile(String path) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(path));
-		Iterator<Rule> iter = kRules.iterator();
-		while (iter.hasNext()) {
-			Rule rule = (Rule) iter.next();
-			StringBuilder buffer = new StringBuilder();
-			buffer.append(rule.toString());
-			// write separator
-			buffer.append(" #SUP: ");
-			// write support
-			buffer.append(rule.getAbsoluteSupport());
-			// write separator
-			buffer.append(" #CONF: ");
-			// write confidence
-			buffer.append(rule.getConfidence());
-			writer.write(buffer.toString());
-			writer.newLine();
+		if(kRules.size() > 0){
+			Iterator<Rule> iter = kRules.iterator();
+			while (iter.hasNext()) {
+				Rule rule = (Rule) iter.next();
+				StringBuilder buffer = new StringBuilder();
+				buffer.append(rule.toString());
+				// write separator
+				buffer.append(" #SUP: ");
+				// write support
+				buffer.append(rule.getAbsoluteSupport());
+				// write separator
+				buffer.append(" #CONF: ");
+				// write confidence
+				buffer.append(rule.getConfidence());
+				writer.write(buffer.toString());
+				writer.newLine();
+			}
 		}
-
 		writer.close();
 	}
 	
@@ -806,5 +847,22 @@ itemLoop:	for(int k=0; k < end; k++){
 	 */
 	public double getTotalTime(){
 		return timeEnd - timeStart;
+	}
+	
+	/**
+	 * Set the number of items that a rule antecedent should contain (optional).
+	 * @param maxAntecedentSize the maximum number of items
+	 */
+	public void setMaxAntecedentSize(int maxAntecedentSize) {
+		this.maxAntecedentSize = maxAntecedentSize;
+	}
+
+
+	/**
+	 * Set the number of items that a rule consequent should contain (optional).
+	 * @param maxConsequentSize the maximum number of items
+	 */
+	public void setMaxConsequentSize(int maxConsequentSize) {
+		this.maxConsequentSize = maxConsequentSize;
 	}
 }

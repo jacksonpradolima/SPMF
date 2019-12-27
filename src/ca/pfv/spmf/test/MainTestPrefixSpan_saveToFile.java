@@ -16,6 +16,7 @@ public class MainTestPrefixSpan_saveToFile {
 	public static void main(String [] arg) throws IOException{   
 		// input file
 		String inputFile = fileToPath("contextPrefixSpan.txt");
+		
 		// output file path
 		String outputPath = ".//output.txt";
 

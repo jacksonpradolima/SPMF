@@ -36,7 +36,7 @@ public class MainTestAlgorithmManager {
 		// First example:  Get the list of all algorithms by categories
 		System.out.println("========= Printing the list of algorithms sorted by categories ========");
 		System.out.println();
-		for (String algoName : algoManager.getListOfAlgorithmsAsString()) {
+		for (String algoName : algoManager.getListOfAlgorithmsAsString(true, true)) {
 			System.out.println(algoName);
 		} 
 		

@@ -54,7 +54,7 @@ public class DescriptionAlgoConvertTimeSeriesToSequenceWithSAX extends Descripti
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#convertsax";
+		return "http://www.philippe-fournier-viger.com/spmf/SAXTimeSeries.php";
 	}
 
 	@Override

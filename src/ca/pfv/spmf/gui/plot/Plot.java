@@ -908,7 +908,7 @@ public class Plot {
 						double x2 = x2x(data.x(j), opts.xAxis.opts.range, plotArea.xPlotRange);
 						double y2 = y2y(data.y(j), opts.yAxis.opts.range, plotArea.yPlotRange);
 						drawMarker(g, halfMarkerSize, halfDiagMarkerSize, x2, y2,
-								plotArea.plotRect.x, plotArea.plotRect.y + plotArea.plotRect.height);
+								plotArea.plotRect.x, plotArea.plotRect.y + (double)plotArea.plotRect.height);
 					}
 			}
 		}

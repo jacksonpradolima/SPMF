@@ -29,17 +29,23 @@ public class MainTestCORI_saveToMemory {
 		
 		// minimum support
 		double minsup = 0.8; // means 2 transaction (we used a relative support)
+		
 		// minimum bond
 		double minbond = 0.2; // the minimum bond threhsold
 		
 		// Applying the algorithm
-		AlgoCORI algo = new AlgoCORI();
+		AlgoCORI algo = new AlgoCORI(); 
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(3);
+		
+		// run the algorithm
 		ItemsetsCORI patterns = algo.runAlgorithm(null, database, minsup, minbond, false);
 		// NOTE 0: We use "null" as output file path, because in this
 		// example, we want to save the result to memory instead of
 		// saving to a file
 		
-		// NOTE 1: if you  use "true" in the line above, CHARM will use
+		// NOTE 1: if you  use "true" in the line above, the algorithm will use
 		// a triangular matrix  for counting support of itemsets of size 2.
 		// For some datasets it should make the algorithm faster.
 		

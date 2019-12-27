@@ -75,14 +75,14 @@ public class Cluster {
 		vectors.remove(vector);		
 	}
 
-	/**
-	 * Method to remove a vector from this cluster without updating internal
-	 * structures.
-	 * @param vector  the vector to be removed
-	 */
-	public void removeVector(DoubleArray vector) {
-		vectors.add(vector);
-	}
+//	/**
+//	 * Method to remove a vector from this cluster without updating internal
+//	 * structures.
+//	 * @param vector  the vector to be removed
+//	 */
+//	public void removeVector(DoubleArray vector) {
+//		vectors.remove(vector);
+//	}
 
 	/**
 	 * Check if a vector is contained in this cluster.

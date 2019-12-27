@@ -49,7 +49,7 @@ public class DescriptionAlgoFixTransactionDB extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#fixtdb";
+		return "http://www.philippe-fournier-viger.com/spmf/Fix_a_transaction_database.php";
 	}
 
 	@Override

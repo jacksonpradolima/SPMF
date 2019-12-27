@@ -65,7 +65,7 @@ public class DescriptionAlgoConvertASequenceDBToSPMF extends DescriptionOfAlgori
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#convseq";
+		return "http://www.philippe-fournier-viger.com/spmf/Converting_a_sequence_database_to_SPMF.php";
 	}
 
 	@Override

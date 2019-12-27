@@ -27,7 +27,7 @@ import ca.pfv.spmf.algorithms.frequentpatterns.two_phase.AlgoHUINIVMine;
  * This class describes the HUINIV-Mine algorithm parameters. 
  * It is designed to be used by the graphical and command line interface.
  * 
- * @see AlgoApriori
+ * @see AlgoHUINIVMine
  * @author Philippe Fournier-Viger
  */
 public class DescriptionAlgoHUINIVMine extends DescriptionOfAlgorithm {
@@ -50,7 +50,7 @@ public class DescriptionAlgoHUINIVMine extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#huiniv";
+		return "http://www.philippe-fournier-viger.com/spmf/HUINIVMine.php";
 	}
 
 	@Override

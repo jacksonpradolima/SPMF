@@ -48,7 +48,7 @@ public class DescriptionAlgoCalculateStatsTransactionDB extends DescriptionOfAlg
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#stattrans";
+		return "http://www.philippe-fournier-viger.com/spmf/Calculating_transaction_database_statistics.php";
 	}
 
 	@Override

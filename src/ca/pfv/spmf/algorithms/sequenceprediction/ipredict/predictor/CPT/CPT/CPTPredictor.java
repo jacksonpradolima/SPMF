@@ -263,6 +263,7 @@ public class CPTPredictor extends Predictor {
 	 */
 	public Sequence Predict(Sequence target) {
 		
+		
 		//remove items that were never seen before from the Target sequence before LLCT try to make a prediction
 		//If set to false, those items will be still ignored later on (in updateCountTable())
 		Iterator<Item> iter = target.getItems().iterator();
@@ -287,19 +288,35 @@ public class CPTPredictor extends Predictor {
 		int minRecursion = parameters.paramInt("recursiveDividerMin");
 		int maxRecursion = (parameters.paramInt("recursiveDividerMax") > targetArray.length) ? targetArray.length : parameters.paramInt("recursiveDividerMax");
 		
-		for(i = minRecursion ; i < maxRecursion && prediction.size() == 0; i++) {
-			//Reset the CountTable and the hasSidVisited
-			HashSet<Integer> hashSidVisited = new HashSet<Integer>();
-			CountTable = new HashMap<Integer, Float>();
-			
-			int minSize = targetArray.length - i; //setting the minSize for the recursiveDivider
-			
-			//Dividing the target sequence into sub sequences
-			RecursiveDivider(targetArray, minSize, CountTable, hashSidVisited, initialTargetArraySize);
+		//Reset the CountTable and the hasSidVisited
+		HashSet<Integer> hashSidVisited = new HashSet<Integer>();
+		CountTable = new HashMap<Integer, Float>();
 		
-			//Getting the best sequence out of the CountTable
-			prediction = getBestSequenceFromCountTable(CountTable);
+		// If the target sequence has a single item
+		if(initialTargetArraySize == 1){
+			
+			//==== NEW CASE == PHILIPPE 2019: Special case for target sequence with 1 item:
+			int size = targetArray.length;
+			
+			//Setting up the weight multiplier for the countTable
+			float weight = (float)size / initialTargetArraySize;
+			
+			UpdateCountTable(targetArray, weight, CountTable, hashSidVisited);
+			// ==== END OF NEW CASE
+		}else{
+
+			// Normal case
+			for(i = minRecursion ; i < maxRecursion && prediction.size() == 0; i++) {
+
+				int minSize = (targetArray.length - i); //setting the minSize for the recursiveDivider
+				
+				//Dividing the target sequence into sub sequence
+				RecursiveDivider(targetArray, minSize, CountTable, hashSidVisited, initialTargetArraySize);
+			}
 		}
+
+		//Getting the best sequence out of the CountTable
+		prediction = getBestSequenceFromCountTable(CountTable);
 		
 		return prediction;
 	}
@@ -357,6 +374,8 @@ public class CPTPredictor extends Predictor {
 			RecursiveDivider(newSequence, minSize, countTable, hashSidVisited, initialTargetArraySize);
 		}
 	}
+	
+
 	
 	@Override
 	public String getTAG() {

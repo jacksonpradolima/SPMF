@@ -53,7 +53,7 @@ public class DescriptionAlgoTimeSeriesPAA extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#paa";
+		return "http://www.philippe-fournier-viger.com/spmf/TimeSeriesPiecewiseAggregateApproximation.php";
 	}
 
 	@Override

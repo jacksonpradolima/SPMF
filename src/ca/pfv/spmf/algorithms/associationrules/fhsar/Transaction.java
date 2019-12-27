@@ -17,6 +17,7 @@ package ca.pfv.spmf.algorithms.associationrules.fhsar;
 */
 import java.util.Set;
 
+
 /**
  * This class represent a transaction from a transaction database.
  * This implementation is defined and optimized for the FHSAR algorithm for
@@ -24,15 +25,18 @@ import java.util.Set;
  * 
  * @see AlgoFHSAR
  * @author Philippe Fournier-Viger
+ * @author Hoang Thi Dieu (2019-improvement)
  */
+ 
+class Transaction implements Comparable <Transaction> {
 
-class Transaction implements Comparable<Transaction> {
-
-	// the set of items in this transaction
+	// the set of items in this transaction  
 	Set<Integer> items;
 	
 	double wi;  //  wi  value (see paper for definition)
 	int maxItem;  // item with the  maximum |Rk|  in this transaction
+// th�m setItemRank
+	Set<Integer> setItemRank;
 
 	/**
 	 * Constructor
@@ -40,11 +44,12 @@ class Transaction implements Comparable<Transaction> {
 	 * @param wi the wi value
 	 * @param maxItem the item with the  maximum |Rk|  in this transaction
 	 */
-	Transaction(Set<Integer> items, double wi, int maxItem) {
+	Transaction(Set<Integer> items, double wi, int maxItem, Set<Integer> setItemRank) {
 		this.items = items;
 		this.wi = wi;
 		this.maxItem = maxItem;
-	}
+		this.setItemRank = setItemRank;
+	}  
 
 	@Override
 	/**
@@ -53,8 +58,9 @@ class Transaction implements Comparable<Transaction> {
 	 * @param o  another transaction
 	 * @return 1 if this transaction is greater than the other one, of -1 otherwise.
 	 */
-	public int compareTo(Transaction o) {
-		if (o == this) {
+	 
+	public int compareTo (Transaction o) {
+		/*if (o == this) {
 			return 0;
 		}
 		int compare = Double.compare(this.wi, o.wi);
@@ -62,6 +68,22 @@ class Transaction implements Comparable<Transaction> {
 			return (int) compare;
 		}
 		return this.hashCode() - o.hashCode();
+		*/
+		//===================
+		if (o.wi < this.wi) {
+			return -1;
+		}
+		    else if (o.wi > this.wi) {
+			return 1;
+		} else {
+			return 0;
+		}
+		//===================
 	}
-
+	
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}
+	
 }

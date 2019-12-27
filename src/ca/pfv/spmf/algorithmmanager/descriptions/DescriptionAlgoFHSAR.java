@@ -50,7 +50,7 @@ public class DescriptionAlgoFHSAR extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#FHSAR";
+		return "http://www.philippe-fournier-viger.com/spmf/SensitiveAssociationRules.php";
 	}
 
 	@Override

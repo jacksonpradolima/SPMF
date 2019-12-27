@@ -50,7 +50,7 @@ public class DescriptionAlgoD2HUP extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#d2hup";
+		return "http://www.philippe-fournier-viger.com/spmf/d2HUP.php";
 	}
 
 	@Override

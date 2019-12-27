@@ -89,4 +89,13 @@ public class TDAGNode {
 	public String toString() {
 		return symbol + "("+ inCount + "," + outCount +")";
 	}
+
+	/**
+	 * Return true if the i-th node has a child
+	 * @param child the position i
+	 * @return true if has a child. otherwise false.
+	 */
+	public boolean hasChild(Integer child) {
+		return this.children.get(child) != null;
+	}
 }

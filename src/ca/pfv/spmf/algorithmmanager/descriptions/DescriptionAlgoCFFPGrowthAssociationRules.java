@@ -51,7 +51,7 @@ public class DescriptionAlgoCFFPGrowthAssociationRules extends DescriptionOfAlgo
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#allassociationrules";
+		return "http://www.philippe-fournier-viger.com/spmf/AssociationRules.php";
 	}
 
 	@Override

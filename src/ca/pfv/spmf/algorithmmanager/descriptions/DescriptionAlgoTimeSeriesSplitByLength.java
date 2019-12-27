@@ -53,7 +53,7 @@ public class DescriptionAlgoTimeSeriesSplitByLength extends DescriptionOfAlgorit
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#splittimeserieslength";
+		return "http://www.philippe-fournier-viger.com/spmf/SplitTimeSeriesByLength.php";
 	}
 
 	@Override

@@ -1,0 +1,21 @@
+sequence     support of tail itemset     significance
+
+{(IntellDtAnal0),(IntellDtAnal-)} {228,95} {12}
+
+{(IntellDtAnal+),(IntellDtAnal0)} {236,96} {9.2}
+
+{(IntellDtAnal+),(IntellDtAnal0),(IntellDtAnal-)} {236,96,61} {9.2,14.6}
+
+{(JMLR0),(JMLR-)} {283,147} {10.3}
+
+{(ICML+,JMLR+),(JMLR0)} {153,97} {9}
+
+{(ICML+,JMLR+),(JMLR0),(JMLR-)} {153,97,103} {9,17.2}
+
+{(SIGMOD-,ACMTransDBSys+),(PVLDB+,SIGMOD-)} {95,81} {8.4}
+
+{(ICDE0,ACMTransDBSys+),(PVLDB+,SIGMOD-)} {102,69} {8.3}
+
+{(SIGMOD0,ACMTransDBSys0),(PVLDB+,VLDB-)} {107,101} {8.1}
+
+{(ICML0,MachineLearning0),(MachineLearning-)} {134,123} {8.3}

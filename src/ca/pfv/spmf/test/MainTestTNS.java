@@ -25,7 +25,18 @@ public class MainTestTNS {
 		int delta =  2;
 		
 		AlgoTNS algo = new AlgoTNS();
+		
+//		// This optional parameter allows to specify the maximum number of items in the 
+//		// left side (antecedent) of rules found:
+		algo.setMaxAntecedentSize(0);  // optional
+//
+//		// This optional parameter allows to specify the maximum number of items in the 
+//		// right side (consequent) of rules found:
+		algo.setMaxConsequentSize(1);  // optional
+		
+		// run the algorithm
 		RedBlackTree<Rule> kRules = algo.runAlgorithm(k, database, minConf,   delta );
+		
 		algo.writeResultTofile(".//output.txt");   // to save results to file
 		
 		algo.printStats();

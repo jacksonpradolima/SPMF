@@ -90,6 +90,9 @@ public class AlgoEclat_Bitset {
 	
 	/** if true, transaction identifiers of each pattern will be shown*/
 	boolean showTransactionIdentifiers = false;
+	
+	/** Special parameter to set the maximum size of itemsets to be discovered */
+	int maxItemsetSize = Integer.MAX_VALUE;
 
 
 	/**
@@ -147,7 +150,7 @@ public class AlgoEclat_Bitset {
 
 		// If the user chose to use the triangular matrix optimization
 		// for counting the support of itemsets of size 2.
-		if (useTriangularMatrixOptimization) {
+		if (useTriangularMatrixOptimization && maxItemsetSize >=1) {
 			// We create the triangular matrix.
 			matrix = new TriangularMatrix(maxItemId + 1);
 			// for each transaction, take each itemset of size 2,
@@ -177,7 +180,7 @@ public class AlgoEclat_Bitset {
 			int support = tidset.support;
 			int item = entry.getKey();
 			// if the item is frequent
-			if(support >= minsupRelative) {
+			if(support >= minsupRelative && maxItemsetSize >= 1) {
 				// add the item to the list of frequent items
 				frequentItems.add(item);
 				// output the item
@@ -197,79 +200,82 @@ public class AlgoEclat_Bitset {
 		// Now we will combine each pairs of single items to generate equivalence classes
 		// of 2-itemsets
 		
-		// For each frequent item I according to the total order
-		for(int i=0; i < frequentItems.size(); i++) {
-			Integer itemI = frequentItems.get(i);
-			// We obtain the tidset and support of that item
-			BitSetSupport tidsetI = mapItemTIDS.get(itemI);
+		if(maxItemsetSize >=2){
 			
-			// We create empty equivalence class for storing all 2-itemsets starting with
-			// the item "i".
-			// This equivalence class is represented by two structures.
-			// The first structure stores the suffix of all 2-itemsets starting with the prefix "i".
-			// For example, if itemI = "1" and the equivalence class contains 12, 13, 14, then
-			// the structure "equivalenceClassIitems" will only contain  2, 3 and 4 instead of
-			// 12, 13 and 14.  The reason for this implementation choice is that it is more
-			// memory efficient.
-			List<Integer> equivalenceClassIitems = new ArrayList<Integer>();
-			// The second structure stores the tidset of each 2-itemset in the equivalence class
-			// of the prefix "i"
-			List<BitSetSupport> equivalenceClassItidsets = new ArrayList<BitSetSupport>();
-			
-			// For each item itemJ that is larger than i according to the total order of
-			// increasing support.
-loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
-				int itemJ = frequentItems.get(j);
+			// For each frequent item I according to the total order
+			for(int i=0; i < frequentItems.size(); i++) {
+				Integer itemI = frequentItems.get(i);
+				// We obtain the tidset and support of that item
+				BitSetSupport tidsetI = mapItemTIDS.get(itemI);
 				
-				// if the triangular matrix optimization is activated we obtain
-				// the support of itemset "ij" in the matrix. This allows to determine
-				// directly without performing a join if "ij" is frequent.
-				int supportIJ = -1;
-				if(useTriangularMatrixOptimization) {
-					// check the support of {i,j} according to the triangular matrix
-					supportIJ = matrix.getSupportForItems(itemI, itemJ);
-					// if not frequent
-					if (supportIJ < minsupRelative) {
-						// we don't need to consider the itemset "ij" anymore
-						continue loopJ;
+				// We create empty equivalence class for storing all 2-itemsets starting with
+				// the item "i".
+				// This equivalence class is represented by two structures.
+				// The first structure stores the suffix of all 2-itemsets starting with the prefix "i".
+				// For example, if itemI = "1" and the equivalence class contains 12, 13, 14, then
+				// the structure "equivalenceClassIitems" will only contain  2, 3 and 4 instead of
+				// 12, 13 and 14.  The reason for this implementation choice is that it is more
+				// memory efficient.
+				List<Integer> equivalenceClassIitems = new ArrayList<Integer>();
+				// The second structure stores the tidset of each 2-itemset in the equivalence class
+				// of the prefix "i"
+				List<BitSetSupport> equivalenceClassItidsets = new ArrayList<BitSetSupport>();
+				
+				// For each item itemJ that is larger than i according to the total order of
+				// increasing support.
+	loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
+					int itemJ = frequentItems.get(j);
+					
+					// if the triangular matrix optimization is activated we obtain
+					// the support of itemset "ij" in the matrix. This allows to determine
+					// directly without performing a join if "ij" is frequent.
+					int supportIJ = -1;
+					if(useTriangularMatrixOptimization) {
+						// check the support of {i,j} according to the triangular matrix
+						supportIJ = matrix.getSupportForItems(itemI, itemJ);
+						// if not frequent
+						if (supportIJ < minsupRelative) {
+							// we don't need to consider the itemset "ij" anymore
+							continue loopJ;
+						}
+					}
+					
+					// Obtain the tidset of item J and its support.
+					BitSetSupport tidsetJ = mapItemTIDS.get(itemJ);
+					
+					// Calculate the tidset of itemset "IJ" by performing the intersection of 
+					// the tidsets of I and the tidset of J.
+					BitSetSupport bitsetSupportIJ;
+					if(useTriangularMatrixOptimization) {
+						// If the triangular matrix optimization is used, then
+						// we perform the intersection but do not need to calculate the support
+						// since it is already known
+						bitsetSupportIJ = performANDFirstTime(tidsetI, tidsetJ, supportIJ);
+					}else {
+						// Otherwise, we perform the intersection and calculate the support
+						// by calculating the cardinality of the resulting tidset.
+						bitsetSupportIJ = performAND(tidsetI, tidsetJ);
+					}
+					
+					// After that, we add the itemJ to the equivalence class of 2-itemsets
+					// starting with the prefix "i". Note that although we only add "j" to the
+					// equivalence class, the item "j" 
+					// actually represents the itemset "ij" since we keep the prefix "i" for the
+					// whole equilvalence class.
+					if(useTriangularMatrixOptimization || bitsetSupportIJ.support >= minsupRelative){
+					    equivalenceClassIitems.add(itemJ);
+					     // We also keep the tidset of "ij".
+					    equivalenceClassItidsets.add(bitsetSupportIJ);
 					}
 				}
-				
-				// Obtain the tidset of item J and its support.
-				BitSetSupport tidsetJ = mapItemTIDS.get(itemJ);
-				
-				// Calculate the tidset of itemset "IJ" by performing the intersection of 
-				// the tidsets of I and the tidset of J.
-				BitSetSupport bitsetSupportIJ;
-				if(useTriangularMatrixOptimization) {
-					// If the triangular matrix optimization is used, then
-					// we perform the intersection but do not need to calculate the support
-					// since it is already known
-					bitsetSupportIJ = performANDFirstTime(tidsetI, tidsetJ, supportIJ);
-				}else {
-					// Otherwise, we perform the intersection and calculate the support
-					// by calculating the cardinality of the resulting tidset.
-					bitsetSupportIJ = performAND(tidsetI, tidsetJ);
+				// Process all itemsets from the equivalence class of 2-itemsets starting with prefix I 
+				// to find larger itemsets if that class has more than 0 itemsets.
+				if(equivalenceClassIitems.size()>0) {
+					// This is done by a recursive call. Note that we pass
+					// item I to that method as the prefix of that equivalence class.
+					itemsetBuffer[0] = itemI;
+					processEquivalenceClass(itemsetBuffer, 1, equivalenceClassIitems, equivalenceClassItidsets);
 				}
-				
-				// After that, we add the itemJ to the equivalence class of 2-itemsets
-				// starting with the prefix "i". Note that although we only add "j" to the
-				// equivalence class, the item "j" 
-				// actually represents the itemset "ij" since we keep the prefix "i" for the
-				// whole equilvalence class.
-				if(useTriangularMatrixOptimization || bitsetSupportIJ.support >= minsupRelative){
-				    equivalenceClassIitems.add(itemJ);
-				     // We also keep the tidset of "ij".
-				    equivalenceClassItidsets.add(bitsetSupportIJ);
-				}
-			}
-			// Process all itemsets from the equivalence class of 2-itemsets starting with prefix I 
-			// to find larger itemsets if that class has more than 0 itemsets.
-			if(equivalenceClassIitems.size()>0) {
-				// This is done by a recursive call. Note that we pass
-				// item I to that method as the prefix of that equivalence class.
-				itemsetBuffer[0] = itemI;
-				processEquivalenceClass(itemsetBuffer, 1, equivalenceClassIitems, equivalenceClassItidsets);
 			}
 		}
 		
@@ -424,15 +430,17 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 			
 			// We calculate the tidset of the itemset resulting from the union of
 			// the first itemset and the second itemset.
-			BitSetSupport bitsetSupportIJ = performAND(tidsetI, tidsetJ);
-			// If the itemset is frequent
-			if(bitsetSupportIJ.support >= minsupRelative) {
-				// Append the prefix with I
-				int newPrefixLength = prefixLength+1;
-				prefix[prefixLength] = itemI;
-				
-				// We save the itemset prefix+IJ to the output
-				save(prefix, newPrefixLength, itemJ, bitsetSupportIJ);
+			if(prefixLength+2 <= maxItemsetSize){
+				BitSetSupport bitsetSupportIJ = performAND(tidsetI, tidsetJ);
+				// If the itemset is frequent
+				if(bitsetSupportIJ.support >= minsupRelative) {
+					// Append the prefix with I
+					int newPrefixLength = prefixLength+1;
+					prefix[prefixLength] = itemI;
+					
+					// We save the itemset prefix+IJ to the output
+					save(prefix, newPrefixLength, itemJ, bitsetSupportIJ);
+				}
 			}
 			return;
 		}
@@ -453,58 +461,61 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 			// save the itemset "prefix + "i" to file since it is frequent
 			save(prefix, prefixLength, itemI, tidsetI);
 			
-			// create the empty equivalence class for storing all itemsets of the 
-			// equivalence class starting with prefix + i
-			List<Integer> equivalenceClassISuffixItems= new ArrayList<Integer>();
-			List<BitSetSupport> equivalenceITidsets = new ArrayList<BitSetSupport>();
+			if(prefixLength+2 <= maxItemsetSize){
 			
-			// For each itemset "prefix" + j"
-			for(int j=i+1; j < equivalenceClassItems.size(); j++) {
-				int itemJ = equivalenceClassItems.get(j);
+				// create the empty equivalence class for storing all itemsets of the 
+				// equivalence class starting with prefix + i
+				List<Integer> equivalenceClassISuffixItems= new ArrayList<Integer>();
+				List<BitSetSupport> equivalenceITidsets = new ArrayList<BitSetSupport>();
 				
-//				// if the triangular matrix optimization is activated we check if
-//				// items I and J are frequent according to the matrix. If not, we skip J.
-//				if(useTriangularMatrixOptimization) {
-//					// check the support of {i,j} according to the triangular matrix
-//					int support = matrix.getSupportForItems(itemI, itemJ);
-//					// if not frequent
-//					if (support < minsupRelative) {
-//						// skip j;
-////						System.out.println("PRUNE");
-//						continue loopJ;
-//					}
-//				}
-				
-				// Get the tidset and support of the itemset prefix + "j"
-				BitSetSupport tidsetJ = equivalenceClassTidsets.get(j);
-				
-				// We will now calculate the tidset of the itemset {prefix, i,j}
-				// This is done by intersecting the tidset of the itemset prefix+i
-				// with the itemset prefix+j
-				BitSetSupport bitsetSupportIJ = performAND(tidsetI, tidsetJ);
-				
-				// If the itemset prefix+i+j is frequent, then we add it to the
-				// equivalence class of itemsets having the prefix "prefix"+i 
-				// Note actually, we just keep "j" for optimization because all itemsets
-				// in the equivalence class of prefix+i will start with prefix+i so it would just
-				// waste memory to keep prefix + i for all itemsets.		
-				if(bitsetSupportIJ.support >= minsupRelative) {
-					equivalenceClassISuffixItems.add(itemJ);
-					// We also keep the corresponding tidset and support
-					equivalenceITidsets.add(bitsetSupportIJ);
+				// For each itemset "prefix" + j"
+				for(int j=i+1; j < equivalenceClassItems.size(); j++) {
+					int itemJ = equivalenceClassItems.get(j);
+					
+	//				// if the triangular matrix optimization is activated we check if
+	//				// items I and J are frequent according to the matrix. If not, we skip J.
+	//				if(useTriangularMatrixOptimization) {
+	//					// check the support of {i,j} according to the triangular matrix
+	//					int support = matrix.getSupportForItems(itemI, itemJ);
+	//					// if not frequent
+	//					if (support < minsupRelative) {
+	//						// skip j;
+	////						System.out.println("PRUNE");
+	//						continue loopJ;
+	//					}
+	//				}
+					
+					// Get the tidset and support of the itemset prefix + "j"
+					BitSetSupport tidsetJ = equivalenceClassTidsets.get(j);
+					
+					// We will now calculate the tidset of the itemset {prefix, i,j}
+					// This is done by intersecting the tidset of the itemset prefix+i
+					// with the itemset prefix+j
+					BitSetSupport bitsetSupportIJ = performAND(tidsetI, tidsetJ);
+					
+					// If the itemset prefix+i+j is frequent, then we add it to the
+					// equivalence class of itemsets having the prefix "prefix"+i 
+					// Note actually, we just keep "j" for optimization because all itemsets
+					// in the equivalence class of prefix+i will start with prefix+i so it would just
+					// waste memory to keep prefix + i for all itemsets.		
+					if(bitsetSupportIJ.support >= minsupRelative) {
+						equivalenceClassISuffixItems.add(itemJ);
+						// We also keep the corresponding tidset and support
+						equivalenceITidsets.add(bitsetSupportIJ);
+					}
 				}
-			}
-
-			
-			// If there is more than an itemset in the equivalence class 
-			// then we recursively process that equivalence class to find larger itemsets
-			if(equivalenceClassISuffixItems.size() >0) {
-				// We create the itemset prefix + i
-				prefix[prefixLength] = itemI;
-				int newPrefixLength = prefixLength+1;
+	
 				
-				// Recursive call
-				processEquivalenceClass(prefix, newPrefixLength, equivalenceClassISuffixItems, equivalenceITidsets);
+				// If there is more than an itemset in the equivalence class 
+				// then we recursively process that equivalence class to find larger itemsets
+				if(equivalenceClassISuffixItems.size() >0) {
+					// We create the itemset prefix + i
+					prefix[prefixLength] = itemI;
+					int newPrefixLength = prefixLength+1;
+					
+					// Recursive call
+					processEquivalenceClass(prefix, newPrefixLength, equivalenceClassISuffixItems, equivalenceITidsets);
+				}
 			}
 		}
 		
@@ -633,5 +644,13 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 	public class BitSetSupport{
 		BitSet bitset = new BitSet();
 		int support;
+	}
+	
+	/** 
+	 * Set the maximum pattern length
+	 * @param length the maximum length
+	 */
+	public void setMaximumPatternLength(int length) {
+		this.maxItemsetSize = length;
 	}
 }

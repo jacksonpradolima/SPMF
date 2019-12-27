@@ -29,14 +29,17 @@ public class MainTestEclat_saveToFile {
 			database.loadFile(input);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 //		context.printContext();
 		
 		// Applying the ECLAT algorithm
 		AlgoEclat algo = new AlgoEclat();
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(3);
 
-//		// Set this variable to true to show the transaction identifiers where patterns appear in the output file
-		algo.setShowTransactionIdentifiers(true);
+////		// Set this variable to true to show the transaction identifiers where patterns appear in the output file
+//		algo.setShowTransactionIdentifiers(true);
 		
 		algo.runAlgorithm(output, database, minsup, true);
 		// if you change use "true" in the line above, ECLAT will use

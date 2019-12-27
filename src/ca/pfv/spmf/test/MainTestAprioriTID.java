@@ -18,15 +18,18 @@ public class MainTestAprioriTID {
 		String inputfile = fileToPath("contextPasquier99.txt");
 		
 		// Applying the AprioriTID algorithm
-		AlgoAprioriTID apriori = new AlgoAprioriTID();
+		AlgoAprioriTID algo = new AlgoAprioriTID();
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(3);
 		
 		// We run the algorithm.
 		// Note: we pass a null value for the output file 
 		//      because we want to keep the result into memory
 		//      instead of writing it to an output file.
-		Itemsets patterns = apriori.runAlgorithm(inputfile, null, 0.4);
-		patterns.printItemsets(apriori.getDatabaseSize());
-		apriori.printStats();
+		Itemsets patterns = algo.runAlgorithm(inputfile, null, 0.4);
+		patterns.printItemsets(algo.getDatabaseSize());
+		algo.printStats();
 	}
 	
 	public static String fileToPath(String filename) throws UnsupportedEncodingException{

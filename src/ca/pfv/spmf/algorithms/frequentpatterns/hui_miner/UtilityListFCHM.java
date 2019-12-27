@@ -1,6 +1,6 @@
 package ca.pfv.spmf.algorithms.frequentpatterns.hui_miner;
 
-/* This file is copyright (c) 2008-2013 Philippe Fournier-Viger
+/* This file is copyright (c) 2008-2018 Philippe Fournier-Viger
 * 
 * This file is part of the SPMF DATA MINING SOFTWARE
 * (http://www.philippe-fournier-viger.com/spmf).
@@ -16,8 +16,6 @@ package ca.pfv.spmf.algorithms.frequentpatterns.hui_miner;
 * You should have received a copy of the GNU General Public License along with
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
-
-
 
 /**
  * This class represents a UtilityList as used by the FCHM algorithm.

@@ -1,8 +1,5 @@
 package ca.pfv.spmf.test;
 
-
-
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -25,6 +22,7 @@ public class MainTestFIN {
 		
 		// Applying the algorithm
 		FIN algorithm = new FIN();
+		
 		algorithm.runAlgorithm(input, minsup, output);
 		algorithm.printStats();
 	}

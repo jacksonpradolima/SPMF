@@ -37,6 +37,10 @@ public class MainTestLCMFreq_saveToMemory {
 		
 		// Applying the algorithm
 		AlgoLCMFreq algo = new AlgoLCMFreq();
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+		algo.setMaximumPatternLength(4);
+		
 		// if true in next line it will find only closed itemsets, otherwise, all frequent itemsets
 		Itemsets itemsets = algo.runAlgorithm(minsup, dataset, null);
 		algo.printStats();

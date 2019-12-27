@@ -8,7 +8,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spam.AlgoCMSPAM;
 
 
 /**
- * Example of how to use the SPAM algorithm in source code.
+ * Example of how to use the CM-SPAM algorithm in source code.
  * @author Philippe Fournier-Viger
  */
 public class MainTestCMSPAM_saveToFile {

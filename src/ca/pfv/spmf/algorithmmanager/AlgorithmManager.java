@@ -60,12 +60,19 @@ public class AlgorithmManager {
 			public int compare(DescriptionOfAlgorithm description1, DescriptionOfAlgorithm description2) {
 				// if different category, we sort by categories,
 				if(description1.getAlgorithmCategory().equals(description2.getAlgorithmCategory()) == false){
+					//-----------------------------------------------------
+					// The following lines make sure that the category of algorithm "DATASET TOOLS"
+					// is always the last one in the list.
+					
+					//-----------------------------------------------------
 					return description1.getAlgorithmCategory().compareTo(description2.getAlgorithmCategory());
 				}
 				// otherwise we sort by name
 				return description1.getName().compareTo(description2.getName());
 			}});
 	}
+	
+	//
 	
 	/**
 	 * Obtain the only instance of this class (singleton design pattern)
@@ -84,9 +91,11 @@ public class AlgorithmManager {
 	/**
 	 * Get the list of algorithms as String as displayed by the user interface of SPMF. The name of the first category appears,
 	 * followed by the list of algorithms in the first category. Then, it is followed by the second category and so on...
+	 * @param includeTools include tools in the list
+	 * @param includeAlgorithms include algorithms in the list
 	 * @return the list of algorithms as String
 	 */
-	public List<String> getListOfAlgorithmsAsString() {
+	public List<String> getListOfAlgorithmsAsString(boolean includeTools, boolean includeAlgorithms) {
 		// Create the list of String objects
 		List<String> listOfNames = new ArrayList<String>();
 		
@@ -95,6 +104,20 @@ public class AlgorithmManager {
 		
 		// for each algorithm
 		for(DescriptionOfAlgorithm algorithm : algorithms){
+			// if this algorithm is of type TOOLS
+			if("DATASET TOOLS".equals(algorithm.getAlgorithmCategory())){
+				// if we don't want to include the tools, we skip it
+				if(includeTools == false){
+					continue;
+				}
+			}
+			else{ // Otherwise, the algorithm is not of type TOOLS.
+				// if we don't want to include this type of algorithm, we skip it
+				if(includeAlgorithms == false){
+					continue;
+				}
+			}
+			
 			// if this algorithm belong to a new category, we will add the category name to the list of algorithms
 			if(algorithm.getAlgorithmCategory().equals(previousCategory) == false){
 				listOfNames.add(" --- " + algorithm.getAlgorithmCategory() + " --- ");
@@ -139,7 +162,7 @@ public class AlgorithmManager {
 
 			// build jar file name, then loop through zipped entries
 			jarFileName = URLDecoder.decode(packageURL.getFile(), "UTF-8");
-			jarFileName = jarFileName.substring(5, jarFileName.indexOf("!"));
+			jarFileName = jarFileName.substring(5, jarFileName.indexOf('!'));
 			System.out.println(">" + jarFileName);
 			jf = new JarFile(jarFileName);
 			jarEntries = jf.entries();
@@ -201,74 +224,5 @@ public class AlgorithmManager {
 		return null;
 	}
 
-
-	
-	
-//	main222(null);
-	
-//
-//	/**
-//	 * Get the list of classes in a given package in a jar.
-//	 * Note that this code was taken from Real Gagnon's How to:
-//	 * http://www.rgagnon.com/javadetails/java-0513.html
-//	 * @param jarName the name of the jar file
-//	 * @param packageName the package name
-//	 * @return a List of String 
-//	 */
-//	public static List<String> getClasseNamesInPackage(String jarName, String packageName) {
-//		List<String> classes = new ArrayList<String>();
-//
-//		packageName = packageName.replaceAll("\\.", "/");
-//		System.out.println("Jar " + jarName + " looking for " + packageName);
-//		try {
-//			JarInputStream jarFile = new JarInputStream(new FileInputStream(jarName));
-//			JarEntry jarEntry;
-//
-//			while (true) {
-//				jarEntry = jarFile.getNextJarEntry();
-//				if (jarEntry == null) {
-//					break;
-//				}
-//				if ((jarEntry.getName().startsWith(packageName)) && (jarEntry.getName().endsWith(".class"))) {
-////					System.out.println("Found "
-////							+ jarEntry.getName().replaceAll("/", "\\."));
-//					String name = jarEntry.getName().replaceAll("/", "\\.");
-//					System.out.println(name);
-////					classes.add(jarEntry.getName().replaceAll("/", "\\."));
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return classes;
-//	}
-//
-//	 /**
-//	 *
-//	 */
-//	 public static void main222 (String[] args){
-//		List list = getClasseNamesInPackage(
-//				"C:/Users/phil/Desktop/spmf.jar", "ca.pfv.spmf.algorithms");
-//		System.out.println(list);
-//		/*
-//		 * output :
-//		 * 
-//		 * Jar C:/Users/phil/Desktop/spmf.jar looking for ca/pfv/spmf/algorithms
-//		 * ca.pfv.spmf.algorithms.ArraysAlgos$1.class
-//		 * ca.pfv.spmf.algorithms.ArraysAlgos.class
-//		 * ca.pfv.spmf.algorithms.ItemNameConverter.class
-//		 * ca.pfv.spmf.algorithms.associationrules.IGB.AlgoIGB.class
-//		 * ca.pfv.spmf.algorithms.associationrules.Indirect.AlgoINDIRECT$1.class
-//		 * ca.pfv.spmf.algorithms.associationrules.Indirect.AlgoINDIRECT.class
-//		 * ca.pfv.spmf.algorithms.associationrules.MNRRules.AlgoMNRRules.class
-//		 * ca
-//		 * .pfv.spmf.algorithms.associationrules.TopKRules_and_TNR.AlgoTopKRules
-//		 * .class
-//		 * ca.pfv.spmf.algorithms.associationrules.TopKRules_and_TNR.AlgoTNR
-//		 * .class
-//		 * ca.pfv.spmf.algorithms.associationrules.TopKRules_and_TNR.RuleG.class
-//		 * ....
-//		 */
-//	 }
 
 }

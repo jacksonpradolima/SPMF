@@ -44,12 +44,12 @@ class UtilityListWithCriticalObjects extends UtilityList {
 	 */
 	public UtilityListWithCriticalObjects(Integer item){
 		super(item);
-//		this;
 	}
 	
 	/**
 	 * Method to add an element to this utility list and update the sums at the same time.
 	 */
+	@Override
 	public void addElement(Element element){
 		sumIutils += element.iutils;
 		sumRutils += element.rutils;

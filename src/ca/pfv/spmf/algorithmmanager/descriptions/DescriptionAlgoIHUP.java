@@ -27,7 +27,7 @@ import ca.pfv.spmf.algorithms.frequentpatterns.upgrowth_ihup.AlgoIHUP;
  * This class describes the IHUP algorithm parameters. 
  * It is designed to be used by the graphical and command line interface.
  * 
- * @see AlgoApriori
+ * @see AlgoIHUP
  * @author Philippe Fournier-Viger
  */
 public class DescriptionAlgoIHUP extends DescriptionOfAlgorithm {
@@ -50,7 +50,7 @@ public class DescriptionAlgoIHUP extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#ihup";
+		return "http://www.philippe-fournier-viger.com/spmf/IHUP.php";
 	}
 
 	@Override

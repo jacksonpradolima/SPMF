@@ -110,7 +110,7 @@ public class SequentialPattern{
 		for(Itemset itemset : itemsets){
 			r.append('(');
 			for(String item : itemset.getItems()){
-				String string = item.toString();
+				String string = item;
 				r.append(string);
 				r.append(' ');
 			}
@@ -135,7 +135,7 @@ public class SequentialPattern{
 		StringBuilder r = new StringBuilder("");
 		for(Itemset itemset : itemsets){
 			for(String item : itemset.getItems()){
-				String string = item.toString();
+				String string = item;
 				r.append(string);
 				r.append(' ');
 			}

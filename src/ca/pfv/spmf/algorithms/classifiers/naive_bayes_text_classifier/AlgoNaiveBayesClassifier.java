@@ -225,7 +225,7 @@ public class AlgoNaiveBayesClassifier {
 	 */
 	private double calculateProbability(String word,
 			ArrayList<OccurrenceProbabilties> op, String currentClass) throws Exception {
-		// TODO Auto-generated method stub
+
 		double probability=0.0;
 		List<File> classTraining=mFileLists.get(currentClass);
 		ArrayList<String> words=new ArrayList<String>();

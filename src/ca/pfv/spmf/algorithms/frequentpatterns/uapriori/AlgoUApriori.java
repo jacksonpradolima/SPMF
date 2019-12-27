@@ -36,21 +36,33 @@ import java.util.Set;
  */
 public class AlgoUApriori {
 
-	// this is the database
+	/** this is the database */
 	protected UncertainTransactionDatabase database;
-	// variable indicating the current level for the Apriori generation
-	// (itemsets of size k)
+	
+	/** variable indicating the current level for the Apriori generation
+	// (itemsets of size k) */
 	protected int k; 
 
-	// stats
-	protected int totalCandidateCount = 0;  // number of candidates generated
-	protected int databaseScanCount = 0;  // number of database scan
-	protected long startTimestamp;  // start time of latest execution
-	protected long endTimestamp; // end time of latest execution
-	private int itemsetCount; // the number of itemsets found
+	/** number of candidates generated */
+	protected int totalCandidateCount = 0;
 	
-	// write to file
+	/**  number of database scan */
+	protected int databaseScanCount = 0;  
+	
+	/** start time of latest execution */
+	protected long startTimestamp; 
+	
+	/** end time of latest execution */
+	protected long endTimestamp; 
+	
+	/**  the number of itemsets found */
+	private int itemsetCount; 
+	
+	/** write to file */
 	BufferedWriter writer = null;	
+	
+	/** Special parameter to set the maximum size of itemsets to be discovered */
+	int maxItemsetSize = Integer.MAX_VALUE;
 	
 	/**
 	 * Constructor
@@ -99,7 +111,7 @@ public class AlgoUApriori {
 		// can be generated
 		k = 2;
 		// While the level is not empty
-		while (!level.isEmpty()  ) {
+		while (!level.isEmpty()  && k <= maxItemsetSize) {
 			// Generate candidates of size K
 			Set<ItemsetUApriori> candidatesK = generateCandidateSizeK(level);
 			// increase the candidate count
@@ -146,7 +158,7 @@ public class AlgoUApriori {
 		// for each itemset
 		for (ItemsetUApriori candidate : candidatesK) { 
 			// check if it has enough support
-			if (candidate.getExpectedSupport() >= minsupp) {
+			if (candidate.getExpectedSupport() >= minsupp && maxItemsetSize >=1) {
 				// if yes add it to the set of frequent itemset of size k
 				levelK.add(candidate);
 				// save the itemset to the output file
@@ -328,5 +340,13 @@ public class AlgoUApriori {
 		System.out.println(" Total time ~ " + temps + " ms");
 		System.out
 				.println("===================================================");
+	}
+
+	/** 
+	 * Set the maximum pattern length
+	 * @param length the maximum length
+	 */
+	public void setMaximumPatternLength(int length) {
+		this.maxItemsetSize = length;
 	}
 }

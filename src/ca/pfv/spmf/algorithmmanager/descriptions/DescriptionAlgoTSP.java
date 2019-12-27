@@ -48,7 +48,7 @@ public class DescriptionAlgoTSP extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#tsp";
+		return "http://www.philippe-fournier-viger.com/spmf/TSP.php";
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfParameter;
-import ca.pfv.spmf.algorithms.frequentpatterns.HUIM_GA.AlgoHUIM_GA;
 import ca.pfv.spmf.algorithms.frequentpatterns.HUIM_GA_tree.AlgoHUIM_GA_tree;
 import ca.pfv.spmf.algorithms.frequentpatterns.apriori.AlgoApriori;
 /* This file is copyright (c) 2008-2016 Philippe Fournier-Viger
@@ -28,7 +27,7 @@ import ca.pfv.spmf.algorithms.frequentpatterns.apriori.AlgoApriori;
  * This class describes the HUIM-GA-tree algorithm parameters. 
  * It is designed to be used by the graphical and command line interface.
  * 
- * @see AlgoApriori
+ * @see AlgoHUIM_GA_tree
  * @author Philippe Fournier-Viger
  */
 public class DescriptionAlgoHUIM_GA_tree extends DescriptionOfAlgorithm {
@@ -51,7 +50,7 @@ public class DescriptionAlgoHUIM_GA_tree extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#huimgatree";
+		return "http://www.philippe-fournier-viger.com/spmf/HUIM-GA-tree.php";
 	}
 
 	@Override

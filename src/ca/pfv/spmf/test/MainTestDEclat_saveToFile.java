@@ -34,6 +34,10 @@ public class MainTestDEclat_saveToFile {
 		
 		// Applying the dECLAT algorithm
 		AlgoDEclat algo = new AlgoDEclat();
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(3);
+		
 		algo.runAlgorithm(output, database, minsup, true);
 		// if you change use "true" in the line above, dECLAT will use
 		// a triangular matrix  for counting support of itemsets of size 2.

@@ -15,7 +15,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.idLists.creators
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.idLists.creators.IdListCreator_FatBitmap;
 
 /**
- * Example of how to use the algorithm SPADE, saving the results in a given
+ * Example of how to use the algorithm CM-SPADE, saving the results in a given
  * file
  * @author agomariz
  */
@@ -38,7 +38,7 @@ public class MainTestCMSPADE_saveToFile {
         // if you set the following parameter to true, the sequence ids of the sequences where
         // each pattern appears will be shown in the result
         boolean outputSequenceIdentifiers = false; 
-
+        
         IdListCreator idListCreator = IdListCreator_FatBitmap.getInstance();
                 
         CandidateGenerator candidateGenerator = CandidateGenerator_Qualitative.getInstance();
@@ -49,14 +49,14 @@ public class MainTestCMSPADE_saveToFile {
         
         System.out.println(sequenceDatabase.toString());
 
-        AlgoCMSPADE algorithm = new AlgoCMSPADE(support,dfs,abstractionCreator);
+        AlgoCMSPADE algo = new AlgoCMSPADE(support,dfs,abstractionCreator);
         
-        algorithm.runAlgorithm(sequenceDatabase, candidateGenerator,keepPatterns,verbose,outputPath, outputSequenceIdentifiers);
+        algo.runAlgorithm(sequenceDatabase, candidateGenerator,keepPatterns,verbose,outputPath, outputSequenceIdentifiers);
 
         System.out.println("Relative Minimum support = "+support);
-        System.out.println(algorithm.getNumberOfFrequentPatterns()+ " frequent patterns.");
+        System.out.println(algo.getNumberOfFrequentPatterns()+ " frequent patterns.");
         
-        System.out.println(algorithm.printStatistics());
+        System.out.println(algo.printStatistics());
     }
 
     public static String fileToPath(String filename) throws UnsupportedEncodingException {

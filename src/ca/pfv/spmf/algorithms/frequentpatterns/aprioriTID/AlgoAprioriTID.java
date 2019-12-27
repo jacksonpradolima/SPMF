@@ -238,7 +238,7 @@ public class AlgoAprioriTID {
 			Map.Entry<Integer, Set<Integer>> entry = (Map.Entry<Integer, Set<Integer>>) iterator
 					.next();
 			// if the item is frequent
-			if (entry.getValue().size() >= minSuppRelative) { 
+			if (entry.getValue().size() >= minSuppRelative && maxItemsetSize >= 1) { 
 				Integer item = entry.getKey();
 				Itemset itemset = new Itemset(item);
 				itemset.setTIDs(mapItemTIDS.get(item));
@@ -421,5 +421,13 @@ public class AlgoAprioriTID {
 	 */
 	public int getDatabaseSize() {
 		return databaseSize;
+	}
+
+	/** 
+	 * Set the maximum pattern length
+	 * @param length the maximum length
+	 */
+	public void setMaximumPatternLength(int length) {
+		this.maxItemsetSize = length;
 	}
 }

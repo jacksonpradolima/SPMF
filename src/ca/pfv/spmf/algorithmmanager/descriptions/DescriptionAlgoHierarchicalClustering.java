@@ -50,7 +50,7 @@ public class DescriptionAlgoHierarchicalClustering extends DescriptionOfAlgorith
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#example10";
+		return "http://www.philippe-fournier-viger.com/spmf/HierarchicalClustering.php";
 	}
 
 	@Override

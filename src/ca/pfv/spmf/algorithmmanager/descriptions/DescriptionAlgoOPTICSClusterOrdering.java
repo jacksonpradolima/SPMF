@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfParameter;
-import ca.pfv.spmf.algorithms.clustering.distanceFunctions.DistanceFunction;
 /* This file is copyright (c) 2008-2016 Philippe Fournier-Viger
 * 
 * This file is part of the SPMF DATA MINING SOFTWARE
@@ -50,7 +49,7 @@ public class DescriptionAlgoOPTICSClusterOrdering extends DescriptionOfAlgorithm
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#optics";
+		return "http://www.philippe-fournier-viger.com/spmf/Optics.php";
 	}
 
 	@Override

@@ -50,7 +50,7 @@ public class DescriptionAlgoSporadicAssociationRules extends DescriptionOfAlgori
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#example19";
+		return "http://www.philippe-fournier-viger.com/spmf/PerfectlySporadicAssociationRules.php";
 	}
 
 	@Override

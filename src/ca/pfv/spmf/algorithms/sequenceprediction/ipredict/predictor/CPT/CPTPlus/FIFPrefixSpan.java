@@ -286,7 +286,7 @@ public class FIFPrefixSpan implements FIF {
 
 	@Override
 	public HashMap<Item, Integer> getItemFrequencies(List<Sequence> seqs) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 }

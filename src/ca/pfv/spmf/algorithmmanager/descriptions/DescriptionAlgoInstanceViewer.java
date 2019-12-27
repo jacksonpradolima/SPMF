@@ -6,16 +6,13 @@ import java.util.List;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfParameter;
 import ca.pfv.spmf.algorithms.clustering.instancereader.AlgoInstanceFileReader;
-import ca.pfv.spmf.algorithms.timeseries.TimeSeries;
-import ca.pfv.spmf.algorithms.timeseries.reader_writer.AlgoTimeSeriesReader;
 import ca.pfv.spmf.gui.instanceviewer.InstanceViewer;
-import ca.pfv.spmf.gui.timeseriesviewer.TimeSeriesViewer;
 import ca.pfv.spmf.patterns.cluster.DoubleArray;
 
 /**
  * This class describes the algorithm to visualize a time series.
  * 
- * @see TimeSeriesViewer
+ * @see InstanceViewer
  * @author Philippe Fournier-Viger
  */
 public class DescriptionAlgoInstanceViewer extends DescriptionOfAlgorithm {
@@ -38,7 +35,7 @@ public class DescriptionAlgoInstanceViewer extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#visualizeinstances";
+		return "http://www.philippe-fournier-viger.com/spmf/InstanceViewer.php";
 	}
 
 	@Override

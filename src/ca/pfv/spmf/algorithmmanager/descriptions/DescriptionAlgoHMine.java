@@ -49,13 +49,18 @@ public class DescriptionAlgoHMine extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#hmine";
+		return "http://www.philippe-fournier-viger.com/spmf/HMine.php";
 	}
 
 	@Override
 	public void runAlgorithm(String[] parameters, String inputFile, String outputFile) throws IOException {
 		double minsup = getParamAsDouble(parameters[0]);
 		AlgoHMine algorithm = new AlgoHMine();
+		
+		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+			algorithm.setMaximumPatternLength(getParamAsInteger(parameters[1]));
+		}
+		
 		algorithm.runAlgorithm(inputFile, outputFile, minsup);
 		algorithm.printStats();
 	}
@@ -63,8 +68,9 @@ public class DescriptionAlgoHMine extends DescriptionOfAlgorithm {
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[1];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[2];
 		parameters[0] = new DescriptionOfParameter("Minsup (%)", "(e.g. 0.4 or 40%)", Double.class, false);
+		parameters[1] = new DescriptionOfParameter("Max pattern length", "(e.g. 2 items)", Integer.class, true);
 		return parameters;
 	}
 

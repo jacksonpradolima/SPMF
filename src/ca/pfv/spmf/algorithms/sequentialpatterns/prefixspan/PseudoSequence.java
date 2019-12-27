@@ -45,11 +45,25 @@ public class PseudoSequence {
 	 * @param sequence the original sequence.
 	 * @param indexFirstItem the item where the pseudo-sequence should start in terms of the original sequence.
 	 */
-	protected  PseudoSequence(int sequenceID, int indexFirstItem){
+	public  PseudoSequence(int sequenceID, int indexFirstItem){
 		// remember the original sequence
 		this.sequenceID = sequenceID;
 		// remember the starting position of this pseudo-sequence in terms
 		// of the original sequence.
 		this.indexFirstItem = indexFirstItem;
+	}
+	
+	/** Get the index of the first item in the pseudosequence
+	 * @return first item
+	 * */
+	public int getIndexFirstItem() {
+		return indexFirstItem;
+	}
+	
+	/** Get the sequence ID
+	 * @return sequence ID
+	 * */
+	public int getSequenceID() {
+		return sequenceID;
 	}
 }

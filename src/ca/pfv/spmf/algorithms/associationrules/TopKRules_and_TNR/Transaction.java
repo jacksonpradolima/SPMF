@@ -32,7 +32,7 @@ import java.util.List;
  */
 
 public class Transaction{
-	// a transaction is an ordered list of items
+	/** a transaction is an ordered list of items */
 	private final List<Integer> items; 
 	
 	/**

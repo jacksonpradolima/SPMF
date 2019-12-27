@@ -27,7 +27,7 @@ import ca.pfv.spmf.algorithms.frequentpatterns.hui_miner.AlgoHUIMiner;
  * This class describes the HUI-Miner algorithm parameters. 
  * It is designed to be used by the graphical and command line interface.
  * 
- * @see AlgoApriori
+ * @see AlgoHUIMiner
  * @author Philippe Fournier-Viger
  */
 public class DescriptionAlgoHUIMiner extends DescriptionOfAlgorithm {
@@ -50,7 +50,7 @@ public class DescriptionAlgoHUIMiner extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#huiminer";
+		return "http://www.philippe-fournier-viger.com/spmf/HUI-Miner.php";
 	}
 
 	@Override

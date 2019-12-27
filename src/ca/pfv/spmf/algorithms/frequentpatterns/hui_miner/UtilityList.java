@@ -29,10 +29,10 @@ import java.util.List;
  * @author Philippe Fournier-Viger
  */
 public class UtilityList {
-	Integer item;  // the item
-	long sumIutils = 0;  // the sum of item utilities
-	long sumRutils = 0;  // the sum of remaining utilities
-	List<Element> elements = new ArrayList<Element>();  // the elements
+	 Integer item;  // the item
+	 long sumIutils = 0;  // the sum of item utilities
+	 long sumRutils = 0;  // the sum of remaining utilities
+	 List<Element> elements = new ArrayList<Element>();  // the elements
 	 
 	/**
 	 * Constructor.

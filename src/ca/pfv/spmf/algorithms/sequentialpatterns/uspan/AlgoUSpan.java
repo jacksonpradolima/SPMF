@@ -118,6 +118,9 @@ public class AlgoUSpan {
 		// key: item  value: the swu of the item
 		final Map<Integer, Integer> mapItemToSWU = new HashMap<Integer, Integer>();
 		
+		//Tin added:		
+		List<Integer> consideredItems = new ArrayList<Integer>();
+
 		// ==========  FIRST DATABASE SCAN TO IDENTIFY PROMISING ITEMS =========
 		// We scan the database a first time to calculate the SWU of each item.
 		int sequenceCount = 0;
@@ -153,14 +156,25 @@ public class AlgoUSpan {
 						String itemString = currentToken.substring(0, positionLeftBracketString);
 						Integer item = Integer.parseInt(itemString);
 						
-						// get the current SWU of that item
-						Integer swu = mapItemToSWU.get(item);
+						//Tin added:		
+						if (!consideredItems.contains(item)) 
+						{
+							consideredItems.add(item);
 						
-						// add the utility of sequence utility to the swu of this item
-						swu = (swu == null)?  sequenceUtility : swu + sequenceUtility;
-						mapItemToSWU.put(item, swu);
+							// get the current SWU of that item
+							Integer swu = mapItemToSWU.get(item);
+							
+							// add the utility of sequence utility to the swu of this item
+							swu = (swu == null)?  sequenceUtility : swu + sequenceUtility;
+							mapItemToSWU.put(item, swu);
+//							System.out.println(" -> " + swu);
+						}
+//						else System.out.println(item + " is already considered in the same (line) input sequence");								
 					}
 				}
+				
+				// Philippe added:
+				consideredItems.clear();
 				
 				// increase sequence count
 				sequenceCount++;
@@ -477,7 +491,7 @@ public class AlgoUSpan {
 				// of that item
 				int totalUtility = 0;
 				int totalRemainingUtility = 0;
-				
+
 				// We also initialize a variable to remember the projected qmatrixes of sequences
 				// where this item appears. This will be used for call to the recursive
 				// "uspan" method later.
@@ -497,7 +511,6 @@ public class AlgoUSpan {
 						// and the max remaining utility
 						int maxUtility = 0;
 						int maxRemainingUtility = 0;
-						
 						// for each itemset in that sequence
 						for(int itemset=0; itemset < qmatrix.matrixItemRemainingUtility[row].length; itemset++) {
 							// get the utility of the item in that itemset
@@ -543,6 +556,11 @@ public class AlgoUSpan {
 				if(totalUtility >= minUtility) {
 					writeOut(prefix,1, totalUtility);
 				}
+//				//Tin checks:
+//				if(itemSWU < totalUtility + totalRemainingUtility) {
+//					System.out.println("swu(" + item + ") = " + itemSWU + " < SPU(" + item + ") = " + (totalUtility + totalRemainingUtility));
+//					System.in.read();
+//				}
 
 				// if this item passes the depth pruning (remaining utility + totality >= minutil)
 				if(totalUtility + totalRemainingUtility >= minUtility) {
@@ -752,7 +770,13 @@ public class AlgoUSpan {
 				if(totalUtility >= minUtility) {
 					writeOut(prefix,prefixLength+1, totalUtility);
 				}
-
+				
+//				//Tin checks:
+//				if(itemSWU.swu < totalUtility + totalRemainingUtility) {
+//					System.out.println("swu(i-ext " + ToString(prefix, prefixLength+1) + "-1 -2) <= swu(" + item + ") = " + itemSWU.swu + " < SPU(i-ext " + ToString(prefix, prefixLength+1) + " -1 -2) = " + (totalUtility + totalRemainingUtility));
+//				System.in.read();
+//				}
+				
 				// if his i-concatenation passes the depth pruning (remaining utility + totality)
 				if(totalUtility + totalRemainingUtility >= minUtility) {
 
@@ -936,11 +960,16 @@ public class AlgoUSpan {
 				if(totalUtility >= minUtility) {
 					writeOut(prefix,prefixLength+2, totalUtility);
 				}
+				
+//				//Tin checks:
+//				if(itemSWU.swu < totalUtility + totalRemainingUtility) {
+//					System.out.println("swu(s-ext " + ToString(prefix, prefixLength+2) + "-1 -2) <= swu(" + item + ") = " + itemSWU.swu + " < SPU(s-ext " + ToString(prefix, prefixLength+2) + "-1 -2) = " + (totalUtility + totalRemainingUtility));
+//				System.in.read();
+//				}
 
 				// if this s-concatenation passes the depth pruning 
 				// (remaining utility + totality >= minutil)
 				if(totalUtility + totalRemainingUtility >= minUtility) {
-
 
 					// Finally, we recursively call the procedure uspan() for growing this pattern
 					// to try to find larger high utilit sequential patterns
@@ -953,6 +982,14 @@ public class AlgoUSpan {
 		// We check the memory usage
 		MemoryLogger.getInstance().checkMemory();
 	}
+	
+////Tin added for checking above:	
+//	public String ToString(int[] prefix, int length) {
+//		StringBuilder sb = new StringBuilder();
+//		for (int i=0; i < length; i++)
+//			sb.append("" + prefix[i] + " ");
+//		return sb.toString();
+//	}
 	
 	/**
 	 * Set the maximum pattern length
@@ -1107,6 +1144,7 @@ public class AlgoUSpan {
 				System.out.print(prefix[i]);
 			}
 			System.out.println(" utility is: " + utility + " but should be: " + calculatedUtility);
+System.in.read();
 		}
 	}
 

@@ -6,14 +6,13 @@ import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfParameter;
 import ca.pfv.spmf.algorithms.frequentpatterns.HUIM_BPSO.AlgoHUIM_BPSO;
 import ca.pfv.spmf.algorithms.frequentpatterns.apriori.AlgoApriori;
-import ca.pfv.spmf.algorithms.frequentpatterns.hui_miner.AlgoFHM;
 /* This file is copyright (c) 2008-2016 Philippe Fournier-Viger
 * 
 * This file is part of the SPMF DATA MINING SOFTWARE
 * (http://www.philippe-fournier-viger.com/spmf).
 * 
 * SPMF is free software: you can redistribute it and/or modify it under the
-* terms of the GNU General Public License as published by the Free Software
+* terms of the GNU General Public License as published by the Free Software 
 * Foundation, either version 3 of the License, or (at your option) any later
 * version.
 * 
@@ -28,10 +27,11 @@ import ca.pfv.spmf.algorithms.frequentpatterns.hui_miner.AlgoFHM;
  * This class describes the HUIM-BPSO algorithm parameters. 
  * It is designed to be used by the graphical and command line interface.
  * 
- * @see AlgoApriori
+ * @see AlgoHUIM_BPSO
  * @author Philippe Fournier-Viger
  */
-public class DescriptionAlgoHUIM_BPSO extends DescriptionOfAlgorithm {
+
+public class DescriptionAlgoHUIM_BPSO extends DescriptionOfAlgorithm  {
 
 	/**
 	 * Default constructor
@@ -51,7 +51,7 @@ public class DescriptionAlgoHUIM_BPSO extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#huimbpso";
+		return "http://www.philippe-fournier-viger.com/spmf/HUIM-BPSO.php";
 	}
 
 	@Override

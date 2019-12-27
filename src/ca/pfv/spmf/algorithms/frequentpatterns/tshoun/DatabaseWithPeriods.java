@@ -168,9 +168,9 @@ public class DatabaseWithPeriods {
 	/**
 	 * Load a transaction database from a file.
 	 * @param path the path of the file
-	 * @throws IOException exception if error while reading the file.
+	 * @throws Exception 
 	 */
-	public void loadFile(String path) throws IOException {
+	public void loadFile(String path) throws Exception {
 		String thisLine;
 		BufferedReader myInput = null;
 		try {
@@ -194,6 +194,7 @@ public class DatabaseWithPeriods {
 		} catch (Exception e) {
 			// catch exceptions
 			e.printStackTrace();
+			throw e;
 		}finally {
 			if(myInput != null){
 				// close the file
@@ -205,8 +206,9 @@ public class DatabaseWithPeriods {
 	/**
 	 * Process a line (transaction) from the input file
 	 * @param line  a line
+	 * @throws Exception 
 	 */
-	private void processTransaction(String line[]){
+	private void processTransaction(String line[]) throws Exception{
 		String[] items = line[0].split(" ");
 		String[] utilities = line[2].split(" ");
 		// == code for handling period ==
@@ -260,6 +262,13 @@ public class DatabaseWithPeriods {
 			}
 			
 			allItems.add(item);
+			
+			if(period >= periodCount){
+				throw new Exception("ERROR: the parameter \"period count\" should not be smaller "
+						+ "than the number of periods in the input file. Please"
+						+ " run the algorithm again but set the parameter \"period count\" to the number "
+						+ " of periods in the file." + System.lineSeparator() + System.lineSeparator());
+			}
 			
 			// update exact utility of the item
 			Pair pair = mapItemUtility.get(item);

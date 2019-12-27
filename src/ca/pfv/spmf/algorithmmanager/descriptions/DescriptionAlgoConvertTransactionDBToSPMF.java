@@ -65,7 +65,7 @@ public class DescriptionAlgoConvertTransactionDBToSPMF extends DescriptionOfAlgo
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#convtdb";
+		return "http://www.philippe-fournier-viger.com/spmf/Converting_a_transaction_database_to_SPMF.php";
 	}
 
 	@Override

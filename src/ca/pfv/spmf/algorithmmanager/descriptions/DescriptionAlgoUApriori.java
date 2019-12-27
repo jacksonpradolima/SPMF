@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfParameter;
-import ca.pfv.spmf.algorithms.frequentpatterns.apriori.AlgoApriori;
 /* This file is copyright (c) 2008-2016 Philippe Fournier-Viger
 * 
 * This file is part of the SPMF DATA MINING SOFTWARE
@@ -24,10 +23,10 @@ import ca.pfv.spmf.algorithms.frequentpatterns.apriori.AlgoApriori;
 import ca.pfv.spmf.algorithms.frequentpatterns.uapriori.AlgoUApriori;
 
 /**
- * This class describes the Apriori algorithm parameters. 
+ * This class describes the UAPriori algorithm parameters. 
  * It is designed to be used by the graphical and command line interface.
  * 
- * @see AlgoApriori
+ * @see AlgoUApriori
  * @author Philippe Fournier-Viger
  */
 public class DescriptionAlgoUApriori extends DescriptionOfAlgorithm {
@@ -50,7 +49,7 @@ public class DescriptionAlgoUApriori extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#uapriori";
+		return "http://www.philippe-fournier-viger.com/spmf/uapriori.php";
 	}
 
 	@Override
@@ -59,16 +58,22 @@ public class DescriptionAlgoUApriori extends DescriptionOfAlgorithm {
 
 		ca.pfv.spmf.algorithms.frequentpatterns.uapriori.UncertainTransactionDatabase context = new ca.pfv.spmf.algorithms.frequentpatterns.uapriori.UncertainTransactionDatabase();
 		context.loadFile(inputFile);
-		AlgoUApriori apriori = new AlgoUApriori(context);
-		apriori.runAlgorithm(expectedsup, outputFile);
-		apriori.printStats();
+		AlgoUApriori algorithm = new AlgoUApriori(context);
+		
+		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+			algorithm.setMaximumPatternLength(getParamAsInteger(parameters[1]));
+		}
+		
+		algorithm.runAlgorithm(expectedsup, outputFile);
+		algorithm.printStats();
 	}
 
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[1];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[2];
 		parameters[0] = new DescriptionOfParameter("Expected support (%)", "(e.g. 0.1 or 10%)", Double.class, false);
+		parameters[1] = new DescriptionOfParameter("Max pattern length", "(e.g. 2 items)", Integer.class, true);
 		return parameters;
 	}
 

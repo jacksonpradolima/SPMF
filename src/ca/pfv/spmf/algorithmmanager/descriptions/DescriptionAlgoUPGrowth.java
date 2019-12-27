@@ -50,7 +50,7 @@ public class DescriptionAlgoUPGrowth extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#upgrowth";
+		return "http://www.philippe-fournier-viger.com/spmf/UPGrowthPlus.php";
 	}
 
 	@Override

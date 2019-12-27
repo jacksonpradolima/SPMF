@@ -49,7 +49,7 @@ public class DescriptionAlgoRuleGen extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#rulegen";
+		return "http://www.philippe-fournier-viger.com/spmf/RuleGen.php";
 	}
 
 	@Override

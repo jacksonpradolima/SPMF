@@ -51,7 +51,7 @@ public class DescriptionAlgoSeqDIMBideAprioriClose extends DescriptionOfAlgorith
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#exampleMDSPM1";
+		return "http://www.philippe-fournier-viger.com/spmf/ClosedMultiDimensional_SequentialPatterns.php";
 	}
 
 	@Override

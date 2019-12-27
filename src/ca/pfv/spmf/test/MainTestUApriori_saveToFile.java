@@ -29,9 +29,13 @@ public class MainTestUApriori_saveToFile {
 		String output = ".//output.txt"; 
 		
 		// Applying the UApriori algorithm
-		AlgoUApriori apriori = new AlgoUApriori(context);
-		apriori.runAlgorithm(0.1, output);
-		apriori.printStats();
+		AlgoUApriori algo = new AlgoUApriori(context);
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(2);
+		
+		algo.runAlgorithm(0.1, output);
+		algo.printStats();
 	}
 	
 	public static String fileToPath(String filename) throws UnsupportedEncodingException{

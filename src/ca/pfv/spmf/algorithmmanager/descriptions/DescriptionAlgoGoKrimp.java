@@ -51,23 +51,26 @@ public class DescriptionAlgoGoKrimp extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#gokrimp";
+		return "http://www.philippe-fournier-viger.com/spmf/GoKrimp.php";
 	}
 
 	@Override
 	public void runAlgorithm(String[] parameters, String inputFile, String outputFile) throws IOException {
 
-		// file for sensitive
-		String labelFilePath = parameters[0];
-		if (labelFilePath == null) {
-			labelFilePath = "";
-		} else {
-			File file = new File(inputFile);
-			if (file.getParent() == null) {
-				labelFilePath = parameters[0];
+		String labelFilePath = "";
+		if (parameters.length >=1 && "".equals(parameters[0]) == false) {
+			// file for sensitive
+			labelFilePath = parameters[0];
+			if (labelFilePath == null) {
+				labelFilePath = "";
 			} else {
-				labelFilePath = file.getParent() + File.separator
-						+ parameters[0];
+				File file = new File(inputFile);
+				if (file.getParent() == null) {
+					labelFilePath = parameters[0];
+				} else {
+					labelFilePath = file.getParent() + File.separator
+							+ parameters[0];
+				}
 			}
 		}
 
@@ -76,6 +79,7 @@ public class DescriptionAlgoGoKrimp extends DescriptionOfAlgorithm {
 		g.setOutputFilePath(outputFile); // if not set, then result will be
 											// printed to console
 		g.gokrimp();
+		
 	}
 
 	@Override

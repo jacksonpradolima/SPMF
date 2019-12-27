@@ -48,7 +48,7 @@ public class DescriptionAlgoHUSRM extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#husrm";
+		return "http://www.philippe-fournier-viger.com/spmf/HUSRM.php";
 	}
 
 	@Override

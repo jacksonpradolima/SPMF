@@ -49,7 +49,7 @@ public class DescriptionAlgoHirateYamana extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#example11";
+		return "http://www.philippe-fournier-viger.com/spmf/HirateYamana.php";
 	}
 
 	@Override

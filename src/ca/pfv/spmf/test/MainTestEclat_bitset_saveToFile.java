@@ -30,6 +30,13 @@ public class MainTestEclat_bitset_saveToFile {
 		
 		// Applying the ECLAT algorithm
 		AlgoEclat_Bitset algo = new AlgoEclat_Bitset();
+		
+//		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(3);
+		
+//		// Set this variable to true to show the transaction identifiers where patterns appear in the output file
+//		algo.setShowTransactionIdentifiers(true);
+		
 		algo.runAlgorithm(output, database, minsup, false);
 
 		// NOTE 1: if you  use "true" in the line above, CHARM will use

@@ -28,11 +28,11 @@ package ca.pfv.spmf.algorithms.frequentpatterns.hui_miner;
 public class Element {
 	// The three variables as described in the paper:
 	/** transaction id */
-	final int tid ;   
+	public final int tid ;   
 	/** itemset utility */
-	final int iutils;   
+	public final int iutils;   
 	/** remaining utility */
-	int rutils; 
+	public int rutils; 
 	
 	/**
 	 * Constructor.

@@ -64,7 +64,7 @@ public class DescriptionAlgoRemoveUtilityTransactionDB extends DescriptionOfAlgo
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#removeutility";
+		return "http://www.philippe-fournier-viger.com/spmf/Remove_utility_information.php";
 	}
 
 	@Override

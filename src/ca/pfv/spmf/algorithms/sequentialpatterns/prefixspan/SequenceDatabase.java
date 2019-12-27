@@ -36,11 +36,11 @@ import java.util.List;
 public class SequenceDatabase {
 
 	/** a matrix to store the sequences in this database */
-	List<int[]> sequences = new ArrayList<int[]>();
+	protected List<int[]> sequences = new ArrayList<int[]>();
 
 	/** the total number of item occurrences in this database
 	 * (variable to be used for statistics) */
-	long itemOccurrenceCount = 0;
+	protected long itemOccurrenceCount = 0;
 	
 	/**
 	 * Method to load a sequence database from a text file in SPMF format.

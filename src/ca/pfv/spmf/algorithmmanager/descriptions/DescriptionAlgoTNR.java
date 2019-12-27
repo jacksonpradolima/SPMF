@@ -49,7 +49,7 @@ public class DescriptionAlgoTNR extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#tnr";
+		return "http://www.philippe-fournier-viger.com/spmf/TopKNonRedundantAssociationRules.php";
 	}
 
 	@Override
@@ -62,6 +62,14 @@ public class DescriptionAlgoTNR extends DescriptionOfAlgorithm {
 		int delta = getParamAsInteger(parameters[2]);
 
 		ca.pfv.spmf.algorithms.associationrules.TopKRules_and_TNR.AlgoTNR algo = new ca.pfv.spmf.algorithms.associationrules.TopKRules_and_TNR.AlgoTNR();
+		
+		if (parameters.length >=4 && "".equals(parameters[3]) == false) {
+			algo.setMaxAntecedentSize(getParamAsInteger(parameters[3]));
+		}
+		if (parameters.length >=5 && "".equals(parameters[4]) == false) {
+			algo.setMaxConsequentSize(getParamAsInteger(parameters[4]));
+		}
+		
 		algo.runAlgorithm(k, minconf, database, delta);
 		algo.printStats();
 		algo.writeResultTofile(outputFile); // to save results to file
@@ -70,10 +78,12 @@ public class DescriptionAlgoTNR extends DescriptionOfAlgorithm {
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[3];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[5];
 		parameters[0] = new DescriptionOfParameter("k", "(e.g. 10)", Integer.class, false);
 		parameters[1] = new DescriptionOfParameter("Minconf (%)", "(e.g. 0.5 or 50%)", Double.class, false);
 		parameters[2] = new DescriptionOfParameter("Delta", "(e.g. 2)", Integer.class, false);
+		parameters[3] = new DescriptionOfParameter("Max antecedent size", "(e.g. 1 items)", Integer.class, true);
+		parameters[4] = new DescriptionOfParameter("Max consequent size", "(e.g. 2 items)", Integer.class, true);
 		return parameters;
 	}
 

@@ -7,7 +7,7 @@ import java.net.URL;
 import ca.pfv.spmf.algorithms.frequentpatterns.aprioriTID.AlgoAprioriTID_Bitset;
 
 /**
- * Example of how to use the AprioriTID algorithm (bitset version), and
+ * Example of how to use the AprioriTID_Bitset algorithm (bitset version), and
  * save the result to a file, from the source code.
  * 
  * @author Philippe Fournier-Viger 
@@ -26,6 +26,9 @@ public class MainTestAprioriTID_bitset_saveToFile {
 		
 		// Set this variable to true to show the transaction identifiers where each pattern appear in the output file
 //		algo.setShowTransactionIdentifiers(true);
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+		algo.setMaximumPatternLength(3);
 		
 		/// Run the algorithm 
 		algo.runAlgorithm(input, output, minsup);

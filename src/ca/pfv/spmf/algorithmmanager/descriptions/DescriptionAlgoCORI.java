@@ -51,7 +51,7 @@ public class DescriptionAlgoCORI extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#cori";
+		return "http://www.philippe-fournier-viger.com/spmf/CORI.php";
 	}
 
 	@Override
@@ -72,6 +72,10 @@ public class DescriptionAlgoCORI extends DescriptionOfAlgorithm {
 		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
 			algo.setShowTransactionIdentifiers(getParamAsBoolean(parameters[2]));
 		}
+
+		if (parameters.length >=4 && "".equals(parameters[3]) == false) {
+			algo.setMaximumPatternLength(getParamAsInteger(parameters[3]));
+		}
 		
 		algo.runAlgorithm(outputFile, database, minsup, minbond, false);
 		algo.printStats();
@@ -80,10 +84,11 @@ public class DescriptionAlgoCORI extends DescriptionOfAlgorithm {
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
          
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[3];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[4];
 		parameters[0] = new DescriptionOfParameter("Maxsup (%)", "(e.g. 0.8 or 80%)", Double.class, false);
 		parameters[1] = new DescriptionOfParameter("Minbond (%)", "(e.g. 0.2 or 20%)", Double.class, false);
 		parameters[2] = new DescriptionOfParameter("Show transaction ids?", "(default: false)", Boolean.class, true);
+		parameters[3] = new DescriptionOfParameter("Max pattern length", "(e.g. 2 items)", Integer.class, true);		
 		return parameters;
 	}
 

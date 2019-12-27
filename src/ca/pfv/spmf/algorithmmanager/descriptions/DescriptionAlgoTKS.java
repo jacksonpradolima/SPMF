@@ -48,7 +48,7 @@ public class DescriptionAlgoTKS extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#tks";
+		return "http://www.philippe-fournier-viger.com/spmf/TKS.php";
 	}
 
 	@Override

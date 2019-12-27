@@ -52,7 +52,7 @@ public class DescriptionAlgoConvertTEXTFileToSequenceDB extends DescriptionOfAlg
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#convtextfile";
+		return "http://www.philippe-fournier-viger.com/spmf/Using_a_TEXT_file_as_input.php";
 	}
 
 	@Override

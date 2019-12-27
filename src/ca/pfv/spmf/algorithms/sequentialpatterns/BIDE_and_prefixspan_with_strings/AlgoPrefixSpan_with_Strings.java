@@ -189,7 +189,7 @@ public class AlgoPrefixSpan_with_Strings{
 			for(Itemset itemset : prefix.getItemsets()){
 	//			r.append('(');
 				for(String item : itemset.getItems()){
-					String string = item.toString();
+					String string = item;
 					r.append(string);
 					r.append(' ');
 				}
@@ -223,7 +223,7 @@ public class AlgoPrefixSpan_with_Strings{
 	private Map<String, Set<Integer>> findSequencesContainingItems(SequenceDatabase contexte) {
 		// We use a map to store the sequence IDs where an item appear
 		// Key : item   Value :  a set of sequence IDs
-		Map<String, Set<Integer>> mapSequenceID = new HashMap<String, Set<Integer>>(); // pour conserver les ID des séquences: <Id Item, Set d'id de séquences>
+		Map<String, Set<Integer>> mapSequenceID = new HashMap<String, Set<Integer>>(); // pour conserver les ID des sï¿½quences: <Id Item, Set d'id de sï¿½quences>
 		// for each sequence in the current database
 		for(Sequence sequence : contexte.getSequences()){
 			// for each itemset in this sequence

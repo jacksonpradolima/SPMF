@@ -48,7 +48,7 @@ public class DescriptionAlgoVMSP extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#vmsp";
+		return "http://www.philippe-fournier-viger.com/spmf/VMSP.php";
 	}
 
 	@Override

@@ -510,7 +510,7 @@ public class AlgoMinFHM {
 						
 						if(pXY.sumIutils >= minUtility && isSubsumingAFoundItemset(itemset) == false){
 							registerItemsetAndRemoveLarger(itemset, pXY.sumIutils,  pXY.elements.size());
-						}else if (isSubsumingAFoundItemset(itemset)){
+						}else if (!isSubsumingAFoundItemset(itemset)){
 							exULs.add(pXY);
 						}
 					}

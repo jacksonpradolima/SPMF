@@ -48,7 +48,7 @@ public class DescriptionAlgoMaxSP extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#maxsp";
+		return "http://www.philippe-fournier-viger.com/spmf/MaxSP.php";
 	}
 
 	@Override

@@ -65,7 +65,7 @@ public class DescriptionAlgoConvertSequenceDBTransactionDB extends DescriptionOf
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#convseqtrans";
+		return "http://www.philippe-fournier-viger.com/spmf/Converting_a_sequence_database_to_transaction_database.php";
 	}
 
 	@Override

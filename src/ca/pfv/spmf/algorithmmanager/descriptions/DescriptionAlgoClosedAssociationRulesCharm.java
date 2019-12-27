@@ -53,7 +53,7 @@ public class DescriptionAlgoClosedAssociationRulesCharm extends DescriptionOfAlg
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/documentation.php#example20";
+		return "http://www.philippe-fournier-viger.com/spmf/ClosedAssociationRules.php";
 	}
 
 	@Override

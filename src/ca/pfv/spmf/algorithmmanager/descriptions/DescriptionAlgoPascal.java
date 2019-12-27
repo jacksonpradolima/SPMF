@@ -23,10 +23,10 @@ import ca.pfv.spmf.algorithms.frequentpatterns.pascal.AlgoPASCAL;
 */
 
 /**
- * This class describes the AprioriClose algorithm parameters. 
+ * This class describes the Pascal algorithm parameters. 
  * It is designed to be used by the graphical and command line interface.
  * 
- * @see AprioriClose
+ * @see AlgoPASCAL
  * @author Philippe Fournier-Viger
  */
 public class DescriptionAlgoPascal extends DescriptionOfAlgorithm {
@@ -49,7 +49,7 @@ public class DescriptionAlgoPascal extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#pascal";
+		return "http://www.philippe-fournier-viger.com/spmf/Pascal.php";
 	}
 
 	@Override
@@ -58,6 +58,11 @@ public class DescriptionAlgoPascal extends DescriptionOfAlgorithm {
 
 		// Applying the Apriori algorithm, optimized version
 		AlgoPASCAL algo = new AlgoPASCAL();
+		
+		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+			algo.setMaximumPatternLength(getParamAsInteger(parameters[1]));
+		}
+		
 		algo.runAlgorithm(minsup, inputFile, outputFile);
 		algo.printStats();
 	}
@@ -65,8 +70,9 @@ public class DescriptionAlgoPascal extends DescriptionOfAlgorithm {
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[1];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[2];
 		parameters[0] = new DescriptionOfParameter("Minsup (%)", "(e.g. 0.4 or 40%)", Double.class, false);
+		parameters[1] = new DescriptionOfParameter("Max pattern length", "(e.g. 2 items)", Integer.class, true);
 		return parameters;
 	}
 

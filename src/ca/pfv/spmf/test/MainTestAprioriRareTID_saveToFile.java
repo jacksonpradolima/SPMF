@@ -5,7 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
 import ca.pfv.spmf.algorithms.frequentpatterns.aprioriTID_rare.AlgoAprioriTIDrare;
-import ca.pfv.spmf.algorithms.frequentpatterns.apriori_rare.AlgoAprioriRare;
 
 
 /**

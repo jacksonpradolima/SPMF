@@ -44,31 +44,50 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoERMiner {
 	//*** for statistics ***/
-	long timeStart = 0;  // start time of latest execution
-	long timeEnd = 0;  // end time of latest execution
-	int ruleCount; // number of rules generated
+	/** start time of latest execution */
+	long timeStart = 0;  
+	
+	/** end time of latest execution */
+	long timeEnd = 0;  
+	
+	/**  number of rules generated */
+	int ruleCount; 
 	
 	//*** parameters ***/
-	// minimum confidence
+	/** minimum confidence */
 	double minConfidence;
-	// minimum support
+	
+	/** minimum support */
 	int minsuppRelative;
-	// this is the sequence database
+	
+	/** this is the sequence database */
 	SequenceDatabase database;
 	
 	//*** internal variables ***/
-	// This map contains for each item (key) a map of occurences (value).
-	// The map of occurences associates to sequence ID (key), an occurence of the item (value).
-	Map<Integer,  Map<Integer, Occurence>> mapItemCount;  // item, <tid, occurence>
+	/** This map contains for each item (key) a map of occurences (value).
+	// The map of occurences associates to sequence ID (key), an occurence of the item (value). */
+	Map<Integer,  Map<Integer, Occurence>> mapItemCount;  // item, <tid, occurence> 
 
-	// object to write the output file
+	/** object to write the output file */
 	BufferedWriter writer = null; 
 	
+	/** the expandleft store */
 	ExpandLeftStore store = new ExpandLeftStore();
+	
+	/** the sparse matrix */
 	SparseMatrix matrix = new SparseMatrix();
 
+	/** total number of candidtaes */
 	private long totalCandidateCount;
+	
+	/** number of pruned candidates */
 	private long candidatePrunedCount;
+	
+	/** the maximum size of the antecedent of rules (optional) */
+	
+	int maxAntecedentSize = Integer.MAX_VALUE;
+	/**  the maximum size of the consequent of rules (optional) */
+	int maxConsequentSize = Integer.MAX_VALUE;
 
 	/**
 	 * Default constructor
@@ -145,12 +164,15 @@ public class AlgoERMiner {
 		// Then perform another database scan to count the
 		// the support of each item in the same database scan 
 		// and their occurrences.
-		calculateFrequencyOfEachItem(database);	
+		if(maxAntecedentSize > 0 && maxConsequentSize > 0){
+			calculateFrequencyOfEachItem(database);	
+			
+			// =================== CALCULATE MATRIX ==============
+			// for each sequence
+			generateMatrix(database);
+			// =================== 
+		}
 		
-		// =================== CALCULATE MATRIX ==============
-		// for each sequence
-		generateMatrix(database);
-		// =================== 
 		
 		// We will now generate the equivalence classes of rules of size 1*1
 		// We create two maps to store the equivalence classes.
@@ -207,10 +229,11 @@ public class AlgoERMiner {
 					if(confIJ >= minConfidence){
 						saveRule(tidsIJ, confIJ, itemsetI, itemsetJ);
 					}
-					// register the rule in the appropriate equivalence classes
-					registerRule11(intI, intJ, tidsI, tidsJ, tidsIJ, occurencesI, occurencesJ, mapEclassLeft, mapEclassRight);
+					if(maxAntecedentSize >1 || maxConsequentSize > 1){
+						// register the rule in the appropriate equivalence classes
+						registerRule11(intI, intJ, tidsI, tidsJ, tidsIJ, occurencesI, occurencesJ, mapEclassLeft, mapEclassRight);
+					}
 				}
-					
 				// check if J ==> I has enough common tids
 				// If yes, we create the rule J ==> I
 				if(tidsJI.size() >= minsuppRelative){
@@ -228,34 +251,40 @@ public class AlgoERMiner {
 						saveRule(tidsJI, confJI, itemsetJ, itemsetI);
 					}
 					// register the rule in the appropriate equivalence classes
-					registerRule11(intJ, intI, tidsJ,  tidsI, tidsJI, occurencesJ, occurencesI, mapEclassLeft, mapEclassRight);
+					if(maxAntecedentSize > 1 || maxConsequentSize > 1){
+						registerRule11(intJ, intI, tidsJ,  tidsI, tidsJI, occurencesJ, occurencesI, mapEclassLeft, mapEclassRight);
+					}
 				}
 			}
 		}
 
 		// PERFORM EXPAND LEFT FOR EACH LEFT-EQUIVALENCE CLASS OF SIZE 1-1
-		for(LeftEquivalenceClass eclassLeft : mapEclassLeft.values()) {
-			if(eclassLeft.rules.size() != 1) {
-				Collections.sort(eclassLeft.rules, new Comparator<LeftRule>() {
-					public int compare(LeftRule arg0, LeftRule arg1) {
-						return arg0.itemsetI[0] - arg1.itemsetI[0];
-					}});
-
-				expandLeft(eclassLeft);
+		if(maxAntecedentSize >1){
+			for(LeftEquivalenceClass eclassLeft : mapEclassLeft.values()) {
+				if(eclassLeft.rules.size() != 1) {
+					Collections.sort(eclassLeft.rules, new Comparator<LeftRule>() {
+						public int compare(LeftRule arg0, LeftRule arg1) {
+							return arg0.itemsetI[0] - arg1.itemsetI[0];
+						}});
+	
+					expandLeft(eclassLeft);
+				}
 			}
 		}
 		
 		mapEclassLeft = null;
 		
 		// PERFORM EXPAND RIGHT FOR EACH RIGHT-EQUIVALENCE CLASS OF SIZE 1-1
-		for(RightEquivalenceClass eclassRight : mapEclassRight.values()) {
-			if(eclassRight.rules.size() != 1) {
-				Collections.sort(eclassRight.rules, new Comparator<RightRule>() {
-					public int compare(RightRule arg0, RightRule arg1) {
-						return arg0.itemsetJ[0] - arg1.itemsetJ[0];
-					}});
-					
-				expandRight(eclassRight, true);
+		if(maxConsequentSize >1){
+			for(RightEquivalenceClass eclassRight : mapEclassRight.values()) {
+				if(eclassRight.rules.size() != 1) {
+					Collections.sort(eclassRight.rules, new Comparator<RightRule>() {
+						public int compare(RightRule arg0, RightRule arg1) {
+							return arg0.itemsetJ[0] - arg1.itemsetJ[0];
+						}});
+						
+					expandRight(eclassRight, true);
+				}
 			}
 		}
 		
@@ -464,11 +493,13 @@ public class AlgoERMiner {
 						saveRule(tidsIC_J, confIC_J, itemsetIC,  eclass.itemsetJ);
 					}
 		
-					rulesForRecursion.rules.add(newRule);
+					if(newRule.itemsetI.length < maxAntecedentSize){
+						rulesForRecursion.rules.add(newRule);
+					}
 				}
 			}
 			
-			if(rulesForRecursion.rules.size() >1) {
+			if(rulesForRecursion.rules.size() >1  ) {
 				expandLeft(rulesForRecursion);
 			}
 		}
@@ -608,10 +639,16 @@ public class AlgoERMiner {
 					// of the rule
 					RightRule rightRule =
 							new RightRule(itemsetJC, tidsJC, tidsI_JC, occurencesJC);
-					rulesForRecursion.rules.add(rightRule);
-					LeftRule leftRule = new LeftRule(eclass.itemsetI, eclass.tidsI, tidsI_JC);
-					store.register(leftRule, itemsetJC, tidsJC, eclass.occurencesI, occurencesJC); // register for left expansion
-	    		}
+					
+					if(rightRule.itemsetJ.length < maxConsequentSize){
+						rulesForRecursion.rules.add(rightRule);
+					}
+					
+					if(eclass.itemsetI.length < maxAntecedentSize){
+						LeftRule leftRule = new LeftRule(eclass.itemsetI, eclass.tidsI, tidsI_JC);
+						store.register(leftRule, itemsetJC, tidsJC, eclass.occurencesI, occurencesJC); // register for left expansion
+					}
+				}
 			}
 
 			if(rulesForRecursion.rules.size() >1) {
@@ -768,6 +805,24 @@ public class AlgoERMiner {
 		System.out.println("Candidates pruned (%)" + candidatePrunedCount + " of " + totalCandidateCount);
 		System.out.println("Max memory: " + MemoryLogger.getInstance().getMaxMemory());
 		System.out.println("==========================================");
+	}
+
+
+	/**
+	 * Set the number of items that a rule antecedent should contain (optional).
+	 * @param maxAntecedentSize the maximum number of items
+	 */
+	public void setMaxAntecedentSize(int maxAntecedentSize) {
+		this.maxAntecedentSize = maxAntecedentSize;
+	}
+
+
+	/**
+	 * Set the number of items that a rule consequent should contain (optional).
+	 * @param maxConsequentSize the maximum number of items
+	 */
+	public void setMaxConsequentSize(int maxConsequentSize) {
+		this.maxConsequentSize = maxConsequentSize;
 	}
 
 }

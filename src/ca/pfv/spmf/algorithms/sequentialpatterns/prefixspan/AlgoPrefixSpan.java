@@ -430,15 +430,20 @@ public class AlgoPrefixSpan{
 	
 		// if the result should be saved to a file
 		if(writer != null){
+
 			// create a StringBuilder
 			StringBuilder r = new StringBuilder();
 			for(int i=0; i <= lastBufferPosition; i++){
 				r.append(patternBuffer[i]);
 				r.append(" ");
 			}
-			if(containsItemsetsWithMultipleItems == false){
+			//-------------------------------------
+			// PHILIPPE: BUG FIX 2017-10 : some -1 were missing in the output file
+			// for some patterns. This fixes the problem.
+			if(patternBuffer[lastBufferPosition] != -1){
 				r.append("-1 ");
 			}
+			//-------------------------------------
 			r.append("#SUP: ");
 			r.append(pseudoSequences.size());
 			if(showSequenceIdentifiers) {

@@ -22,6 +22,10 @@ public class MainTestVME {
 		
 		// Applying the  algorithm
 		AlgoVME algo = new AlgoVME();
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(2);
+		
 		algo.runAlgorithm(input, output, threshold);
 		algo.printStats();
 	}

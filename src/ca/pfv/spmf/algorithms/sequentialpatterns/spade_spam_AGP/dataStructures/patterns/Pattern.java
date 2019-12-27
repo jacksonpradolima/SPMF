@@ -110,7 +110,7 @@ public class Pattern implements Comparable<Pattern> {
         if(outputSequenceIdentifiers) {
         	result.append(" #SID: ");
         	for (int i = appearingIn.nextSetBit(0); i >= 0; i = appearingIn.nextSetBit(i+1)) {
-        		result.append(i);
+        		result.append(i - 1);  // BUG FIX: PHILIPPE 2017 - we must decrease ids by 1
         		result.append(" ");
         	}
         }

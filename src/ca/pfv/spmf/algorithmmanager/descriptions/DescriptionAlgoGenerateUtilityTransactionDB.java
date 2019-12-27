@@ -64,7 +64,7 @@ public class DescriptionAlgoGenerateUtilityTransactionDB extends DescriptionOfAl
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#genutilvalues";
+		return "http://www.philippe-fournier-viger.com/spmf/Calculating_transaction_database_utility_statistics.php";
 	}
 
 	@Override

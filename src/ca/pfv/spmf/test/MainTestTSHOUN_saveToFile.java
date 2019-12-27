@@ -1,7 +1,6 @@
 package ca.pfv.spmf.test;
 
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
@@ -14,7 +13,7 @@ import ca.pfv.spmf.algorithms.frequentpatterns.tshoun.DatabaseWithPeriods;
  */
 public class MainTestTSHOUN_saveToFile {
 
-	public static void main(String [] arg) throws IOException{
+	public static void main(String [] arg) throws Exception{
 
 		
 		String input = fileToPath("DB_FOSHU.txt");

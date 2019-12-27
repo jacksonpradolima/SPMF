@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.pfv.spmf.algorithms.ArraysAlgos;
-import ca.pfv.spmf.algorithms.timeseries.TimeSeries;
 import ca.pfv.spmf.patterns.cluster.DoubleArray;
 import ca.pfv.spmf.patterns.cluster.DoubleArrayInstance;
 import ca.pfv.spmf.tools.MemoryLogger;

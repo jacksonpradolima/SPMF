@@ -48,7 +48,7 @@ public class DescriptionAlgoFEAT extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#feat";
+		return "http://www.philippe-fournier-viger.com/spmf/FEAT.php";
 	}
 
 	@Override
@@ -64,8 +64,8 @@ public class DescriptionAlgoFEAT extends DescriptionOfAlgorithm {
 				.size()); // we use a minimum support of 2 sequences.
 		
 		boolean outputSeqIdentifiers = false;
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
-			outputSeqIdentifiers = getParamAsBoolean(parameters[1]);
+		if (parameters.length >=2 && "".equals(parameters[2]) == false) {
+			outputSeqIdentifiers = getParamAsBoolean(parameters[2]);
 		}
 
 		algo.setShowSequenceIdentifiers(outputSeqIdentifiers);

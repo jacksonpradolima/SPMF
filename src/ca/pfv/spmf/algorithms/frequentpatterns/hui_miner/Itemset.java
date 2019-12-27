@@ -1,5 +1,7 @@
 package ca.pfv.spmf.algorithms.frequentpatterns.hui_miner;
 
+import java.util.Arrays;
+
  
 public class Itemset {
 	int[] itemset;
@@ -14,7 +16,7 @@ public class Itemset {
 
 //	@Override
 	public String toString() {
-		return itemset.toString() + " utility : " + utility;
+		return Arrays.toString(itemset) + " utility : " + utility;
 	}
 
 }

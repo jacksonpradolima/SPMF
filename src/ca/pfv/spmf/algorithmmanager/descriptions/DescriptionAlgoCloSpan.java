@@ -48,7 +48,7 @@ public class DescriptionAlgoCloSpan extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#clospan";
+		return "http://www.philippe-fournier-viger.com/spmf/CloSpan.php";
 	}
 
 	@Override

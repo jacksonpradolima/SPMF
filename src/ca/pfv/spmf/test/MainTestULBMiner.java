@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
-import ca.pfv.spmf.algorithms.frequentpatterns.hui_miner.AlgoFHM;
 import ca.pfv.spmf.algorithms.frequentpatterns.ulbminer.AlgoULBMiner;
 
 /**

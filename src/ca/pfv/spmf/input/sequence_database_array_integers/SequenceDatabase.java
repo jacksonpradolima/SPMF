@@ -255,7 +255,7 @@ public class SequenceDatabase {
 //	}
 //	// ---------------------- Pour le fomat g�n�r� par seq_data_generator
 //	public void loadFileBinaryFormat(String path, int maxcount) {
-//		// TODO Auto-generated method stub
+
 //		DataInputStream myInput = null;
 //		try {
 //			FileInputStream fin = new FileInputStream(new File(path));

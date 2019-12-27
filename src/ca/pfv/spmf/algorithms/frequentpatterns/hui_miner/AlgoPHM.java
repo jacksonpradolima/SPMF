@@ -119,6 +119,9 @@ public class AlgoPHM {
 	/** the maximumMemoryUsage **/
 	public double maximumMemoryUsage = 0;
 	
+	/** mode to find irregular itemsets */
+	public boolean findingIrregularItemsets = false;
+	
 	
 	/** this class represent an item and its utility in a transaction */
 	class Pair{
@@ -148,8 +151,8 @@ public class AlgoPHM {
 	 * @param minUtility the minimum utility threshold
 	 * @param minPeriodicity the minimum periodicity threshold 
 	 * @param maxPeriodicity the maximum periodicity threshold 
-	 * @param minAveragePeriodicity 
-	 * @param maxAveragePeriodicity2 
+	 * @param minAveragePeriodicity  minimum average periodicity
+	 * @param maxAveragePeriodicity  maximum average periodicity
 	 * @throws IOException exception if error while writing the file
 	 */
 	public void runAlgorithm(String input, String output, int minUtility, int minPeriodicity, int maxPeriodicity, int minAveragePeriodicity, int maxAveragePeriodicity) throws IOException {
@@ -503,6 +506,28 @@ public class AlgoPHM {
 		maximumMemoryUsage = MemoryLogger.getInstance().getMaxMemory();
 	}
 	
+
+	/**
+	 * Run a variation of the PHM algorithm to discover irregular itemsets
+	 * @param input an input database
+	 * @param output an output database
+	 * @param min_utility a minimum utility threshold
+	 * @param regularityThreshold a regularity threshold
+	 * @throws IOException  if error reading or writing to file
+	 */
+	public void runAlgorithmIrregular(String input, String output,
+			int minUtility, int regularityThreshold) throws IOException {
+
+		// Remember that we are in the mode for finding irregular itemsets
+		findingIrregularItemsets = true;
+		
+		// Disable the ESCP optimization because we will not use the average periodicity
+		setEnableESCP(false);
+		
+		// Run the algorithm
+		runAlgorithm(input, output, minUtility, regularityThreshold, Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
+	}
+	
 	/**
 	 * Method to compare items by their TWU
 	 * @param item1 an item
@@ -795,21 +820,27 @@ public class AlgoPHM {
 		// append the utility value
 		buffer.append(" #UTIL: ");
 		buffer.append(utilityList.sumIutils);
-		// append the utility value
-		buffer.append(" #SUP: ");
-		buffer.append(utilityList.getSupport());
 		
-		// append the smallest periodicity 
-		buffer.append(" #MINPER: ");
-		buffer.append(utilityList.smallestPeriodicity);
-		
-		// append the largest periodicity 
-		buffer.append(" #MAXPER: ");
-		buffer.append(utilityList.largestPeriodicity);
-		
-		// append the average periodicity
-		buffer.append(" #AVGPER: ");
-		buffer.append(averagePeriodicity);
+		if(findingIrregularItemsets){
+			// append the largest periodicity 
+			buffer.append(" #REG: ");
+			buffer.append(utilityList.largestPeriodicity);
+		}else{
+			// append the utility value
+			buffer.append(" #SUP: ");
+			buffer.append(utilityList.getSupport());
+			
+			buffer.append(" #MINPER: ");
+			buffer.append(utilityList.smallestPeriodicity);
+			
+			// append the largest periodicity 
+			buffer.append(" #MAXPER: ");
+			buffer.append(utilityList.largestPeriodicity);
+			
+			// append the average periodicity
+			buffer.append(" #AVGPER: ");
+			buffer.append(averagePeriodicity);
+		}
 		
 		// write to file
 		writer.write(buffer.toString());
@@ -849,12 +880,21 @@ public class AlgoPHM {
 		
 		String optimizationEUCP = ENABLE_EUCP ? " EUCP: true -" : " EUCP: false -";
 		String optimizationESCP = ENABLE_ESCP ? " ESCP: true " : " ESCP: false ";
-		System.out.println("=============  PHM ALGORITHM v2.17" 
+		String name = "PHM";
+		String patternType = "Periodic";
+		
+		if(findingIrregularItemsets){
+			name += "_irregular";
+			optimizationESCP = "";
+			patternType = "Irregular";
+		}
+		
+		System.out.println("=============  " + name + " v2.38" 
 		+ optimizationEUCP + optimizationESCP + "=====");
 		System.out.println(" Database size: "                      + (databaseSize)  + " transactions");
 		System.out.println(" Time : " + totalExecutionTime + " ms");
 		System.out.println(" Memory ~ "                      + maximumMemoryUsage + " MB");
-		System.out.println(" Periodic High-utility itemsets count : " + phuiCount); 
+		System.out.println(" " + patternType + " High-utility itemsets count : " + phuiCount); 
 		System.out.println(" Candidate count : "             + candidateCount);
 		
 		if(DEBUG && ENABLE_EUCP) {
@@ -936,5 +976,6 @@ public class AlgoPHM {
 	public void setMaximumLength(int maximumLength) {
 		this.maximumLength = maximumLength;
 	}
+
 
 }

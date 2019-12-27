@@ -23,7 +23,17 @@ public class MainTestTNR {
 		double minConf = 0.5; 
 		int delta =  2;
 		
-		AlgoTNR algo = new AlgoTNR();
+		AlgoTNR algo = new AlgoTNR(); 
+		
+//		// This optional parameter allows to specify the maximum number of items in the 
+//		// left side (antecedent) of rules found:
+		algo.setMaxAntecedentSize(2);  // optional
+//
+//		// This optional parameter allows to specify the maximum number of items in the 
+//		// right side (consequent) of rules found:
+		algo.setMaxConsequentSize(1);  // optional
+		
+		
 		RedBlackTree<RuleG> kRules = algo.runAlgorithm(k, minConf, database,  delta );
 		algo.writeResultTofile(".//output.txt");   // to save results to file
 		

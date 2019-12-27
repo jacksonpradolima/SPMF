@@ -83,7 +83,7 @@ public class UtilityTransactionDatabaseTP {
 	 * Process a line (transaction) from the input file
 	 * @param line  a line
 	 */
-	private void processTransaction(String line[]){
+	private void processTransaction(String[] line){
 		// get the transaction utility
 		int transactionUtility = Integer.parseInt(line[1]);
 		

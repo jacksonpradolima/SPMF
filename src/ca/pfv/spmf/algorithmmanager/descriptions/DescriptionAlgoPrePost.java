@@ -49,7 +49,7 @@ public class DescriptionAlgoPrePost extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#PrePost";
+		return "http://www.philippe-fournier-viger.com/spmf/PrePost.php";
 	}
 
 	@Override

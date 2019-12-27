@@ -159,6 +159,8 @@ public class AlgoDEclat_Bitset extends AlgoEclat_Bitset{
 		// return the new tidset
 		return bitsetSupportIJ;
 	}
+	
+
 
 
 }

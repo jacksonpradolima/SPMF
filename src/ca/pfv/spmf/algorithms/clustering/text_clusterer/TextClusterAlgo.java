@@ -182,7 +182,7 @@ public void printStatistics() {
  */
 private double calculateSimilarity(double[] tfIdfVector1,
 			double[] tfIdfVector2) {
-		// TODO Auto-generated method stub
+
    	double similarity=0;
    	for(int i=0;i<tfIdfVector1.length;i++){
    		similarity+=tfIdfVector1[i]*tfIdfVector2[i];
@@ -198,7 +198,7 @@ private double calculateSimilarity(double[] tfIdfVector1,
  * @return the list of records
  */
 private  ArrayList<Record> loadInput(BufferedReader inputReader, boolean stemFlag, boolean stopWordFlag) {
-	// TODO Auto-generated method stub
+
 	ArrayList<Record> records=new ArrayList<Record>();
 	String currentLine;
 	String[] line;

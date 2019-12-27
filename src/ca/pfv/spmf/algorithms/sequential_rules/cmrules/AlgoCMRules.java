@@ -172,19 +172,20 @@ public class AlgoCMRules {
 		// at the same time calculate the support of each item
 		// as well as the largest item in the dataase
 //		System.out.println("STEP 0");
-		removeItemsThatAreNotFrequent(sequences);
-		
-		// Put items that are frequent in a list that is lexically ordered
-		for(int i=0; i<= maxItemId; i++){
-			// if it is frequent (tidset with size >0)
-			if(mapItemCount.get(i) != null && mapItemCount.get(i).size() >= minCSupRelative){
-				// add to the list
-				listFrequentsSize1.add(i);
+		if(maxLeftSize >=1 && maxRightSize >=1){
+			removeItemsThatAreNotFrequent(sequences);
+			
+			// Put items that are frequent in a list that is lexically ordered
+			for(int i=0; i<= maxItemId; i++){
+				// if it is frequent (tidset with size >0)
+				if(mapItemCount.get(i) != null && mapItemCount.get(i).size() >= minCSupRelative){
+					// add to the list
+					listFrequentsSize1.add(i);
+				}
 			}
+			// sort the list by lexical order
+			Collections.sort(listFrequentsSize1);
 		}
-		
-		// sort the list by lexical order
-		Collections.sort(listFrequentsSize1);
 		
 		// record end time for pre-processing
 		timeEndPreprocessing = System.currentTimeMillis(); // for stats
@@ -218,7 +219,8 @@ public class AlgoCMRules {
 		AlgoAprioriTID_forCMRules apriori = new AlgoAprioriTID_forCMRules(context, matrix);
 		// we don't want itemset having more item that the maximum desired size
 		// for a sequential rules in terms of items
-		apriori.setMaxItemsetSize(maxLeftSize +  maxRightSize);  
+		apriori.setMaxItemsetSize(maxLeftSize +  maxRightSize); 
+		
 		// apply apriori
 		patterns = apriori.runAlgorithm(minCSupRelative, listFrequentsSize1, mapItemCount);
 		// check memory usage

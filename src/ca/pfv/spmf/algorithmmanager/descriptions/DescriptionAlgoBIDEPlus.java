@@ -48,7 +48,7 @@ public class DescriptionAlgoBIDEPlus extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#exampleBIDE";
+		return "http://www.philippe-fournier-viger.com/spmf/BIDEPlus.php";
 	}
 
 	@Override

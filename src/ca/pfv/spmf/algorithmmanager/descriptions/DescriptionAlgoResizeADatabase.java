@@ -49,7 +49,7 @@ public class DescriptionAlgoResizeADatabase extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#resizedatabase";
+		return "http://www.philippe-fournier-viger.com/spmf/Resize_a_database.php";
 	}
 
 	@Override

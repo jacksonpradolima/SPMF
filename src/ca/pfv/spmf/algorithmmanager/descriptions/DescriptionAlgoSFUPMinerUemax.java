@@ -1,6 +1,5 @@
 package ca.pfv.spmf.algorithmmanager.descriptions;
 
-import java.io.File;
 import java.io.IOException;
 
 import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
@@ -51,7 +50,7 @@ public class DescriptionAlgoSFUPMinerUemax extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/documentation.php#sfupmineruemax";
+		return "http://www.philippe-fournier-viger.com/spmf/SFUPMinerUemax.php";
 	}
 
 	@Override

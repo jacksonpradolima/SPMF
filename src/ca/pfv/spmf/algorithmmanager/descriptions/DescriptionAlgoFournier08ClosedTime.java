@@ -49,7 +49,7 @@ public class DescriptionAlgoFournier08ClosedTime extends DescriptionOfAlgorithm 
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#example12";
+		return "http://www.philippe-fournier-viger.com/spmf/ClosedSequentialPatterns_TimeConstraints.php";
 	}
 
 	@Override

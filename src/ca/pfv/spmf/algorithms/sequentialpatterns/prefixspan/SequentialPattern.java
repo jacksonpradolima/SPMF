@@ -28,6 +28,7 @@ import ca.pfv.spmf.patterns.itemset_list_integers_without_support.Itemset;
  * You should have received a copy of the GNU General Public License
  * along with SPMF.  If not, see <http://www.gnu.org/licenses/>.
  */
+ 
 public class SequentialPattern implements Comparable<SequentialPattern>{
 	
 	// the list of itemsets
@@ -35,6 +36,13 @@ public class SequentialPattern implements Comparable<SequentialPattern>{
 	
 	// IDs of sequences containing this pattern
 	private List<Integer> sequencesIds;
+	
+	// whether the sequence was found (used in ProSecCo)
+	private boolean isFound = false;
+	
+	// additional support count for the sequential pattern
+	private int additionalSupport = 0;
+
 	
 	/**
 	 * Set the set of IDs of sequence containing this prefix
@@ -83,6 +91,19 @@ public class SequentialPattern implements Comparable<SequentialPattern>{
 		itemsets.add(itemset);
 	}
 
+	/**
+	 * Copy the sequential pattern
+	 * @return copy of the sequence pattern
+	 */
+	public SequentialPattern copy() {
+		SequentialPattern clone = new SequentialPattern();
+		for (Itemset it : itemsets) {
+			clone.addItemset(it.cloneItemSet());
+		}
+		clone.additionalSupport = this.additionalSupport;
+		clone.sequencesIds = new ArrayList<Integer>(this.sequencesIds);
+		return clone;
+	}
 
 	/**
 	 * Print this sequential pattern to System.out
@@ -181,4 +202,18 @@ public class SequentialPattern implements Comparable<SequentialPattern>{
 
 		return this.hashCode() - o.hashCode();
 	}
+
+	public boolean setIsFound(boolean b) {
+		return isFound;
+		
+	}
+	
+	public boolean isFound() {
+		return isFound;
+	}
+	
+	public void addAdditionalSupport(int additionalSupport) {
+		this.additionalSupport += additionalSupport;
+	}
+
 }

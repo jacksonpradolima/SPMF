@@ -264,8 +264,6 @@ public class CPTPredictor_POC extends Predictor {
 		
 			HashSet<Integer> hashSidVisited = new HashSet<Integer>();  // PFV
 			
-			//TODO: use those as global parameters
-			//TODO: int minSize = (target.size() > 3) ? target.size() - 3 : 1;
 			//int minSize = (target.size() > 3) ? target.size() - 3 : 1;
 			int minSize = target.size() - i;
 			boolean useLift = false;

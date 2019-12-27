@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfParameter;
-import ca.pfv.spmf.algorithms.frequentpatterns.apriori.AlgoApriori;
 import ca.pfv.spmf.algorithms.frequentpatterns.vme.AlgoVME;
 /* This file is copyright (c) 2008-2016 Philippe Fournier-Viger
 * 
@@ -24,10 +23,10 @@ import ca.pfv.spmf.algorithms.frequentpatterns.vme.AlgoVME;
 */
 
 /**
- * This class describes the Apriori algorithm parameters. 
+ * This class describes the VME algorithm parameters. 
  * It is designed to be used by the graphical and command line interface.
  * 
- * @see AlgoApriori
+ * @see AlgoVME
  * @author Philippe Fournier-Viger
  */
 public class DescriptionAlgoVME extends DescriptionOfAlgorithm {
@@ -50,7 +49,7 @@ public class DescriptionAlgoVME extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#erasable";
+		return "http://www.philippe-fournier-viger.com/spmf/vme.php";
 	}
 
 	@Override
@@ -59,6 +58,11 @@ public class DescriptionAlgoVME extends DescriptionOfAlgorithm {
 
 		// Applying the algorithm
 		AlgoVME algo = new AlgoVME();
+		
+		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+			algo.setMaximumPatternLength(getParamAsInteger(parameters[1]));
+		}
+		
 		algo.runAlgorithm(inputFile, outputFile, threshold);
 		algo.printStats();
 	}
@@ -66,8 +70,9 @@ public class DescriptionAlgoVME extends DescriptionOfAlgorithm {
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[1];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[2];
 		parameters[0] = new DescriptionOfParameter("Threshold (%)", "(e.g. 0.15 or 15%)", Double.class, false);
+		parameters[1] = new DescriptionOfParameter("Max pattern length", "(e.g. 2 items)", Integer.class, true);
 		return parameters;
 	}
 

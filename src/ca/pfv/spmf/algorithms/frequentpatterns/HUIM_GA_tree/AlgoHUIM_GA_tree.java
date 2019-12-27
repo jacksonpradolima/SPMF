@@ -45,7 +45,7 @@ public class AlgoHUIM_GA_tree {
 	long startTimestamp = 0; // the time the algorithm started
 	long endTimestamp = 0; // the time the algorithm terminated
 	final int pop_size = 20;// the size of populations
-	final int iterations = 10000;// the iterations of algorithms
+	final int iterations = 2000;// the iterations of algorithms
 
 	Map<Integer, Integer> mapItemToTWU;
 	List<Integer> twuPattern;// the items which has twu value more than minUtil
@@ -62,6 +62,7 @@ public class AlgoHUIM_GA_tree {
 	class ChroNode {
 		List<Integer> chromosome;// the chromosome
 		int fitness;// fitness value of chromosome
+		double rfitness;//�����Ӧ������ѡ��Ⱦɫ����н������
 		int rank;// the rank of chromosome's fitness in population
 
 		public ChroNode() {
@@ -73,6 +74,12 @@ public class AlgoHUIM_GA_tree {
 			for (int i = 0; i < length; i++) {
 				chromosome.add(i, 0);
 			}
+		}
+		public void deepCopy(ChroNode chroNode1){
+			for(int i=0;i<chroNode1.chromosome.size();++i){
+				this.chromosome.set(i, chroNode1.chromosome.get(i).intValue());
+			}
+			this.fitness=chroNode1.fitness;
 		}
 	}
 
@@ -179,9 +186,12 @@ public class AlgoHUIM_GA_tree {
 			}
 		}
 
-		twuPattern = new ArrayList<Integer>(mapItemToTWU.keySet());
-		Collections.sort(twuPattern);
-
+		//���������д�����Դ�����еģ�Ȼ�������д��������Ǵ����
+		//���뱾����twuPattern����HTWU-1item�����²�����û�дﵽ���Ŀ��
+		/*twuPattern = new ArrayList<Integer>(mapItemToTWU.keySet());
+		Collections.sort(twuPattern);*/
+		
+		
 		// SECOND DATABASE PASS TO CONSTRUCT THE DATABASE
 		// OF 1-ITEMSETS HAVING TWU >= minutil (promising items)
 		try {
@@ -238,6 +248,17 @@ public class AlgoHUIM_GA_tree {
 				myInput.close();
 			}
 		}
+		
+		twuPattern = new ArrayList<Integer>(mapItemToTWU.keySet());//����������ݴ�list���б���
+		Collections.sort(twuPattern);//���ֵ�����
+		
+		for(int i=0;i<twuPattern.size();++i){
+			if(mapItemToTWU.get(twuPattern.get(i))<minUtility){
+				twuPattern.remove(i);
+				--i;
+			}
+		}
+		
 		// check the memory usage
 		checkMemory();
 
@@ -263,14 +284,15 @@ public class AlgoHUIM_GA_tree {
 			for (int i = 0; i < iterations; i++) {
 				// the portation of twu value of each 1-HTWUIs in sum of twu
 				// value
-				percentage = roulettePercent();
+				//percentage = roulettePercent();
 				// update subPopulation and HUIset
+				calculateRfitness();
 				while (subPopulation.size() < pop_size) {
 					// selection
-					temp1 = select(percentage);
-					temp2 = select(percentage);
+					temp1 = selectChromosome();
+					temp2 = selectChromosome();
 					while (temp1 == temp2) {
-						temp2 = select(percentage);
+						temp2 = selectChromosome();
 					}
 					// crossover
 					crossover(temp1, temp2, minUtility);
@@ -453,56 +475,6 @@ public class AlgoHUIM_GA_tree {
 			i++;
 		}
 	}
-
-	/**
-	 * Method to initial percentage
-	 * 
-	 * @return percentage
-	 */
-	private List<Double> roulettePercent() {
-		int i, sum = 0, tempSum = 0;
-		double tempPercent;
-
-		// calculate the sum of twu value of each 1-HTWUIs
-		for (i = 0; i < twuPattern.size(); i++) {
-			sum = sum + mapItemToTWU.get(twuPattern.get(i));
-		}
-		// calculate the portation of twu value of each item in sum
-		for (i = 0; i < twuPattern.size(); i++) {
-			tempSum = tempSum + mapItemToTWU.get(twuPattern.get(i));
-			tempPercent = tempSum / (sum + 0.0);
-			percentage.add(tempPercent);
-		}
-		return percentage;
-	}
-
-	/**
-	 * Method to roulette select chromosome to crossover
-	 * 
-	 * @param percentage
-	 *            the portation of twu value of each 1-HTWUIs in sum of twu
-	 *            value
-	 * @return the position of 1
-	 */
-	private int select(List<Double> percentage) {
-		int i, temp = 0;
-		double randNum;
-		randNum = Math.random();
-		for (i = 0; i < percentage.size(); i++) {
-			if (i == 0) {
-				if ((randNum >= 0) && (randNum <= percentage.get(0))) {
-					temp = 0;
-					break;
-				}
-			} else if ((randNum > percentage.get(i - 1))
-					&& (randNum <= percentage.get(i))) {
-				temp = i;
-				break;
-			}
-		}
-		return temp;
-	}
-
 	/**
 	 * Method to crossover population[temp1] and population[temp2]
 	 * 
@@ -792,6 +764,45 @@ public class AlgoHUIM_GA_tree {
 			}
 		}
 		return fitness;
+	}
+	/**
+	 * ����Ⱦɫ����Ϣ��rfitness
+	 */
+	public void calculateRfitness(){
+		int sum=0;
+		int temp=0;
+		//�ϼ���Ӧֵ
+		for(int i=0; i< population.size();++i){
+			sum =sum+population.get(i).fitness;
+		}
+		//��������
+		for(int i=0; i< population.size();++i){
+			temp =temp+population.get(i).fitness;
+			population.get(i).rfitness= temp/(sum+0.0);
+		}
+	}
+	
+	/**
+	 * ѡ��Ⱦɫ����н������
+	 * @return
+	 */
+	private int selectChromosome() {
+		int i, temp = 0;
+		double randNum;
+		randNum = Math.random();
+		for (i = 0; i < population.size(); i++) {
+			if (i == 0) {
+				if ((randNum >= 0) && (randNum <= population.get(0).rfitness)) {
+					temp = 0;
+					break;
+				}
+			} else if ((randNum > population.get(i - 1).rfitness)
+					&& (randNum <= population.get(i).rfitness)) {
+				temp = i;
+				break;
+			}
+		}
+		return temp;
 	}
 
 	/**

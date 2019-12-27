@@ -40,7 +40,7 @@ public class DescriptionAlgoULBMiner extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getName() {
-		return "ULBMiner";
+		return "ULB-Miner";
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class DescriptionAlgoULBMiner extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#ulbminer";
+		return "http://www.philippe-fournier-viger.com/spmf/ULBMiner.php";
 	}
 
 	@Override

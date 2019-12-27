@@ -49,7 +49,7 @@ public class DescriptionAlgoCMDeo extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#cmdeo";
+		return "http://www.philippe-fournier-viger.com/spmf/CMDeo.php";
 	}
 
 	@Override
@@ -57,6 +57,14 @@ public class DescriptionAlgoCMDeo extends DescriptionOfAlgorithm {
 		double minsup = getParamAsDouble(parameters[0]);
 		double minconf = getParamAsDouble(parameters[1]);
 		AlgoCMDeogun algo = new AlgoCMDeogun();
+		
+		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+			algo.setMaxLeftSize(getParamAsInteger(parameters[2]));
+		}
+		if (parameters.length >=4 && "".equals(parameters[3]) == false) {
+			algo.setMaxRightSize(getParamAsInteger(parameters[3]));
+		}
+		
 		algo.runAlgorithm(inputFile, outputFile, minsup, minconf);
 		algo.printStats();
 	}
@@ -64,9 +72,11 @@ public class DescriptionAlgoCMDeo extends DescriptionOfAlgorithm {
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[2];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[4];
 		parameters[0] = new DescriptionOfParameter("Minsup (%)", "(e.g. 0.5 or 50%)", Double.class, false);
 		parameters[1] = new DescriptionOfParameter("Minconf (%)", "(e.g. 0.6 or 60%)", Double.class, false);
+		parameters[2] = new DescriptionOfParameter("Max antecedent size", "(e.g. 1 items)", Integer.class, true);
+		parameters[3] = new DescriptionOfParameter("Max consequent size", "(e.g. 2 items)", Integer.class, true);
 		return parameters;
 	}
 

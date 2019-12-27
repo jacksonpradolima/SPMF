@@ -52,7 +52,7 @@ public class DescriptionAlgoSeqDIMPRefixSpanApriori extends DescriptionOfAlgorit
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#exampleMDSPM1";
+		return "http://www.philippe-fournier-viger.com/spmf/MultiDimensional_SequentialPatterns.php";
 	}
 
 	@Override

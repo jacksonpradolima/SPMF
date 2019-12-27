@@ -21,6 +21,10 @@ public class MainTestHMine {
 		
 		// Applying the  algorithm
 		AlgoHMine algorithm = new AlgoHMine();
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+		algorithm.setMaximumPatternLength(4);
+		
 		algorithm.runAlgorithm(input, output, minsup);
 		algorithm.printStats();
 	}

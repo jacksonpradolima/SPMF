@@ -50,7 +50,7 @@ public class DescriptionAlgoAprioriAssociationRules extends DescriptionOfAlgorit
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/documentation.php#allassociationrules";
+		return "http://www.philippe-fournier-viger.com/spmf/AssociationRules.php";
 	}
 
 	@Override

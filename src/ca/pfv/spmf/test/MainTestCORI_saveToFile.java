@@ -40,8 +40,11 @@ public class MainTestCORI_saveToFile {
 //		// Set this variable to true to show the transaction identifiers where patterns appear in the output file
 //		algo.setShowTransactionIdentifiers(true);	
 		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(3);
+		
 		algo.runAlgorithm(output, database, minsup, minbond, false);
-		// if you change use "true" in the line above, ECLAT will use
+		// if you change use "true" in the line above, the algorithm will use
 		// a triangular matrix  for counting support of itemsets of size 2.
 		// For some datasets it should make the algorithm faster.
 		

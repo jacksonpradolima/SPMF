@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfParameter;
+import ca.pfv.spmf.algorithms.sequential_rules.topseqrules_and_tns.AlgoTopSeqClassRules;
+import ca.pfv.spmf.algorithms.sequential_rules.topseqrules_and_tns.AlgoTopSeqRules;
 /* This file is copyright (c) 2008-2016 Philippe Fournier-Viger
 * 
 * This file is part of the SPMF DATA MINING SOFTWARE
@@ -20,13 +22,12 @@ import ca.pfv.spmf.algorithmmanager.DescriptionOfParameter;
 * You should have received a copy of the GNU General Public License along with
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
-import ca.pfv.spmf.algorithms.sequential_rules.topseqrules_and_tns.AlgoTopSeqRules;
 
 /**
  * This class describes the TopSeqRules algorithm parameters. 
  * It is designed to be used by the graphical and command line interface.
  * 
- * @see AlgoTopSeqRules
+ * @see AlgoTopSeqClassRules
  * @author Philippe Fournier-Viger
  */
 public class DescriptionAlgoTopSeqRules extends DescriptionOfAlgorithm {
@@ -49,7 +50,7 @@ public class DescriptionAlgoTopSeqRules extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#topseqrules";
+		return "http://www.philippe-fournier-viger.com/spmf/TopSeqRules.php";
 	}
 
 	@Override
@@ -61,6 +62,14 @@ public class DescriptionAlgoTopSeqRules extends DescriptionOfAlgorithm {
 		sequenceDatabase.loadFile(inputFile);
 
 		AlgoTopSeqRules algo = new AlgoTopSeqRules();
+		
+		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+			algo.setMaxAntecedentSize(getParamAsInteger(parameters[2]));
+		}
+		if (parameters.length >=4 && "".equals(parameters[3]) == false) {
+			algo.setMaxConsequentSize(getParamAsInteger(parameters[3]));
+		}
+		
 		algo.runAlgorithm(k, sequenceDatabase, minconf);
 		algo.printStats();
 		algo.writeResultTofile(outputFile); // to save results to file
@@ -69,9 +78,11 @@ public class DescriptionAlgoTopSeqRules extends DescriptionOfAlgorithm {
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[2];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[4];
 		parameters[0] = new DescriptionOfParameter("k", "(e.g. 3 patterns)", Integer.class, false);
 		parameters[1] = new DescriptionOfParameter("Minconf (%)", "(e.g. 0.8 or 80%)", Double.class, false);
+		parameters[2] = new DescriptionOfParameter("Max antecedent size", "(e.g. 1 items)", Integer.class, true);
+		parameters[3] = new DescriptionOfParameter("Max consequent size", "(e.g. 2 items)", Integer.class, true);
 		return parameters;
 	}
 

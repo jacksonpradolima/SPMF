@@ -50,7 +50,7 @@ public class DescriptionAlgoSPAM_AGP extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#spam";
+		return "http://www.philippe-fournier-viger.com/spmf/SPAM.php";
 	}
 
 	@Override

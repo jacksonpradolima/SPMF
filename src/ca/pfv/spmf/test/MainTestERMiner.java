@@ -23,6 +23,15 @@ public class MainTestERMiner {
 		int minsup_relative = 3;
 		double minconf = 0.5;
 		AlgoERMiner algo = new AlgoERMiner();
+		
+//		// This optional parameter allows to specify the maximum number of items in the 
+//		// left side (antecedent) of rules found:
+//		algo.setMaxAntecedentSize(1);  // optional
+////
+////		// This optional parameter allows to specify the maximum number of items in the 
+////		// right side (consequent) of rules found:
+//		algo.setMaxConsequentSize(3);  // optional
+		
 		algo.runAlgorithm(input, output, minsup_relative, minconf);
 		
 		// If you want to use an absolute support (percentage value), use

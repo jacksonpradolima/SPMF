@@ -50,7 +50,7 @@ public class DescriptionAlgoDEclatBitset extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#e1";
+		return "http://www.philippe-fournier-viger.com/spmf/Eclat_dEclat.php";
 	}
 
 	@Override
@@ -66,6 +66,11 @@ public class DescriptionAlgoDEclatBitset extends DescriptionOfAlgorithm {
 		}
 
 		AlgoDEclat_Bitset algo = new AlgoDEclat_Bitset();
+		
+		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+			algo.setMaximumPatternLength(getParamAsInteger(parameters[1]));
+		}
+		
 		algo.runAlgorithm(outputFile, database, minsup, true);
 		algo.printStats();
 	}
@@ -73,8 +78,9 @@ public class DescriptionAlgoDEclatBitset extends DescriptionOfAlgorithm {
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[1];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[2];
 		parameters[0] = new DescriptionOfParameter("Minsup (%)", "(e.g. 0.4 or 40%)", Double.class, false);
+		parameters[1] = new DescriptionOfParameter("Max pattern length", "(e.g. 2 items)", Integer.class, true);		
 		return parameters;
 	}
 

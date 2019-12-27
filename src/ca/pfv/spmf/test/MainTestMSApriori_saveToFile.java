@@ -20,9 +20,13 @@ public class MainTestMSApriori_saveToFile {
 		double LS=0.2;
 		
 		// Applying the MSApriori algorithm
-		AlgoMSApriori apriori = new AlgoMSApriori();
-		apriori.runAlgorithm(input, output, beta, LS);
-		apriori.printStats();
+		AlgoMSApriori algo = new AlgoMSApriori();
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(3);
+		
+		algo.runAlgorithm(input, output, beta, LS);
+		algo.printStats();
 	}
 	
 	public static String fileToPath(String filename) throws UnsupportedEncodingException{

@@ -1,6 +1,6 @@
 package ca.pfv.spmf.gui;
 /*
- * Copyright (c) 2008-2015 Philippe Fournier-Viger
+ * Copyright (c) 2008-2018 Philippe Fournier-Viger
  *
  * This file is part of the SPMF DATA MINING SOFTWARE
  * (http://www.philippe-fournier-viger.com/spmf).
@@ -22,15 +22,16 @@ import java.lang.reflect.Method;
 import ca.pfv.spmf.algorithmmanager.AlgorithmManager;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
 
+
 /**
  * This is a simple user interface to run the main algorithms in SPMF.
  * 
- * @author Philippe Fournier-Viger
+ * @author Philippe Fournier-Viger 2018
  */
 public class Main {
 
     // variable for the current version of SPMF
-    public static String SPMF_VERSION = "2.19";
+    public final static String SPMF_VERSION = "2.40";
     
     /**
      * Method to launch the software. If there are command line arguments, it
@@ -49,12 +50,13 @@ public class Main {
     	// If there are command line arguments, we don't launch
         // the user interface. It means that the user is using
         // the command line.
+
         if (args.length != 0) {
         	// process command line arguments.
         	processCommandLineArguments(args); 
         } else {
             // Else, we launch the graphical user interface.
-        	MainWindow mainWindow = new MainWindow();
+        	MainWindow mainWindow = new MainWindow(true, true);
         	mainWindow.setVisible(true);
         }
     }
@@ -114,8 +116,8 @@ public class Main {
 	            }
 	            
 	            // create an array to store the parameters of the algorithm
-	            String parameters[];
-	            // copy the arguments in the array of parameters:
+				String[] parameters;
+				// copy the arguments in the array of parameters:
 	            if (args.length > i) {
 	            	parameters = new String[args.length - i];
 	                System.arraycopy(args, i, parameters, 0, args.length - i);
@@ -129,7 +131,7 @@ public class Main {
             }catch (NumberFormatException e) {
                 System.out.println("Error. Please check the parameters of the algorithm.  The format for numbers is incorrect. \n"
                         + "\n ERROR MESSAGE = " + e.toString());
-            } catch (Throwable e) {
+            } catch (Exception e) {
             	System.out.println("An error while trying to run the algorithm. \n ERROR MESSAGE = " + e.toString());
                 e.printStackTrace();
             }

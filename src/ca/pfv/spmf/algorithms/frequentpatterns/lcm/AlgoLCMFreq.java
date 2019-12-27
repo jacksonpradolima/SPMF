@@ -74,7 +74,7 @@ public class AlgoLCMFreq {
 	private int[] itemsetOutputBuffer = null;
 	
 	/** This buffer is used to store the locally frequent items in a projected database*/
-	private int[] locallyFrequentItemsBuffer = null;
+//	private int[] locallyFrequentItemsBuffer = null;
 	
 	/** Buckets for occurence delivery 
 	* Recall that each bucket correspond to an item
@@ -85,6 +85,9 @@ public class AlgoLCMFreq {
 //	/** a class to convert old item name to new item names according to
 //	 * the total oder for optimization **/
 //	ItemNameConverter nameConverter;
+	
+	/** Special parameter to set the maximum size of itemsets to be discovered */
+	int maxItemsetSize = Integer.MAX_VALUE;
 
     public AlgoLCMFreq() {
          
@@ -125,45 +128,47 @@ public class AlgoLCMFreq {
 		// by the database size
 		this.minsupRelative = (int) Math.ceil(minimumSupport * dataset.getTransactions().size());
     	
-        // Create the initial occurrence array for the dataset
-        performFirstOccurenceDelivery(dataset);
-        
-        //======
-        // Remove infrequent items from transactions by using support calculated using
-        // the buckets. Recall that each bucket correspond to an item
-        // and contains the transactions where the items appears.
-    	for(Transaction transaction : dataset.getTransactions()) {
-    		transaction.removeInfrequentItems(buckets, minsupRelative);
-    	}
-    	
-    	//======
-    	// Create the array of all frequent items.
-    	List<Integer> allItems = new ArrayList<Integer>();
-    	for(Integer item : dataset.getUniqueItems()) {
-    		if(buckets[item].size() >= minsupRelative) {
-    			allItems.add(item);
-    		}
-    	}
-    	// Sort all items
-    	Collections.sort(allItems);
-    	
-		// We rename the items according to the lexicographical order.
-		// This is an optimization that will allow us very fast comparison
-		// of items according to the total order.
-//		nameConverter = new ItemNameConverter(allItems.size());
-//		// for each item
-//		for(int i = 0; i < allItems.size(); i++) {
-//			int item = allItems.get(i);
-//			int newName = nameConverter.assignNewName(item);
-//			// we rename the item with a new name
-//			allItems.set(i, newName);
-//		}
+		if(maxItemsetSize >=1){
+	        // Create the initial occurrence array for the dataset
+	        performFirstOccurenceDelivery(dataset);
+	        
+	        //======
+	        // Remove infrequent items from transactions by using support calculated using
+	        // the buckets. Recall that each bucket correspond to an item
+	        // and contains the transactions where the items appears.
+	    	for(Transaction transaction : dataset.getTransactions()) {
+	    		transaction.removeInfrequentItems(buckets, minsupRelative);
+	    	}
+	    	
+	    	//======
+	    	// Create the array of all frequent items.
+	    	List<Integer> allItems = new ArrayList<Integer>();
+	    	for(Integer item : dataset.getUniqueItems()) {
+	    		if(buckets[item].size() >= minsupRelative && maxItemsetSize >=1) {
+	    			allItems.add(item);
+	    		}
+	    	}
+	    	// Sort all items
+	    	Collections.sort(allItems);
+	    	
+			// We rename the items according to the lexicographical order.
+			// This is an optimization that will allow us very fast comparison
+			// of items according to the total order.
+//			nameConverter = new ItemNameConverter(allItems.size());
+//			// for each item
+//			for(int i = 0; i < allItems.size(); i++) {
+//				int item = allItems.get(i);
+//				int newName = nameConverter.assignNewName(item);
+//				// we rename the item with a new name
+//				allItems.set(i, newName);
+//			}
+	    	
+	    	//======
+	        // Call the recursive method witht the empty set as prefix.
+	        // Since it is the empty set, we will have all transactions and no frequency count
+	        backtrackingLCMFreq(itemsetBuffer, 0, dataset.getTransactions(), allItems);
+		}
 
-    	//======
-        // Call the recursive method witht the empty set as prefix.
-        // Since it is the empty set, we will have all transactions and no frequency count
-        backtrackingLCMFreq(itemsetBuffer, 0, dataset.getTransactions(), allItems);
-        
 		// record the end time
 		endTimestamp = System.currentTimeMillis();
 		//close the output file
@@ -201,27 +206,30 @@ public class AlgoLCMFreq {
 			// First append item "e" to p
 			p[pLength] = e;
 
-	        // ===== save the frequent closed itemset
+	        // ===== save the frequent itemset
 	    	int supportPe = transactionsPe.size();
 			output(p, pLength+1, supportPe);
-
-			//==== perform database reduction ====
-			anyTimeDatabaseReductionFreq(transactionsPe, j, frequentItems, p, pLength, e); 
-			
-	    	// ================ Find frequent items in transactions containing P ============
-	        // Get all frequent items e such that e > tailOfP  
-	    	// (i.e. "e" appears after the position of the tail item in the list of all items)
-			List<Integer> newFrequentItems = new ArrayList<Integer>();
-	    	for (int k = j+1; k < frequentItems.size(); k++) {
-	        	Integer itemK =  frequentItems.get(k);
-	        	int supportK = buckets[itemK].size();
-	            if(supportK >= minsupRelative) {
-	            	newFrequentItems.add(itemK);
-	            }
-	        }
 			
 			// === recursive call
-			backtrackingLCMFreq(p, pLength+1, transactionsPe, newFrequentItems);
+	    	if(pLength+2 <= maxItemsetSize){
+	
+				//==== perform database reduction ====
+				anyTimeDatabaseReductionFreq(transactionsPe, j, frequentItems, p, pLength, e); 
+				
+		    	// ================ Find frequent items in transactions containing P ============
+		        // Get all frequent items e such that e > tailOfP  
+		    	// (i.e. "e" appears after the position of the tail item in the list of all items)
+				List<Integer> newFrequentItems = new ArrayList<Integer>();
+		    	for (int k = j+1; k < frequentItems.size(); k++) {
+		        	Integer itemK =  frequentItems.get(k);
+		        	int supportK = buckets[itemK].size();
+		            if(supportK >= minsupRelative) {
+		            	newFrequentItems.add(itemK);
+		            }
+		        }
+				
+				backtrackingLCMFreq(p, pLength+1, transactionsPe, newFrequentItems);
+	    	}
 		}
 
 		MemoryLogger.getInstance().checkMemory();
@@ -427,4 +435,13 @@ public class AlgoLCMFreq {
 		System.out.println(" Max memory:" + MemoryLogger.getInstance().getMaxMemory());
 		System.out.println("=====================================");
 	}
+
+	/** 
+	 * Set the maximum pattern length
+	 * @param length the maximum length
+	 */
+	public void setMaximumPatternLength(int length) {
+		this.maxItemsetSize = length;
+	}
+
 }

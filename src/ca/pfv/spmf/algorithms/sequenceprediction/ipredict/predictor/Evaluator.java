@@ -109,7 +109,7 @@ public class Evaluator {
 			String format = datasets.get(i);
 			
 			//Loading the parameter profile
-			ProfileManager.loadProfileByName(format.toString());
+			ProfileManager.loadProfileByName(format);
 			
 			//Loading the dataset
 			database.loadDataset(format, maxCount);

@@ -23,10 +23,10 @@ import ca.pfv.spmf.algorithms.frequentpatterns.MSApriori.AlgoMSApriori;
 */
 
 /**
- * This class describes the AprioriClose algorithm parameters. 
+ * This class describes the MSApriori algorithm parameters. 
  * It is designed to be used by the graphical and command line interface.
  * 
- * @see AprioriClose
+ * @see AlgoMSApriori
  * @author Philippe Fournier-Viger
  */
 public class DescriptionAlgoMSApriori extends DescriptionOfAlgorithm {
@@ -49,7 +49,7 @@ public class DescriptionAlgoMSApriori extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#msapriori";
+		return "http://www.philippe-fournier-viger.com/spmf/MsApriori.php";
 	}
 
 	@Override
@@ -58,17 +58,23 @@ public class DescriptionAlgoMSApriori extends DescriptionOfAlgorithm {
 		double ls = getParamAsDouble(parameters[1]);
 
 		// Applying the MSApriori algorithm
-		AlgoMSApriori apriori = new AlgoMSApriori();
-		apriori.runAlgorithm(inputFile, outputFile, beta, ls);
-		apriori.printStats();
+		AlgoMSApriori algorithm = new AlgoMSApriori();
+		
+		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+			algorithm.setMaximumPatternLength(getParamAsInteger(parameters[2]));
+		}
+		
+		algorithm.runAlgorithm(inputFile, outputFile, beta, ls);
+		algorithm.printStats();
 	}
 
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[2];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[3];
 		parameters[0] = new DescriptionOfParameter("Beta", "(e.g. 0.4 or 40%)", Double.class, false);
 		parameters[1] = new DescriptionOfParameter("LS", "(e.g. 0.2 or 20%)", Double.class, false);
+		parameters[2] = new DescriptionOfParameter("Max pattern length", "(e.g. 2 items)", Integer.class, true);
 		return parameters;
 	}
 

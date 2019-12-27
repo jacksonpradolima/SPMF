@@ -87,6 +87,9 @@ public class AlgoHMine {
 	 * the total oder for optimization **/
 	ItemNameConverter nameConverter;
 	
+	/** Special parameter to set the maximum size of itemsets to be discovered */
+	int maxItemsetSize = Integer.MAX_VALUE;
+	
 	/**
 	 * Default constructor
 	 */
@@ -124,42 +127,44 @@ public class AlgoHMine {
 		int itemOccurrencesCount = 0;
 		// this variable will count the number of transactions
 		int transactionCount = 0;
-		try {
-			// prepare the object for reading the file
-			myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
-			// for each line (transaction) until the end of file
-			while ((thisLine = myInput.readLine()) != null) {
-				// if the line is  a comment, is  empty or is a
-				// kind of metadata
-				if (thisLine.isEmpty() == true ||
-						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
-								|| thisLine.charAt(0) == '@') {
-					continue;
+		if(maxItemsetSize >=1){
+			try {
+				// prepare the object for reading the file
+				myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+				// for each line (transaction) until the end of file
+				while ((thisLine = myInput.readLine()) != null) {
+					// if the line is  a comment, is  empty or is a
+					// kind of metadata
+					if (thisLine.isEmpty() == true ||
+							thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
+									|| thisLine.charAt(0) == '@') {
+						continue;
+					}
+					
+					// the first part is the list of items
+					String items[] = thisLine.split(" "); 
+					// for each item, we update its support
+					for(int i=0; i <items.length; i++){
+						// convert item to integer
+						Integer item = Integer.parseInt(items[i]);
+						// get the current support of that item
+						Integer support = mapItemToSupport.get(item);
+						// add 1 to the support of this item
+						support = (support == null)? 1 : support + 1;
+						mapItemToSupport.put(item, support);
+						itemOccurrencesCount++;
+					}
+					transactionCount++;
 				}
-				
-				// the first part is the list of items
-				String items[] = thisLine.split(" "); 
-				// for each item, we update its support
-				for(int i=0; i <items.length; i++){
-					// convert item to integer
-					Integer item = Integer.parseInt(items[i]);
-					// get the current support of that item
-					Integer support = mapItemToSupport.get(item);
-					// add 1 to the support of this item
-					support = (support == null)? 1 : support + 1;
-					mapItemToSupport.put(item, support);
-					itemOccurrencesCount++;
+			} catch (Exception e) {
+				// catches exception if error while reading the input file
+				e.printStackTrace();
+			}finally {
+				if(myInput != null){
+					myInput.close();
 				}
-				transactionCount++;
-			}
-		} catch (Exception e) {
-			// catches exception if error while reading the input file
-			e.printStackTrace();
-		}finally {
-			if(myInput != null){
-				myInput.close();
-			}
-	    }
+		    }
+		}
 		
 		// convert from an absolute minsup to a relative minsup by multiplying
 		// by the database size
@@ -210,79 +215,83 @@ public class AlgoHMine {
 			// we rename the item with a new name
 			row.item = nameConverter.assignNewName(row.item);
 		}
-		
-		// SECOND DATABASE PASS TO FILL THE INITIAL HStruct
-		// OF 1-ITEMSETS  HAVING support  >= minsup (promising items)
-		// The HStruct is composed of two parts:
-		// - An array of cells representing the transactions
-		// - The table (a list of rows) of the HStruct, which also includes the pointers
-		// between the transactions
-		cells[0] = -1;
-		// This variable is the current insertion position in the cell array
-		// We start at 0
-		int currentCellIndex = 0;
-		try {
-			// prepare object for reading the file
-			myInput = new BufferedReader(new InputStreamReader(new FileInputStream(new File(input))));
 
-			// for each line (transaction) until the end of file
-			while ((thisLine = myInput.readLine()) != null) {
-				// if the line is  a comment, is  empty or is a
-				// kind of metadata
-				if (thisLine.isEmpty() == true ||
-						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
-								|| thisLine.charAt(0) == '@') {
-					continue;
-				}
-				
-				// get the list of items
-				String items[] = thisLine.split(" ");
-				
-				
-				// record the position of the first item of the current transaction
-				// in the cell array
-				int transactionBegin = currentCellIndex;
-				// For each item, create its cell in the cell array
-				for(int i=0; i <items.length; i++){
-					int item = Integer.parseInt(items[i]);
-					// if the item has enough support
-					if(mapItemToSupport.get(item) >= this.minSupport){
-						// add it to the current transaction in the list
-						// of transactions, where each item is represented by a cell
-						cells[currentCellIndex++] = nameConverter.toNewName(item);
+		if(maxItemsetSize >=1){
+			
+			// SECOND DATABASE PASS TO FILL THE INITIAL HStruct
+			// OF 1-ITEMSETS  HAVING support  >= minsup (promising items)
+			// The HStruct is composed of two parts:
+			// - An array of cells representing the transactions
+			// - The table (a list of rows) of the HStruct, which also includes the pointers
+			// between the transactions
+			cells[0] = -1;
+			// This variable is the current insertion position in the cell array
+			// We start at 0
+			int currentCellIndex = 0;
+			
+			try {
+				// prepare object for reading the file
+				myInput = new BufferedReader(new InputStreamReader(new FileInputStream(new File(input))));
+	
+				// for each line (transaction) until the end of file
+				while ((thisLine = myInput.readLine()) != null) {
+					// if the line is  a comment, is  empty or is a
+					// kind of metadata
+					if (thisLine.isEmpty() == true ||
+							thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
+									|| thisLine.charAt(0) == '@') {
+						continue;
+					}
+					
+					// get the list of items
+					String items[] = thisLine.split(" ");
+					
+					
+					// record the position of the first item of the current transaction
+					// in the cell array
+					int transactionBegin = currentCellIndex;
+					// For each item, create its cell in the cell array
+					for(int i=0; i <items.length; i++){
+						int item = Integer.parseInt(items[i]);
+						// if the item has enough support
+						if(mapItemToSupport.get(item) >= this.minSupport){
+							// add it to the current transaction in the list
+							// of transactions, where each item is represented by a cell
+							cells[currentCellIndex++] = nameConverter.toNewName(item);
+						}
+					}
+					// record the position of the last item of the current transaction
+					// in the cell array
+					int transactionEnd = currentCellIndex-1;
+					
+					// sort the transaction by ascending order of support
+					Arrays.sort(cells, transactionBegin, transactionEnd+1);
+					
+					// insert a -1 after the transaction in the cell array to
+					// separate it from the next transaction
+					cells[currentCellIndex++] = -1;
+					
+					// for each item left in the transaction
+					// we will update its row in the HStruct table
+					for(int i = transactionBegin; i <= transactionEnd; i++) {
+						int item = cells[i];
+	
+						// get the row of this item in the current HStruct table
+						Row row = mapItemRow.get(nameConverter.toOldName(item));
+	
+						// add the pointer to the list of pointers in the HStruct for this item
+						row.pointers.add(i);
 					}
 				}
-				// record the position of the last item of the current transaction
-				// in the cell array
-				int transactionEnd = currentCellIndex-1;
-				
-				// sort the transaction by ascending order of support
-				Arrays.sort(cells, transactionBegin, transactionEnd+1);
-				
-				// insert a -1 after the transaction in the cell array to
-				// separate it from the next transaction
-				cells[currentCellIndex++] = -1;
-				
-				// for each item left in the transaction
-				// we will update its row in the HStruct table
-				for(int i = transactionBegin; i <= transactionEnd; i++) {
-					int item = cells[i];
-
-					// get the row of this item in the current HStruct table
-					Row row = mapItemRow.get(nameConverter.toOldName(item));
-
-					// add the pointer to the list of pointers in the HStruct for this item
-					row.pointers.add(i);
+			} catch (Exception e) {
+				// to catch error while reading the input file
+				e.printStackTrace();
+			}finally {
+				if(myInput != null){
+					myInput.close();
 				}
-			}
-		} catch (Exception e) {
-			// to catch error while reading the input file
-			e.printStackTrace();
-		}finally {
-			if(myInput != null){
-				myInput.close();
-			}
-	    }
+		    }
+		}
 		
 		// If in debug mode, we will print the initial HStruct cells
 		// and the initial HStruct table.
@@ -316,7 +325,9 @@ public class AlgoHMine {
 		MemoryLogger.getInstance().checkMemory();
 
 		// Mine the database recursively
-		hmine(itemsetBuffer, 0, rowList);
+		if(maxItemsetSize >=1){
+			hmine(itemsetBuffer, 0, rowList);
+		}
 		
 		// check the memory usage again and close the file.
 		MemoryLogger.getInstance().checkMemory();
@@ -409,7 +420,9 @@ public class AlgoHMine {
 				itemsetBuffer[prefixLength] = row.item;
 				
 				// Recursive call to mine larger itemsets using the new prefix
-				hmine(itemsetBuffer, prefixLength+1, newRowList);
+				if(prefixLength+2 <= maxItemsetSize){
+					hmine(itemsetBuffer, prefixLength+1, newRowList);
+				}
 			}
 		}
 		MemoryLogger.getInstance().checkMemory();
@@ -454,4 +467,13 @@ public class AlgoHMine {
 		System.out.println(" Frequent itemsets count : " + patternCount); 
 		System.out.println("===================================================");
 	}
+
+	/** 
+	 * Set the maximum pattern length
+	 * @param length the maximum length
+	 */
+	public void setMaximumPatternLength(int length) {
+		this.maxItemsetSize = length;
+	}
+
 }

@@ -127,13 +127,17 @@ public class ResultConverter {
 									writer.write(token);
 								}
 								
-							}else if (itemID >= 0){
+							}else{
 								// convert the item to its string and write it to the output file
-								writer.write(mapItemIDtoStringValue.get(itemID));
+								String name = mapItemIDtoStringValue.get(itemID);
+								if(name == null){
+									// if the number has no corresponding name
+									writer.write(Integer.toString(itemID));
+								}else{
+									// if the number has a name
+									writer.write(mapItemIDtoStringValue.get(itemID));
+								}
 							}
-							
-							
-							
 						}
 						
 						// if not the last item, we write a space to the output file

@@ -50,7 +50,7 @@ public class DescriptionAlgoEFIMClosed extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/documentation.php#efimclosed";
+		return "http://www.philippe-fournier-viger.com/spmf/EFIM-Closed.php";
 	}
 
 	@Override

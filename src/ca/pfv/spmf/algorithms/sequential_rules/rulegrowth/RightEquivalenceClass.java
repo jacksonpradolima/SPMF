@@ -58,7 +58,7 @@ public class RightEquivalenceClass {
 		}
 		RightEquivalenceClass eq = (RightEquivalenceClass) obj;
 		
-		// TODO Auto-generated method stub
+
 		return Arrays.equals(itemsetI, eq.itemsetI);
 	}
 

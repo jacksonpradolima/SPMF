@@ -101,7 +101,7 @@ public class Sequence {
 		
 		return truncatedSequence;
 		/*
-		//TODO: this is way too too strict, let it loose
+
 		int size = size() - offset;
 		if(length <= size) {
 			//splitting list
@@ -115,7 +115,7 @@ public class Sequence {
 		}
 		else {
 			return null; //should never happen! it would cause the algo to not work properly
-			//TODO: throw exception or maybe return empty sequence
+
 		}
 		*/
 	}

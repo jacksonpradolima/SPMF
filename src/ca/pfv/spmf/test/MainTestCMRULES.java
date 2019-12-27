@@ -25,9 +25,9 @@ public class MainTestCMRULES {
 		
 		// TO SET MINIMUM / MAXIMUM SIZE CONSTRAINTS you can use the following lines:
 //		algo.setMinLeftSize(1);
-//		algo.setMaxLeftSize(2);
+//		algo.setMaxLeftSize(0);
 //		algo.setMinRightSize(1);
-//		algo.setMaxRightSize(2);
+//		algo.setMaxRightSize(1);
 		
 		algo.runAlgorithm(input, output, minSup, minConf);
 		

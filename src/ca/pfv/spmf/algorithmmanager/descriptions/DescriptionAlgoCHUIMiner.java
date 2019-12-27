@@ -49,7 +49,7 @@ public class DescriptionAlgoCHUIMiner extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/documentation.php#chuiminer";
+		return "http://www.philippe-fournier-viger.com/spmf/CHUI-Miner.php";
 	}
 
 	@Override

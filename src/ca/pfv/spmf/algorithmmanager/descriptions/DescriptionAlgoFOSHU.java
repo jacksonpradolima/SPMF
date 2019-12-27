@@ -50,7 +50,7 @@ public class DescriptionAlgoFOSHU extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/documentation.php#foshu";
+		return "http://www.philippe-fournier-viger.com/spmf/FOSHU.php";
 	}
 
 	@Override

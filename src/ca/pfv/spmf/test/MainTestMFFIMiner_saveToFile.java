@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
-import ca.pfv.spmf.algorithms.frequentpatterns.mffi_miner.AlgoMFFIMiner;;
+import ca.pfv.spmf.algorithms.frequentpatterns.mffi_miner.AlgoMFFIMiner;
 /**
  * Example of how to use the MFFIMiner algorithm 
  * from the source code.

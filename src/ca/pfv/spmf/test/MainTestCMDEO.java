@@ -25,7 +25,7 @@ public class MainTestCMDEO {
 //		algo.setMinLeftSize(1);
 //		algo.setMaxLeftSize(2);
 //		algo.setMinRightSize(1);
-//		algo.setMaxRightSize(2);
+//		algo.setMaxRightSize(1);
 		
 		algo.runAlgorithm(input, output, minSup, minConf);
 		

@@ -50,7 +50,7 @@ public class DescriptionAlgoEFIM extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#efim";
+		return "http://www.philippe-fournier-viger.com/spmf/EFIM.php";
 	}
 
 	@Override

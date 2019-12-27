@@ -958,17 +958,20 @@ public class AlgoBIDEPlus{
 				// append the element
 				r.append(patternBuffer[i]);
 				// if this database does not have multiple items per itemset in sequence
-				if(containsItemsetsWithMultipleItems == false){
+				if(i != lastBufferPosition && containsItemsetsWithMultipleItems == false){
 					// append the -1 separator
 					r.append(" -1");
 				}
 				r.append(" ");
 			}
 			
-			// if this database does not have multiple items per itemset in sequence
-			if(containsItemsetsWithMultipleItems == false){
+			//-------------------------------------
+			// PHILIPPE: BUG FIX 2017-10 : some -1 were missing in the output file
+			// for some patterns. This fixes the problem.
+			if(patternBuffer[lastBufferPosition] != -1){
 				r.append("-1 ");
 			}
+			//-------------------------------------
 			
 			// append the support
 			r.append("#SUP: ");

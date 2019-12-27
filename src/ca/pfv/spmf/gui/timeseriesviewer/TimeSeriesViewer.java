@@ -5,31 +5,20 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.control.ComboBox;
-
-import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ImageIcon;
-import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
 
 import ca.pfv.spmf.algorithms.timeseries.TimeSeries;
 import ca.pfv.spmf.gui.plot.Plot.LegendFormat;
-
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.BoxLayout;
-
-import java.awt.BorderLayout;
 
 /* This file is copyright (c) 2008-2016 Philippe Fournier-Viger
 * 

@@ -19,7 +19,7 @@ public class MainTestHUIM_GA_tree {
 		
 		String output = ".//output.txt";
 
-		int min_utility = 40;  // 
+		int min_utility = 10;  // 
 		
 		// Applying the huim_bpso algorithm
 		AlgoHUIM_GA_tree huim_ga_tree = new AlgoHUIM_GA_tree();

@@ -34,8 +34,10 @@ public class MainTestDEclat_bitset_saveToFile {
 		
 		// Applying the DECLAT algorithm
 		AlgoDEclat_Bitset algo = new AlgoDEclat_Bitset();
-	
 		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(3); 
+	
 		algo.runAlgorithm(output, database, minsup, true);
 		// if you change use "true" in the line above, ECLAT will use
 		// a triangular matrix  for counting support of itemsets of size 2.

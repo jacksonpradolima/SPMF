@@ -139,11 +139,27 @@ public class LZ78Predictor extends Predictor {
 			
 			LZNode parent = mDictionary.get(prefix);
 			
+             /** START OF BUG FIX 2018-01-25
+			 * Fixed LZ78 Prediction Bug. It is possible that a
+			 * phrase <a, b> is in the dictionary, while the shorter
+			 * phrase <b> is not. This is the case when the sequence
+			 * <a, a, b, a, b, c> is learned and a prediction for
+			 * <a, b, ?> is requested. Breaking the prediction
+			 * because of the missing dictionary entry <b>, would
+			 * result in no prediction, although there is an entry
+			 * in the dictionary that recommends c as a successor of
+			 * <a, b>.
+			 */
 			//Stop the prediction if the current node does not exists
 			//because if X does not exists than any node more precise than X cannot exists
-			if(parent == null) {
-				break;
-			}
+//			if(parent == null) {
+//				break;
+//			}
+			//Continue with the next longer phrase, but do not break the loop
+			if (parent == null) {
+				continue;
+ 			}
+			/** END of BUG FIX **/
 			
 			//calculating the probability of the escape
 			int escapeK = parent.getSup() - parent.getChildSup(); 

@@ -48,7 +48,7 @@ public class DescriptionAlgoCMSPAM extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#cmspam";
+		return "http://www.philippe-fournier-viger.com/spmf/CM-SPAM.php";
 	}
 
 	@Override

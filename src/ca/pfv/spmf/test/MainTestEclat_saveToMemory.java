@@ -26,9 +26,13 @@ public class MainTestEclat_saveToMemory {
 			e.printStackTrace();
 		}
 //		context.printContext();
-		
-		// Applying the ECLAT algorithm
+		 
+		// Applying the ECLAT algorithm 
 		AlgoEclat algo = new AlgoEclat();
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(3);
+		
 		Itemsets patterns = algo.runAlgorithm(null, database, 0.4, true);
 		// NOTE 0: We use "null" as output file path, because in this
 		// example, we want to save the result to memory instead of

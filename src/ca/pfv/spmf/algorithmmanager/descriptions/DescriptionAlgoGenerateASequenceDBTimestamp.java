@@ -64,7 +64,7 @@ public class DescriptionAlgoGenerateASequenceDBTimestamp extends DescriptionOfAl
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#genseqt";
+		return "http://www.philippe-fournier-viger.com/spmf/Generating_synthetic_sequence_database_with_timestamps.php";
 	}
 
 	@Override

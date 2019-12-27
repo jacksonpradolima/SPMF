@@ -48,7 +48,7 @@ public class DescriptionAlgoFSGP extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#fsgp";
+		return "http://www.philippe-fournier-viger.com/spmf/FSGP.php";
 	}
 
 	@Override

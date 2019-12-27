@@ -280,7 +280,7 @@ public class Bitmap {
 		//INTERSECTION_COUNT++;
 		
 		// We create the new bitmap
-		BitSet newBitset = new BitSet(lastBitIndex); // TODO: USE LAST SET BIT
+		BitSet newBitset = new BitSet(lastBitIndex);
 		Bitmap newBitmap = new Bitmap(newBitset);
 		
 		// We do an AND with the bitmap of the item

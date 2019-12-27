@@ -46,9 +46,9 @@ import ca.pfv.spmf.algorithms.frequentpatterns.eclat.AlgoEclat_Bitset;
 public class TriangularMatrix implements AbstractTriangularMatrix {
 	
 	// the triangular matrix is a two dimension array of integers
-	private int[][] matrix;
+	protected int[][] matrix;
 	// the number of lines in the matrix
-	private int elementCount;
+	protected int elementCount;
 
 	/**
 	 * Constructor of a new triangular matrix.
@@ -73,6 +73,15 @@ public class TriangularMatrix implements AbstractTriangularMatrix {
 	 */
 	private int get(int i, int j){
 		return matrix[i][j];
+	}
+	
+	/**
+	 * Get the size of the i-th row
+	 * @param i  the row
+	 * @return the value
+	 */
+	public int getSizeIthRow(int i){
+		return matrix[i].length;
 	}
 	
 	/**
@@ -130,6 +139,21 @@ public class TriangularMatrix implements AbstractTriangularMatrix {
 		}
 	}
 	
+	/**
+	 * Increment the count by a specific value
+	 * @param i an item
+	 * @param j another item
+	 * @param value the value to add
+	 */
+	public void incrementCount(int i, int j, int value) {
+		// so that id is always smaller than j
+		if(j < i){
+			matrix[elementCount - i -1][j] += value;  
+		}else{
+			matrix[elementCount - j -1][i] += value;
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#getSupportForItems(int, int)
 	 */
@@ -150,5 +174,13 @@ public class TriangularMatrix implements AbstractTriangularMatrix {
 		}else{
 			matrix[elementCount - j -1][i] = support;
 		}
+	}
+	
+	/**
+	 * Get the number of element in the matrix
+	 * @return the number of element
+	 */
+	public int getElementCount(){
+		return elementCount;
 	}
 }

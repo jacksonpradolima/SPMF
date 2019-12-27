@@ -240,8 +240,6 @@ public class AlgoFPGrowth {
 		
 		// We will check if the FPtree contains a single path
 		boolean singlePath = true;
-		// We will use a variable to keep the support of the single path if there is one
-		int singlePathSupport = 0;
 		// This variable is used to count the number of items in the single path
 		// if there is one
 		int position = 0;
@@ -275,7 +273,7 @@ public class AlgoFPGrowth {
 		}
 		
 		// Case 1: the FPtree contains a single path
-		if(singlePath && singlePathSupport >= minSupportRelative){	
+		if(singlePath){	
 			// We save the path, because it is a maximal itemset
 			saveAllCombinationsOfPrefixPath(fpNodeTempBuffer, position, prefix, prefixLength);
 		}else {
@@ -396,9 +394,11 @@ loop1:	for (long i = 1, max = 1 << position; i < max; i++) {
 					}
 					
 					prefix[newPrefixLength++] = fpNodeTempBuffer[j].itemID;
-					if(support == 0) {
+					// 2018-03-18: REMOVED THE FOLLOWING "IF" to fix
+					// support counting error.
+//					if(support == 0) {
 						support = fpNodeTempBuffer[j].counter;
-					}
+//					}
 				}
 			}
 			// save the itemset

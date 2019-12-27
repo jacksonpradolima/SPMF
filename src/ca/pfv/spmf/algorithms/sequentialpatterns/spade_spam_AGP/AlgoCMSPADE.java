@@ -335,7 +335,7 @@ public class AlgoCMSPADE {
 
         //We execute the search
         frequentPatternEnumeration.execute(rootClass, dfs, keepPatterns, verbose, coocMapAfter, coocMapEquals);
-
+     
         /* Once we had finished, we keep the number of frequent patterns that we 
          * finally found
          */
@@ -567,4 +567,22 @@ public class AlgoCMSPADE {
         // check the memory usage for statistics
         MemoryLogger.getInstance().checkMemory();
     }
+//
+//    /**
+//     * Set the maximum length of patterns to be found (in terms of itemset
+//     * count)
+//     *
+//     * @param maximumPatternLength the maximumPatternLength to set
+//     */
+//    public void setMaximumPatternLength(int maximumPatternLength) {
+//        this.maximumPatternLength = maximumPatternLength;
+//    }
+//    
+//	/**
+//	 * Set the minimum length of patterns to be found (in terms of itemset count)
+//	 * @param minimumPatternLength the minimum pattern length to set
+//	 */
+//	public void setMinimumPatternLength(int minimumPatternLength) {
+//		this.minimumPatternLength = minimumPatternLength;
+//	}
 }

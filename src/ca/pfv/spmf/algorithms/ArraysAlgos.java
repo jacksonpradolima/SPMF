@@ -146,12 +146,12 @@ loop1:		for(int i =0; i < itemset2.length; i++){
 				for(int j =0; j < itemset1.length; j++){
 					// if the current item in itemset1 is equal to the one in itemset2
 					// search for the next one in itemset1
-					if(itemset1[j] == itemset2[i]){
+					if(itemset1[j].intValue() == itemset2[i].intValue()){
 						continue loop1;
 				    // if the current item in itemset1 is larger
 					// than the current item in itemset2, then
 					// stop because of the lexical order.
-					}else if(itemset1[j] > itemset2[i]){
+					}else if(itemset1[j].intValue() > itemset2[i].intValue()){
 						return false;
 					}
 				}

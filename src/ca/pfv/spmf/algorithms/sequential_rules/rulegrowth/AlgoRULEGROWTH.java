@@ -51,33 +51,44 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoRULEGROWTH {
 	//*** for statistics ***/
-	long timeStart = 0;  // start time of latest execution
-	long timeEnd = 0;  // end time of latest execution
-	int ruleCount; // number of rules generated
+	
+	/** start time of latest execution */
+	long timeStart = 0;  
+	
+	/**  end time of latest execution */
+	long timeEnd = 0;  
+	
+	/** number of rules generated */
+	int ruleCount; 
 	
 	//*** parameters ***/
-	// minimum confidence
+	/** minimum confidence */
 	double minConfidence;
-	// minimum support
+	
+	/** minimum support */
 	int minsuppRelative;
-	// this is the sequence database
+	
+	/** this is the sequence database */
 	SequenceDatabase database;
 	
-	//*** internal variables ***/
+	/*** internal variables 
 	// This map contains for each item (key) a map of occurences (value).
-	// The map of occurences associates to sequence ID (key), an occurence of the item (value).
+	// The map of occurences associates to sequence ID (key), an occurence of the item (value). */
 	Map<Integer,  Map<Integer, Occurence>> mapItemCount;  // item, <tid, occurence>
 
-	// object to write the output file
+	/** object to write the output file */
 	BufferedWriter writer = null; 
 
-	// FOR DEBUG
+	/** Used by the debug mode to keep all rules found */
 	static List<Rule> allRulesFoundForDEBUG = new ArrayList<Rule>();
-	boolean debug = false;
 	
-	// the maximum size of the antecedent of rules (optional)
+	/** If true the debug mode will be used */
+	boolean DEBUG = false;
+	
+	/**  the maximum size of the antecedent of rules (optional) */
 	int maxAntecedentSize = Integer.MAX_VALUE;
-	// the maximum size of the consequent of rules (optional)
+	
+	/** the maximum size of the consequent of rules (optional) */
 	int maxConsequentSize = Integer.MAX_VALUE;
 
 	/**
@@ -231,7 +242,7 @@ public class AlgoRULEGROWTH {
 					// if the confidence is high enough, save the rule
 					if(confIJ >= minConfidence){
 						saveRule(tidsIJ, confIJ, itemsetI, itemsetJ);
-						if(debug) {
+						if(DEBUG) {
 							Rule rule = new Rule(itemsetI, itemsetJ, tidsI, tidsJ, tidsIJ, occurencesI, occurencesJ);
 							allRulesFoundForDEBUG.add(rule);
 						}
@@ -261,7 +272,7 @@ public class AlgoRULEGROWTH {
 					// if the confidence is high enough, save the rule
 					if(confJI >= minConfidence){
 						saveRule(tidsJI, confJI, itemsetJ, itemsetI);
-						if(debug) {
+						if(DEBUG) {
 							Rule rule = new Rule(itemsetJ, itemsetI, tidsJ,  tidsI, tidsJI, occurencesJ, occurencesI);
 							allRulesFoundForDEBUG.add(rule);
 						}
@@ -280,7 +291,7 @@ public class AlgoRULEGROWTH {
 		}
 		
 		// CHECK FOR REDUNDANT RULES
-		if(debug) {
+		if(DEBUG) {
 			for(int i=0; i < allRulesFoundForDEBUG.size(); i++) {
 				for(int j=i+1; j < allRulesFoundForDEBUG.size(); j++) {
 					Rule rule1 = allRulesFoundForDEBUG.get(i);
@@ -357,7 +368,7 @@ public class AlgoRULEGROWTH {
 
 	/**
 	 * This method search for items for expanding left side of a rule I --> J 
-	 * with any item c. This results in rules of the form I U {c} --> J. The method makes sure that:
+	 * with any item c. This results in rules of the form I Uï¿½{c} --> J. The method makes sure that:
 	 *   - c  is not already included in I or J
 	 *   - c appear at least minsup time in tidsIJ before last occurence of J
 	 *   - c is lexically bigger than all items in I
@@ -457,7 +468,7 @@ itemLoop:	for(int k=0; k < end.lastItemset; k++){
 				if(confIC_J >= minConfidence){
 					// save the rule
 					saveRule(tidsIC_J, confIC_J, itemsetIC, itemsetJ);
-					if(debug) {
+					if(DEBUG) {
 						Rule newRule = new Rule(itemsetIC, itemsetJ, tidsIC, null, tidsIC_J, null, occurencesJ);
 						allRulesFoundForDEBUG.add(newRule);
 					}
@@ -474,7 +485,7 @@ itemLoop:	for(int k=0; k < end.lastItemset; k++){
     
 	/**
 	 * This method search for items for expanding left side of a rule I --> J 
-	 * with any item c. This results in rules of the form I --> J U {c}. The method makes sure that:
+	 * with any item c. This results in rules of the form I --> J Uï¿½{c}. The method makes sure that:
 	 *   - c  is not already included in I or J
 	 *   - c appear at least minsup time in tidsIJ after the first occurence of I
 	 *   - c is lexically bigger than all items in J
@@ -588,7 +599,7 @@ itemLoop:	for(int k=0; k < end.lastItemset; k++){
 				if(confI_JC >= minConfidence){
 					// then it is a valid rule so save it
 					saveRule(tidsI_JC, confI_JC, itemsetI, itemsetJC);
-					if(debug) {
+					if(DEBUG) {
 						Rule newRule = new Rule(itemsetI, itemsetJC, tidsI, tidsJC, tidsI_JC, occurencesI, occurencesJC);
 						allRulesFoundForDEBUG.add(newRule);
 					}

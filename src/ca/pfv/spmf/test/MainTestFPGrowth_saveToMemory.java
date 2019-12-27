@@ -20,7 +20,7 @@ public class MainTestFPGrowth_saveToMemory {
 		String input = fileToPath("contextPasquier99.txt");  // the database
 
 		// the minimum support threshold
-		double minsup = 0.2; // means a minsup of 2 transaction (we used a relative support)
+		double minsup = 0.4; // means a minsup of 2 transaction (we used a relative support)
 
 		// Applying the FPGROWTH algorithmMainTestFPGrowth.java
 		AlgoFPGrowth algo = new AlgoFPGrowth();

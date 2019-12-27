@@ -37,6 +37,10 @@ public class MainTestLCMFreq_saveToFile {
 		
 		// Applying the algorithm
 		AlgoLCMFreq algo = new AlgoLCMFreq();
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(3);
+		
 		algo.runAlgorithm(minsup, dataset, output);
 		algo.printStats();
 	}

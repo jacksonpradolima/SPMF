@@ -48,7 +48,7 @@ public class DescriptionAlgoUSpan extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#uspan";
+		return "http://www.philippe-fournier-viger.com/spmf/USpan.php";
 	}
 
 	@Override

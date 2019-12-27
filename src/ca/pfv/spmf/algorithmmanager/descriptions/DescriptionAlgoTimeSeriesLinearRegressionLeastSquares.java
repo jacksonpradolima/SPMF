@@ -7,7 +7,6 @@ import java.util.List;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
 import ca.pfv.spmf.algorithmmanager.DescriptionOfParameter;
 import ca.pfv.spmf.algorithms.timeseries.TimeSeries;
-import ca.pfv.spmf.algorithms.timeseries.movingaverage.AlgoMovingAverage;
 import ca.pfv.spmf.algorithms.timeseries.reader_writer.AlgoTimeSeriesReader;
 import ca.pfv.spmf.algorithms.timeseries.reader_writer.AlgoTimeSeriesWriter;
 /* This file is copyright (c) 2008-2016 Philippe Fournier-Viger
@@ -31,7 +30,7 @@ import ca.pfv.spmf.algorithms.timeseries.simplelinearregression.AlgoTimeSeriesLi
 /**
  * This class describes the algorithm to calculate the simple regression of a time series
  * 
- * @see AlgoMovingAverage
+ * @see AlgoTimeSeriesLinearRegressionLeastSquare
  * @author Philippe Fournier-Viger
  */
 public class DescriptionAlgoTimeSeriesLinearRegressionLeastSquares extends DescriptionOfAlgorithm {
@@ -54,7 +53,7 @@ public class DescriptionAlgoTimeSeriesLinearRegressionLeastSquares extends Descr
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#simpleregressiontimeseries";
+		return "http://www.philippe-fournier-viger.com/spmf/TimeSerieRegressionLineLeastSquare.php";
 	}
 
 	@Override

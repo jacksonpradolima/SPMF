@@ -50,7 +50,7 @@ public class DescriptionAlgoMFFIMiner extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/documentation.php#mffiminer";
+		return "http://www.philippe-fournier-viger.com/spmf/MFFIMiner.php";
 	}
 
 	@Override

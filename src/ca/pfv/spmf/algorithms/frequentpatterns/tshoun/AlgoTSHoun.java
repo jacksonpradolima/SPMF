@@ -82,7 +82,7 @@ public class AlgoTSHoun {
 	 * @param periodCount 
 	 * @throws IOException 
 	 */
-	public void  runAlgorithm(DatabaseWithPeriods database, double minUtilityRatio, String output, int periodCount) throws IOException {
+	public void  runAlgorithm(DatabaseWithPeriods database, double minUtilityRatio, String output, int periodCount) throws Exception {
 		// save the parameters
 		this.database = database;
 		this.minUtilityRatio = minUtilityRatio;

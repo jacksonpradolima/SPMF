@@ -52,7 +52,7 @@ public class DescriptionAlgoMNRAssociationRules extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/documentation.php#example21";
+		return "http://www.philippe-fournier-viger.com/spmf/MinimalNonRedundantAssociationRules.php";
 	}
 
 	@Override

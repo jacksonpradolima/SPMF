@@ -27,6 +27,9 @@ public class MainTestAprioriTID_saveToFile {
 //		// Set this variable to true to show the transaction identifiers where patterns appear in the output file
 //		algo.setShowTransactionIdentifiers(true);
 		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+		algo.setMaximumPatternLength(3);
+		
 		// Run the algorithm
 		algo.runAlgorithm(input, output, minsup);
 		

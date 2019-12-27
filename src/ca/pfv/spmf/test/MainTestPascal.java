@@ -24,6 +24,10 @@ public class MainTestPascal {
 				
 		// Applying the PASCAL algorithm
 		AlgoPASCAL algorithm = new AlgoPASCAL();
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algorithm.setMaximumPatternLength(3);
+		
 		algorithm.runAlgorithm(minsup, input, output);
 		algorithm.printStats();
 	}

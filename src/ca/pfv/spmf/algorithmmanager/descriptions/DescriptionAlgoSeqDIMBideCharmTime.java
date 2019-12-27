@@ -52,7 +52,7 @@ public class DescriptionAlgoSeqDIMBideCharmTime extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#example14";
+		return "http://www.philippe-fournier-viger.com/spmf/ClosedMultiDimensional_SequentialPatternsWithTime.php";
 	}
 
 	@Override

@@ -344,7 +344,7 @@ public class AlgoHAUIMiner {
 	 * @param minAUtility The minAUtility threshold.
 	 * @throws IOException
 	 */
-	private void huiMiner(int [] prefix, UtilityList pUL, List<UtilityList> ULs, int minAUtility, int length)
+	private void huiMiner(int [] prefix, UtilityList pUL, List<UtilityList> ULs, int minAUtility, double length)
 			throws IOException {
 		
 		// For each extension X of prefix P
@@ -462,7 +462,7 @@ public class AlgoHAUIMiner {
 	 * @param an item to be appended to the prefix
 	 * @param utility the utility of the prefix concatenated with the item
 	 */
-	private void writeOut(int[] prefix, int item, int autility) throws IOException {
+	private void writeOut(int[] prefix, int item, double autility) throws IOException {
 		huiCount++; // increase the number of high utility itemsets found
 		
 		//Create a string buffer

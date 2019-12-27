@@ -33,6 +33,10 @@ public class MainTestDefMe_saveToMemory {
 		
 		// Applying the DefMe algorithm
 		AlgoDefMe algo = new AlgoDefMe();
+		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
+//		algo.setMaximumPatternLength(2);
+		
 		Itemsets generators = algo.runAlgorithm(null, database, minsup);
 		algo.printStats();
 		for(List<Itemset> genSizeK : generators.getLevels()) {

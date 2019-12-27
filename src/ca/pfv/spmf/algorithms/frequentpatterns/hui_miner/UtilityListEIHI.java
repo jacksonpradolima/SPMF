@@ -37,7 +37,7 @@ public class UtilityListEIHI {
 	// the sum of rutil values  of D
 	public int sumRutilsD = 0;
 	 
-	// the sum of iutil values of D'
+	// the sum of iutil values of D'r
 	public int sumIutilsDP = 0;
 	// the sum of rutil values of D'
 	public int sumRutilsDP = 0;

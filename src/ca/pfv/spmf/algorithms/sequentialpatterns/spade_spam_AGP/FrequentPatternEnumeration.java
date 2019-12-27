@@ -86,7 +86,9 @@ public class FrequentPatternEnumeration {
      * @param keepPatterns Flag to indicate if we want to keep the patterns
      * found.
      * @param verbose Flag for debugging purposes
+     * @param k 
      * @param coocMapBefore
+     * @param patternLength number of items in each pattern of this equivalence class
      */
     public void execute(EquivalenceClass eq, boolean dfs, boolean keepPatterns, boolean verbose, Map<Integer, Map<Integer, Integer>> coocMapAfter, Map<Integer, Map<Integer, Integer>> coocMapEquals) {
         /*eq.setIdList(null);
@@ -164,7 +166,7 @@ public class FrequentPatternEnumeration {
                         newIdList.setAppearingSequences(extension);
 
                         //We keep the pattern if the flag is activated
-                        if (keepPatterns) {
+                        if (keepPatterns ) {
                             keepPattern(extension);
                         }
                         /*And we make a new equivalence class with the new 
@@ -179,7 +181,9 @@ public class FrequentPatternEnumeration {
                         /*Finally, we keep the new class as a member of the 
                          * parent class that is its prefix
                          */
-                        insertClassByPrefix(newEq, child_X, child_Y);
+//                        if(patternLength != maximumPatternLength){
+                        	insertClassByPrefix(newEq, child_X, child_Y);
+//                        }
                     }
                 }
             }
@@ -199,7 +203,7 @@ public class FrequentPatternEnumeration {
         }
         //If dfs is not activated, therefore we are interested in a breadth-first search
         if (!dfs) {
-            //if any pattern has been created
+            //if any pattern has been created 
             if (anyPatternCreated) {
                 for (int i = eqMembers.size() - 1; i >= 0; i--) {
                     // we make a recursive call with the child pointed by i

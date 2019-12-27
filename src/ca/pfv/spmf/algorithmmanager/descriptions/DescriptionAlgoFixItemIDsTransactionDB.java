@@ -22,7 +22,6 @@ import ca.pfv.spmf.tools.other_dataset_tools.FixItemIDsTransactionDatabaseTool;
 * You should have received a copy of the GNU General Public License along with
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
-import ca.pfv.spmf.tools.other_dataset_tools.FixTransactionDatabaseTool;
 
 /**
  * This class describes the algorithm to fix a transaction database by incrementing item identifiers
@@ -52,7 +51,7 @@ public class DescriptionAlgoFixItemIDsTransactionDB extends DescriptionOfAlgorit
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#fixitemstdb";
+		return "http://www.philippe-fournier-viger.com/spmf/Fix_item_ids_in_a_transaction_database.php";
 	}
 
 	@Override

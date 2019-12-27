@@ -64,7 +64,7 @@ public class DescriptionAlgoGenerateASequenceDB extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#genseq";
+		return "http://www.philippe-fournier-viger.com/spmf/Generating_synthetic_sequence_database.php";
 	}
 
 	@Override

@@ -48,6 +48,7 @@ public class AlgoHUIM_GA {
 	final int iterations = 10000;// the iterations of algorithms
 
 	Map<Integer, Integer> mapItemToTWU;
+	Map<Integer, Integer> mapItemToTWU0;//�����Ƴ���ЩTWUС��minUtil��item
 	List<Integer> twuPattern;// the items which has twu value more than minUtil
 
 	BufferedWriter writer = null; // writer to write the output file
@@ -62,6 +63,7 @@ public class AlgoHUIM_GA {
 	class ChroNode {
 		List<Integer> chromosome;// the chromosome
 		int fitness;// fitness value of chromosome
+		double rfitness;//�����Ӧ������ѡ��Ⱦɫ����н������
 		int rank;// the rank of chromosome's fitness in population
 
 		public ChroNode() {
@@ -130,6 +132,7 @@ public class AlgoHUIM_GA {
 
 		// We create a map to store the TWU of each item
 		mapItemToTWU = new HashMap<Integer, Integer>();
+		mapItemToTWU0 = new HashMap<Integer, Integer>();
 
 		// We scan the database a first time to calculate the TWU of each item.
 		BufferedReader myInput = null;
@@ -160,11 +163,15 @@ public class AlgoHUIM_GA {
 					Integer item = Integer.parseInt(items[i]);
 					// get the current TWU of that item
 					Integer twu = mapItemToTWU.get(item);
+					Integer twu0 = mapItemToTWU0.get(item);
 					// add the utility of the item in the current transaction to
 					// its twu
 					twu = (twu == null) ? transactionUtility : twu
 							+ transactionUtility;
+					twu0 = (twu0 == null) ? transactionUtility : twu0
+							+ transactionUtility;
 					mapItemToTWU.put(item, twu);
+					mapItemToTWU0.put(item, twu0);
 				}
 			}
 		} catch (Exception e) {
@@ -176,8 +183,10 @@ public class AlgoHUIM_GA {
 			}
 		}
 
-		twuPattern = new ArrayList<Integer>(mapItemToTWU.keySet());
-		Collections.sort(twuPattern);
+		//���������д�����Դ�����еģ�Ȼ�������д��������Ǵ����
+		//���뱾����twuPattern����HTWU-1item�����²�����û�дﵽ���Ŀ��
+		/*twuPattern = new ArrayList<Integer>(mapItemToTWU.keySet());
+		Collections.sort(twuPattern);*/
 
 		// SECOND DATABASE PASS TO CONSTRUCT THE DATABASE
 		// OF 1-ITEMSETS HAVING TWU >= minutil (promising items)
@@ -219,6 +228,8 @@ public class AlgoHUIM_GA {
 						// add it
 						revisedTransaction.add(pair);
 						pattern.add(pair.item);
+					}else{
+						mapItemToTWU0.remove(pair.item);
 					}
 				}
 				// Copy the transaction into database but
@@ -233,6 +244,12 @@ public class AlgoHUIM_GA {
 				myInput.close();
 			}
 		}
+		
+		twuPattern = new ArrayList<Integer>(mapItemToTWU0.keySet());//����������ݴ�list���б���
+		Collections.sort(twuPattern);//���ֵ�����
+		
+	
+		
 		// check the memory usage
 		checkMemory();
 
@@ -256,14 +273,15 @@ public class AlgoHUIM_GA {
 			for (int i = 0; i < iterations; i++) {
 				// the portation of twu value of each 1-HTWUIs in sum of twu
 				// value
-				percentage = roulettePercent();
+				//percentage = roulettePercent();
 				// update subPopulation and HUIset
+				calculateRfitness();
 				while (subPopulation.size() < pop_size) {
-					// selection
-					temp1 = select(percentage);
-					temp2 = select(percentage);
+					// 
+					temp1 = selectChromosome();
+					temp2 = selectChromosome();
 					while (temp1 == temp2) {
-						temp2 = select(percentage);
+						temp2 = selectChromosome();
 					}
 					// crossover
 					crossover(temp1, temp2, minUtility);
@@ -406,6 +424,7 @@ public class AlgoHUIM_GA {
 																	// crossover
 		for (i = 0; i < twuPattern.size(); i++) {// i<=position, crossover
 			if (i <= position) {
+				//System.out.println("mmmmmmm");
 				temp1Chro.add(population.get(temp2).chromosome.get(i));
 				if (temp1Chro.get(i) == 1)
 					tempA++;
@@ -624,7 +643,46 @@ public class AlgoHUIM_GA {
 		}
 		return fitness;
 	}
-
+	
+	/**
+	 * ����Ⱦɫ����Ϣ��rfitness
+	 */
+	public void calculateRfitness(){
+		int sum=0;
+		int temp=0;
+		//�ϼ���Ӧֵ
+		for(int i=0; i< population.size();++i){
+			sum =sum+population.get(i).fitness;
+		}
+		//��������
+		for(int i=0; i< population.size();++i){
+			temp =temp+population.get(i).fitness;
+			population.get(i).rfitness= temp/(sum+0.0);
+		}
+	}
+	
+	/**
+	 * ѡ��Ⱦɫ����н������
+	 * @return
+	 */
+	private int selectChromosome() {
+		int i, temp = 0;
+		double randNum;
+		randNum = Math.random();
+		for (i = 0; i < population.size(); i++) {
+			if (i == 0) {
+				if ((randNum >= 0) && (randNum <= population.get(0).rfitness)) {
+					temp = 0;
+					break;
+				}
+			} else if ((randNum > population.get(i - 1).rfitness)
+					&& (randNum <= population.get(i).rfitness)) {
+				temp = i;
+				break;
+			}
+		}
+		return temp;
+	}
 	/**
 	 * Method to write a high utility itemset to the output file.
 	 * 

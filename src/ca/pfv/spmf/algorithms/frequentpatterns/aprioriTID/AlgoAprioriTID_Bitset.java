@@ -74,6 +74,8 @@ public class AlgoAprioriTID_Bitset {
 
 	/** the number of frequent itemsets found */
 	private int itemsetCount;
+	
+	/** the number of transactions */
 	private int tidcount = 0;
 	
 	/** if true, transaction identifiers of each pattern will be shown*/
@@ -156,7 +158,7 @@ public class AlgoAprioriTID_Bitset {
 			// get the support count (cardinality of the tidset)
 			int cardinality = entry.getValue().cardinality();
 			// if the item is frequent
-			if (cardinality >= minSuppRelative) { 
+			if (cardinality >= minSuppRelative && maxItemsetSize >= 1) { 
 				// add the item to the set of frequent itemsets of size 1
 				Integer item = entry.getKey();
 				Itemset itemset = new Itemset(item);
@@ -305,5 +307,13 @@ public class AlgoAprioriTID_Bitset {
 				MemoryLogger.getInstance().getMaxMemory() + " mb");
 		System.out.println(" Total time ~ " + (endTimeStamp - startTimestamp)	+ " ms");
 		System.out.println("===================================================");
+	}
+
+	/** 
+	 * Set the maximum pattern length
+	 * @param length the maximum length
+	 */
+	public void setMaximumPatternLength(int length) {
+		this.maxItemsetSize = length;
 	}
 }

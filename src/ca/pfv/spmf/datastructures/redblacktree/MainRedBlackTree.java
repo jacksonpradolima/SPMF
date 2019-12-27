@@ -27,6 +27,7 @@ class MainRedBlackTree {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
+		System.out.println("Create a redblack that can have the same element multiple times");
 		RedBlackTree tree = new RedBlackTree(true);
 		tree.add(1);
 		tree.add(2);
@@ -89,8 +90,6 @@ class MainRedBlackTree {
 		System.out.println("... will pop minimum ...");
 		System.out.println(" minimum " + tree.popMinimum());
 		System.out.println("all elements : " + tree.toString() + "   Size of tree: " + tree.size());
-		
-		
 	}
 
 }

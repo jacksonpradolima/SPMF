@@ -29,7 +29,7 @@ public class SequentialPatterns {
 	// A list of list is used to stored the sequential patterns.
 	// At position i, a list of sequential patterns contains
 	// all sequential patterns of size i.
-	public final List<List<SequentialPattern>> levels = new ArrayList<List<SequentialPattern>>();  // itemset classé par taille
+	public final List<List<SequentialPattern>> levels = new ArrayList<List<SequentialPattern>>();  // itemset classï¿½ par taille
 	// the total number of sequential patterns
 	public int sequenceCount=0;
 	
@@ -56,6 +56,25 @@ public class SequentialPatterns {
 		System.out.println(toString(nbObject,showSequenceIdentifiers));
 	}
 	
+
+	/**
+	 * Copy the sequential patterns
+	 * @return copy of the sequential patterns
+	 */
+	public SequentialPatterns copy() {
+		
+		int k = 0;
+		SequentialPatterns clone = new SequentialPatterns(this.name);
+		for (List<SequentialPattern> level : this.getLevels()) {
+			for (SequentialPattern pattern : level) 
+				clone.addSequence(pattern.copy(), k);
+			k++;
+		}
+		
+		return clone;
+	}
+	
+
 	/**
 	 * Get a string representation of this set of sequential patterns.
 	 * @param nbObject  the number of sequences in the database where these patterns were found.
@@ -141,5 +160,14 @@ public class SequentialPatterns {
 	 */
 	public List<List<SequentialPattern>> getLevels() {
 		return levels;
+	}
+	
+	
+	/**
+	 * Get the number of sequences in the pattern list
+	 * @return number of sequence patterns
+	 */
+	public int getSequenceCount() {
+		return sequenceCount;
 	}
 }

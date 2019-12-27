@@ -256,15 +256,7 @@ public class AlgoFSGP{
 				}
 			}
 		}
-		
-		
-		
-		
-		// add the empty sequence   ############################# TODO
-		//########################### TODO ####################
-//		SequentialPattern emptySequence = new SequentialPattern();
-//		emptySequence.setSequenceIDs(sequencesIds)
-//		generators.add(emptySequence);
+
 		return generators;
 	}
 	

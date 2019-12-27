@@ -48,7 +48,7 @@ public class DescriptionAlgoCalculateStatsSequenceDB extends DescriptionOfAlgori
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#statsseq";
+		return "http://www.philippe-fournier-viger.com/spmf/Calculating_sequence_database_statistics.php";
 	}
 
 	@Override

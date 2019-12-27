@@ -5,7 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
 import ca.pfv.spmf.algorithms.frequentpatterns.aprioriTID_inverse.AlgoAprioriTIDInverse;
-import ca.pfv.spmf.algorithms.frequentpatterns.apriori_inverse.AlgoAprioriInverse;
 import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemsets;
 
 /**

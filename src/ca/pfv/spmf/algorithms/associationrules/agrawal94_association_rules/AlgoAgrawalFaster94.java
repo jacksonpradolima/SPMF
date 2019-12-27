@@ -181,7 +181,6 @@ public class AlgoAgrawalFaster94{
 		// Now we will generate the rules.
 		
 		// For each frequent itemset of size >=2 that we will name "lk"
-		int maxSize = maxAntecedentLength;
 		for (int k = 2; k < patterns.getLevels().size(); k++) {
 			for (Itemset lk : patterns.getLevels().get(k)) {
 				

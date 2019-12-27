@@ -128,9 +128,7 @@ public class ALZ extends Predictor {
 				
 			}
 		}
-		
-		
-		
+
 		return null;
 	}
 	
@@ -198,7 +196,6 @@ public class ALZ extends Predictor {
 
 	@Override
 	public long size() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -230,7 +227,6 @@ public class ALZ extends Predictor {
 
 	@Override
 	public float memoryUsage() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	

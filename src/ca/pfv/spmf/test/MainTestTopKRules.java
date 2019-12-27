@@ -17,10 +17,18 @@ public class MainTestTopKRules {
 		Database database = new Database(); 
 		database.loadFile(fileToPath("contextIGB.txt")); 
 		
-		int k = 10; 
+		int k = 100;  
 		double minConf = 0.8; //
 		
 		AlgoTopKRules algo = new AlgoTopKRules();
+		
+//		// This optional parameter allows to specify the maximum number of items in the 
+//		// left side (antecedent) of rules found:
+//		algo.setMaxAntecedentSize(2);  // optional
+//
+//		// This optional parameter allows to specify the maximum number of items in the 
+//		// right side (consequent) of rules found:
+//		algo.setMaxConsequentSize(1);  // optional
 		algo.runAlgorithm(k, minConf, database);
 
 		algo.printStats();

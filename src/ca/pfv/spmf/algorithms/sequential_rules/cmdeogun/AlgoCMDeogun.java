@@ -150,49 +150,52 @@ public class AlgoCMDeogun {
 			this.minsuppRelative = 1;
 		}
 		
-		// It the sequence database has not been loaded yet, then load it from
-		// the input file
-		if(database == null){
-			database = new SequenceDatabase();
-			database.loadFile(input);
-		}
-
-		transactionCount = database.size();
-		
 		// Create the writer oject for writing the output file
 		writer = new BufferedWriter(new FileWriter(output)); 
 		
-		// record the start time
-		timeStart = System.currentTimeMillis();
-		
-		// remove items that are infrequent from the database and 
-		// at the same time calculate the support of each item
-		// as well as the largest item in the dataase
-		removeItemsThatAreNotFrequent(database);
-		
-		// Put items that are frequent in a list that is lexically ordered
-		listFrequents = new ArrayList<Integer>();
-		// for each item
-		for(int i=0; i <= maxItemId; i++){
-			// if it is frequent (tidset with size >0)
-			if(mapItemCount.get(i) != null && mapItemCount.get(i).size() >= minsuppRelative){
-				// add to the list
-				listFrequents.add(i);
+		if(maxLeftSize >=1 && maxRightSize >=1){
+			// It the sequence database has not been loaded yet, then load it from
+			// the input file
+			if(database == null){
+				database = new SequenceDatabase();
+				database.loadFile(input);
 			}
+	
+			transactionCount = database.size();
+			
+			
+			// record the start time
+			timeStart = System.currentTimeMillis();
+			
+			// remove items that are infrequent from the database and 
+			// at the same time calculate the support of each item
+			// as well as the largest item in the dataase
+			removeItemsThatAreNotFrequent(database);
+			
+			// Put items that are frequent in a list that is lexically ordered
+			listFrequents = new ArrayList<Integer>();
+			// for each item
+			for(int i=0; i <= maxItemId; i++){
+				// if it is frequent (tidset with size >0)
+				if(mapItemCount.get(i) != null && mapItemCount.get(i).size() >= minsuppRelative){
+					// add to the list
+					listFrequents.add(i);
+				}
+			}
+			
+			// record the end time for preprocessing
+			timeEndPreprocessing   = System.currentTimeMillis(); 
+			
+			// start the main procedure of the algorithm that will recursively
+			// grow rules
+			start(mapItemCount);
 		}
-		
-		// record the end time for preprocessing
-		timeEndPreprocessing   = System.currentTimeMillis(); 
 
-		// start the main procedure of the algorithm that will recursively
-		// grow rules
-		start(mapItemCount);
+		// close the output file
+		writer.close();
 		
 		// record the end time
 		timeEnd = System.currentTimeMillis(); 
-		
-		// close the output file
-		writer.close();
 		
 		// set the database as null because we don't need it anymore
 		database =  null;

@@ -29,7 +29,7 @@ import java.util.Set;
  * of the sequences where the antecedent appears before the consequent, maps of occurences for the
  * antecedent and consequent, etc.
  * 
- * @see AlgoTopSeqRules
+ * @see AlgoTopSeqClassRules
  * @see AlgoTNS
  * @author Philippe Fournier-Viger
  */

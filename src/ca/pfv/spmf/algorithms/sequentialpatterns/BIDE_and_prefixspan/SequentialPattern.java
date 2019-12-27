@@ -228,7 +228,6 @@ public class SequentialPattern implements Comparable<SequentialPattern>{
 	}
 
 	public Set<Integer> getSequenceIDs() {
-		// TODO Auto-generated method stub
 		return sequencesIds;
 	}
 

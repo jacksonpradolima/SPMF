@@ -61,7 +61,7 @@ public class RedBlackTree<T extends Comparable<T>> implements Iterable<T> {
 	 * Default constructor
 	 */
 	public RedBlackTree() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**
@@ -289,7 +289,7 @@ public class RedBlackTree<T extends Comparable<T>> implements Iterable<T> {
 				}
 				if(w.left.color == BLACK && w.right.color == BLACK){
 					w.color = RED;
-					x = x.parent;   // A VÉRIFIER....
+					x = x.parent;   // A Vï¿½RIFIER....
 				}else{
 					if(w.right.color == BLACK){
 						w.left.color = BLACK;
@@ -314,7 +314,7 @@ public class RedBlackTree<T extends Comparable<T>> implements Iterable<T> {
 				}
 				if(w.right.color == BLACK && w.left.color == BLACK){
 					w.color = RED;
-					x = x.parent;   // A VÉRIFIER....
+					x = x.parent;   // A Vï¿½RIFIER....
 				}else{
 					if(w.left.color == BLACK){
 						w.right.color = BLACK;

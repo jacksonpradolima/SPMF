@@ -59,24 +59,32 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoPASCAL {
 
-	// the maximul level reached by Apriori
+	/** the maximul level reached by Apriori */
 	protected int k;
 
-	// For statistics
-	protected int totalCandidateCount = 0; // total number of candidates
-											// generated
-	protected long startTimestamp; // start time
-	protected long endTimestamp; // end time
-	private int itemsetCount; // number of itemsets found
+	/** total number of candidates  generated*/
+	protected int totalCandidateCount = 0; 
+	
+	/** start time */
+	protected long startTimestamp; 
+	
+	/** end time */
+	protected long endTimestamp;
+	
+	/**  number of itemsets found */
+	private int itemsetCount; 
 
-	// the relative minimum support used to find itemsets
+	/** the relative minimum support used to find itemsets */
 	private int minsupRelative;
 
-	// an in-memory representation of the transaction database
+	/** an in-memory representation of the transaction database */
 	private List<int[]> database = null;
 
-	// write to file
+	/** write to file */
 	BufferedWriter writer = null;
+	
+	/** Special parameter to set the maximum size of itemsets to be discovered */
+	int maxItemsetSize = Integer.MAX_VALUE;
 
 	/**
 	 * Default constructor
@@ -175,7 +183,7 @@ public class AlgoPASCAL {
 		for (Entry<Integer, Integer> entry : mapItemCount.entrySet()) {
 			// if its support is higher than the support
 			int itemsetSupport = entry.getValue();
-			if (itemsetSupport >= minsupRelative) {
+			if (itemsetSupport >= minsupRelative && maxItemsetSize >=1) {
 				// keep the item into memory for generating itemsets of size 2
 
 				// ------ CODE SPECIFIC TO PASCAL --------
@@ -202,124 +210,122 @@ public class AlgoPASCAL {
 				return o1.get(0) - o2.get(0);
 			}
 		});
-
-		// if no frequent item, we stop there!
-		if (frequent1.size() == 0) {
-			return;
-		}
+		
 
 		// increase the number of candidates
 		totalCandidateCount += frequent1.size();
 
-		// Now we will perform a loop to find all frequent itemsets of size > 1
-		// starting from size k = 2.
-		// The loop will stop when no candidates can be generated.
-		List<ItemsetPascal> level = null;
-		k = 2;
-		do {
-			// we check the memory usage
-			MemoryLogger.getInstance().checkMemory();
-
-			// Generate candidates of size K
-			List<ItemsetPascal> candidatesK;
-
-			// if we are at level k=2, we use an optimization to generate
-			// candidates
-			if (k == 2) {
-				candidatesK = generateCandidate2(frequent1);
-			} else {
-				// otherwise we use the regular way to generate candidates
-				candidatesK = generateCandidateSizeK(level);
-			}
-
-			// we add the number of candidates generated to the total
-			totalCandidateCount += candidatesK.size();
-
-			
-			// We scan the database one time to calculate the support
-			// of each candidates and keep those with higher suport.
-			for (ItemsetPascal candidate : candidatesK) {
-				// CODE SPECIFIC TO PASCAL
-				// PRUNING STRATEGY
-				// for each itemset that is a generator, if the support
-				// is the same as the minimum of its subsets, then
-				// it is not a generator and we want to remember that
-				if(candidate.isGenerator == false) {
-					continue;
-				}
-				// END CODE SPECIFIC TO PASCAL
-				
-				// For each transaction:
-				loop:	for (int[] transaction : database) {
-						// NEW OPTIMIZATION 2013: Skip transactions shorter than k!
-						if (transaction.length < k) {
-							// System.out.println("test");
-							continue;
-						}
-						// END OF NEW OPTIMIZATION
-
-						
-							// a variable that will be use to check if
-							// all items of candidate are in this transaction
-							int pos = 0;
-							// for each item in this transaction
-							for (int item : transaction) {
-								
-								// if the item correspond to the current item of
-								// candidate
-								if (item == candidate.itemset[pos]) {
-									// we will try to find the next item of candidate
-									// next
-									pos++;
-									// if we found all items of candidate in this
-									// transaction
-									if (pos == candidate.itemset.length) {
-										// we increase the support of this candidate
-										candidate.support++;
-										continue loop;
-									}
-									// Because of lexical order, we don't need to
-									// continue scanning the transaction if the current
-									// item
-									// is larger than the one that we search in
-									// candidate.
-								} else if (item > candidate.itemset[pos]) {
-									continue loop;
-								}
-
-							}
-						}
-				
-			}
-
+		// if no frequent item, we stop there!
+		if (frequent1.size() > 0 && maxItemsetSize >1) {
 	
-
-			// We build the level k+1 with all the candidates that have
-			// a support higher than the minsup threshold.
-			level = new ArrayList<ItemsetPascal>();
-			for (ItemsetPascal candidate : candidatesK) {
-				// if the support is > minsup
-				if (candidate.getAbsoluteSupport() >= minsupRelative) {
-					
+			// Now we will perform a loop to find all frequent itemsets of size > 1
+			// starting from size k = 2.
+			// The loop will stop when no candidates can be generated.
+			List<ItemsetPascal> level = null;
+			k = 2;
+			do {
+				// we check the memory usage
+				MemoryLogger.getInstance().checkMemory();
+	
+				// Generate candidates of size K
+				List<ItemsetPascal> candidatesK;
+	
+				// if we are at level k=2, we use an optimization to generate
+				// candidates
+				if (k == 2) {
+					candidatesK = generateCandidate2(frequent1);
+				} else {
+					// otherwise we use the regular way to generate candidates
+					candidatesK = generateCandidateSizeK(level);
+				}
+	
+				// we add the number of candidates generated to the total
+				totalCandidateCount += candidatesK.size();
+	
+				
+				// We scan the database one time to calculate the support
+				// of each candidates and keep those with higher suport.
+				for (ItemsetPascal candidate : candidatesK) {
 					// CODE SPECIFIC TO PASCAL
+					// PRUNING STRATEGY
 					// for each itemset that is a generator, if the support
 					// is the same as the minimum of its subsets, then
 					// it is not a generator and we want to remember that
-					if(candidate.getAbsoluteSupport() == candidate.pred_sup) {
-						candidate.isGenerator = false;
+					if(candidate.isGenerator == false) {
+						continue;
 					}
 					// END CODE SPECIFIC TO PASCAL
 					
+					// For each transaction:
+					loop:	for (int[] transaction : database) {
+							// NEW OPTIMIZATION 2013: Skip transactions shorter than k!
+							if (transaction.length < k) {
+								// System.out.println("test");
+								continue;
+							}
+							// END OF NEW OPTIMIZATION
+	
+							
+								// a variable that will be use to check if
+								// all items of candidate are in this transaction
+								int pos = 0;
+								// for each item in this transaction
+								for (int item : transaction) {
+									
+									// if the item correspond to the current item of
+									// candidate
+									if (item == candidate.itemset[pos]) {
+										// we will try to find the next item of candidate
+										// next
+										pos++;
+										// if we found all items of candidate in this
+										// transaction
+										if (pos == candidate.itemset.length) {
+											// we increase the support of this candidate
+											candidate.support++;
+											continue loop;
+										}
+										// Because of lexical order, we don't need to
+										// continue scanning the transaction if the current
+										// item
+										// is larger than the one that we search in
+										// candidate.
+									} else if (item > candidate.itemset[pos]) {
+										continue loop;
+									}
+	
+								}
+							}
 					
-					// add the candidate
-					level.add(candidate);
-					// the itemset is frequent so save it into results
-					saveItemsetToFile(candidate);
 				}
-			}
-			// we will generate larger itemsets next.
-			k++;
-		} while (level.isEmpty() == false);
+	
+				// We build the level k+1 with all the candidates that have
+				// a support higher than the minsup threshold.
+				level = new ArrayList<ItemsetPascal>();
+				for (ItemsetPascal candidate : candidatesK) {
+					// if the support is > minsup
+					if (candidate.getAbsoluteSupport() >= minsupRelative) {
+						
+						// CODE SPECIFIC TO PASCAL
+						// for each itemset that is a generator, if the support
+						// is the same as the minimum of its subsets, then
+						// it is not a generator and we want to remember that
+						if(candidate.getAbsoluteSupport() == candidate.pred_sup) {
+							candidate.isGenerator = false;
+						}
+						// END CODE SPECIFIC TO PASCAL
+						
+						
+						// add the candidate
+						level.add(candidate);
+						// the itemset is frequent so save it into results
+						saveItemsetToFile(candidate);
+					}
+				}
+				// we will generate larger itemsets next.
+				k++;
+			} while (level.isEmpty() == false &&  k <= maxItemsetSize);
+		}
 
 		// record end time
 		endTimestamp = System.currentTimeMillis();
@@ -532,5 +538,13 @@ public class AlgoPASCAL {
 				+ " ms");
 		System.out
 				.println("===================================================");
+	}
+
+	/** 
+	 * Set the maximum pattern length
+	 * @param length the maximum length
+	 */
+	public void setMaximumPatternLength(int length) {
+		this.maxItemsetSize = length;
 	}
 }

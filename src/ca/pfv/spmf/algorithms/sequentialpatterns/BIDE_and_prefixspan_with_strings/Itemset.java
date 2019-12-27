@@ -62,7 +62,7 @@ public class Itemset{
 	public String toString(){
 		StringBuilder r = new StringBuilder ();
 		for(String attribute : items){
-			r.append(attribute.toString());
+			r.append(attribute);
 			r.append(' ');
 		}
 		return r.toString();

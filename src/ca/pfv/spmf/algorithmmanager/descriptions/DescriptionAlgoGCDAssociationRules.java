@@ -34,7 +34,7 @@ public class DescriptionAlgoGCDAssociationRules extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/documentation.php#gcd";
+		return "http://www.philippe-fournier-viger.com/spmf/AssociationRulesGCD.php";
 	}
 
 	@Override

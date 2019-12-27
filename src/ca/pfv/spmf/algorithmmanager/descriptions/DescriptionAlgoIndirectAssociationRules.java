@@ -49,7 +49,7 @@ public class DescriptionAlgoIndirectAssociationRules extends DescriptionOfAlgori
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/documentation.php#indirect";
+		return "http://www.philippe-fournier-viger.com/spmf/IndirectAssociationRules.php";
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package ca.pfv.spmf.algorithms.timeseries.split;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.util.Arrays;
 
 import ca.pfv.spmf.algorithms.timeseries.TimeSeries;
 

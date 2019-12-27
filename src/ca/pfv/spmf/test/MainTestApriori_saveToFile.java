@@ -20,13 +20,13 @@ public class MainTestApriori_saveToFile {
 		double minsup = 0.4; // means a minsup of 2 transaction (we used a relative support)
 		
 		// Applying the Apriori algorithm
-		AlgoApriori apriori = new AlgoApriori();
+		AlgoApriori algo = new AlgoApriori();
 		
 		// Uncomment the following line to set the maximum pattern length (number of items per itemset)
-//		algorithm.setMaximumPatternLength(3);
+//		algo.setMaximumPatternLength(3);
 
-		apriori.runAlgorithm(minsup, input, output);
-		apriori.printStats();
+		algo.runAlgorithm(minsup, input, output);
+		algo.printStats();
 	}
 	
 	public static String fileToPath(String filename) throws UnsupportedEncodingException{

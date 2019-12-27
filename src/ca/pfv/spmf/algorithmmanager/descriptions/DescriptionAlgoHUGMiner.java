@@ -49,7 +49,7 @@ public class DescriptionAlgoHUGMiner extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/documentation.php#hugminer";
+		return "http://www.philippe-fournier-viger.com/spmf/HUG-Miner.php";
 	}
 
 	@Override

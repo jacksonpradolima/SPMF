@@ -49,7 +49,7 @@ public class DescriptionAlgoAprioriTID extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#aprioritid";
+		return "http://www.philippe-fournier-viger.com/spmf/AprioriTID.php";
 	}
 
 	@Override
@@ -62,6 +62,11 @@ public class DescriptionAlgoAprioriTID extends DescriptionOfAlgorithm {
 			algo.setShowTransactionIdentifiers(getParamAsBoolean(parameters[1]));
 		}
 		
+
+		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+			algo.setMaximumPatternLength(getParamAsInteger(parameters[2]));
+		}
+		
 		algo.runAlgorithm(inputFile, outputFile, minsup);
 		algo.printStats();
 	}
@@ -69,9 +74,10 @@ public class DescriptionAlgoAprioriTID extends DescriptionOfAlgorithm {
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[2];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[3];
 		parameters[0] = new DescriptionOfParameter("Minsup (%)", "(e.g. 0.4 or 40%)", Double.class, false);
 		parameters[1] = new DescriptionOfParameter("Show transaction ids?", "(default: false)", Boolean.class, true);
+		parameters[2] = new DescriptionOfParameter("Max pattern length", "(e.g. 2 items)", Integer.class, true);
 		return parameters;
 	}
 

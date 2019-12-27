@@ -54,7 +54,7 @@ public class DescriptionAlgoTimeSeriesSplitByNumberOfSegments extends Descriptio
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#splittimeseriesnumbersegments";
+		return "http://www.philippe-fournier-viger.com/spmf/SplitTimeSeriesByNumberOfSegments.php";
 	}
 
 	@Override

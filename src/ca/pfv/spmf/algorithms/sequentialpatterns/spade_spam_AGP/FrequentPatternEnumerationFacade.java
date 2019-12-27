@@ -6,7 +6,8 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.savers.Saver;
 
 /**
  * This class is used by the methods that mine the database in a parallelized
- * way. We make callable the class FrequentPatternEnumeration through this class.
+ * way. We make callable the class FrequentPatternEnumeration through this
+ * class.
  *
  * Copyright Antonio Gomariz Peñalver 2013
  *
@@ -29,70 +30,96 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.savers.Saver;
  */
 public class FrequentPatternEnumerationFacade implements Callable<Void> {
 
-    /**
-     * Link to a FrequentPatternEnumeration object
-     */
-    private FrequentPatternEnumeration frequentPatternEnumeration;
-    /**
-     * Equivalence class through which we execute the main method of 
-     * FrequentPatternEnumeration object
-     */
-    private EquivalenceClass equivalenceClass;
-    /**
-     * Flag indicating if we are interested in a depth-first search. If it false
-     * we assume a breadth-first search.
-     */
-    private boolean dfs;
-    /**
-     * Flag indicating if we want to keep the different patterns that we find.
-     */
-    private boolean keepPatterns;
-    /**
-     * Flag for debugging purposes.
-     */
-    private boolean verbose;
+	/**
+	 * Link to a FrequentPatternEnumeration object
+	 */
+	private FrequentPatternEnumeration frequentPatternEnumeration;
+	/**
+	 * Equivalence class through which we execute the main method of
+	 * FrequentPatternEnumeration object
+	 */
+	private EquivalenceClass equivalenceClass;
+	/**
+	 * Flag indicating if we are interested in a depth-first search. If it false
+	 * we assume a breadth-first search.
+	 */
+	private boolean dfs;
+	/**
+	 * Flag indicating if we want to keep the different patterns that we find.
+	 */
+	private boolean keepPatterns;
+	/**
+	 * Flag for debugging purposes.
+	 */
+	private boolean verbose;
 
-    /**
-     * Standard constructor.
-     * @param frequentPatternEnumeration the FrequentPatternEnumeration object
-     * through which we search for the patterns.
-     * @param equivalenceClass Equivalence class from which we start the search.
-     * @param dfs Flag indicating if we want to keep the different patterns that
-     * we find.
-     * @param keepPatterns Flag indicating if we want to keep the different 
-     * patterns that we find.
-     * @param verbose Flag for debugging purposes.
-     * @param saver Object that is in charge of saving the output either in a 
-     * file or in the main memory.
-     */
-    public FrequentPatternEnumerationFacade(FrequentPatternEnumeration frequentPatternEnumeration, EquivalenceClass equivalenceClass, boolean dfs, boolean keepPatterns, boolean verbose, Saver saver) {
-        this.frequentPatternEnumeration = frequentPatternEnumeration;
-        this.equivalenceClass = equivalenceClass;
-        this.keepPatterns = keepPatterns;
-        this.dfs = dfs;
-        this.verbose = verbose;
-    }
 
-    /**
-     * Implementation of callable interface. Thought for parallelized executions.
-     * @return a Void object
-     * @throws Exception 
-     */
-    @Override
+	/**
+	 * Standard constructor.
+	 * 
+	 * @param frequentPatternEnumeration
+	 *            the FrequentPatternEnumeration object through which we search
+	 *            for the patterns.
+	 * @param equivalenceClass
+	 *            Equivalence class from which we start the search.
+	 * @param dfs
+	 *            Flag indicating if we want to keep the different patterns that
+	 *            we find.
+	 * @param keepPatterns
+	 *            Flag indicating if we want to keep the different patterns that
+	 *            we find.
+	 * @param verbose
+	 *            Flag for debugging purposes.
+	 * @param saver
+	 *            Object that is in charge of saving the output either in a file
+	 *            or in the main memory.
+	 */
+	public FrequentPatternEnumerationFacade(
+			FrequentPatternEnumeration frequentPatternEnumeration,
+			EquivalenceClass equivalenceClass, boolean dfs,
+			boolean keepPatterns, boolean verbose, Saver saver) {
+		this.frequentPatternEnumeration = frequentPatternEnumeration;
+		this.equivalenceClass = equivalenceClass;
+		this.keepPatterns = keepPatterns;
+		this.dfs = dfs;
+		this.verbose = verbose;
+	}
+
+	/**
+	 * Implementation of callable interface. Thought for parallelized
+	 * executions.
+	 * 
+	 * @return a Void object
+	 * @throws Exception
+	 */
+	@Override
     public Void call() throws Exception {
         frequentPatternEnumeration.execute(equivalenceClass, dfs, keepPatterns, verbose,null,null);
         return null;
     }
-    
-    public FrequentPatternEnumeration getFrequentPatternEnumeration() {
-        return frequentPatternEnumeration;
-    }
 
-    public EquivalenceClass getEquivalenceClass() {
-        return equivalenceClass;
-    }
+	// /**
+	// * Implementation of callable interface. Thought for parallelized
+	// executions.
+	// * @return a Void object
+	// * @throws Exception
+	// */
+	// @Override
+	// public Void call() throws Exception {
+	// frequentPatternEnumeration.execute(equivalenceClass, dfs, keepPatterns,
+	// verbose,null,null);
+	// return null;
+	// }
 
-    public boolean isVerbose() {
-        return verbose;
-    }
+	public FrequentPatternEnumeration getFrequentPatternEnumeration() {
+		return frequentPatternEnumeration;
+	}
+
+	public EquivalenceClass getEquivalenceClass() {
+		return equivalenceClass;
+	}
+
+	public boolean isVerbose() {
+		return verbose;
+	}
 }

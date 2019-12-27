@@ -1,5 +1,7 @@
 package ca.pfv.spmf.algorithmmanager;
 
+import java.io.Serializable;
+
 /* This file is copyright (c) 2008-2013 Philippe Fournier-Viger
 * 
 * This file is part of the SPMF DATA MINING SOFTWARE
@@ -22,7 +24,12 @@ package ca.pfv.spmf.algorithmmanager;
  * @see DescriptionOfAlgorithm
  * @author Philippe Fournier-Viger, 2016
  */
-public class DescriptionOfParameter{
+public class DescriptionOfParameter implements Serializable{
+	
+	/**
+	 * Serial ID
+	 */
+	private static final long serialVersionUID = 6680232387395745034L;
 	
 	/** name of this parameter */
 	public final String name;

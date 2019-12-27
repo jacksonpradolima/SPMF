@@ -49,7 +49,7 @@ public class DescriptionAlgoAprioriClose extends DescriptionOfAlgorithm {
 
 	@Override
 	public String getURLOfDocumentation() {
-		return "http://www.philippe-fournier-viger.com/spmf/index.php?link=documentation.php#example2";
+		return "http://www.philippe-fournier-viger.com/spmf/AprioriClose.php";
 	}
 
 	@Override

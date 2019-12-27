@@ -59,11 +59,13 @@ public class AlgoDefMe {
 
 	/** relative minimum support **/
 	private int minsupRelative;  
+	
 	/** the transaction database **/
 	private TransactionDatabase database; 
 
 	/**  start time of the last execution */
 	private long startTimestamp;
+	
 	/** end  time of the last execution */
 	private long endTime; 
 	
@@ -71,8 +73,10 @@ public class AlgoDefMe {
 	 The  patterns that are found 
 	 (if the user want to keep them into memory) */
 	protected Itemsets generators;
+	
 	/** object to write the output file */
 	BufferedWriter writer = null; 
+	
 	/** the number of patterns found */
 	private int itemsetCount;
 	
@@ -82,8 +86,12 @@ public class AlgoDefMe {
 	/**  buffer for storing the current itemset that is mined when performing mining
 	  the idea is to always reuse the same buffer to reduce memory usage. */
 	final int BUFFERS_SIZE = 2000;
+	
 	/** size of the buffer*/
 	private int[] itemsetBuffer = null;
+	
+	/** Special parameter to set the maximum size of itemsets to be discovered */
+	int maxItemsetSize = Integer.MAX_VALUE;
 
 	/**
 	 * Default constructor
@@ -163,12 +171,13 @@ public class AlgoDefMe {
 			int support = tidset.support;
 			int item = entry.getKey();
 			// if the item is frequent
-			if(support >= minsupRelative) {
+			if(support >= minsupRelative && maxItemsetSize >=1) {
 				// add the item to the list of frequent items
 				frequentItems.add(item);
 			}
 		}
 		
+
 		// Sort the list of items by the total order of increasing support.
 		// This total order is suggested in the article by Zaki.
 		Collections.sort(frequentItems, new Comparator<Integer>() {
@@ -184,6 +193,7 @@ public class AlgoDefMe {
 		
 		// Initial call of the defme procedure 
 		defme(itemsetBuffer, 0, tidsetEmptySet, database.size(), frequentItems, 0, new BitSet[0]);
+
 		
 		// we check the memory usage
 		MemoryLogger.getInstance().checkMemory();
@@ -228,47 +238,50 @@ public class AlgoDefMe {
 		// save the itemset
 		save(itemsetX, itemsetLength,  tidsetX, supportX);
 		
-		// for all e in tail
-		for(int i=posTail; i< frequentItems.size(); i++) {
-			// Calculate e
-			Integer e = frequentItems.get(i);
+		if(itemsetLength < maxItemsetSize){
 			
-			// Calculate Cov(e), i.e. the tidset of e
-			BitSetSupport tidsetE = mapItemTIDS.get(e);
-			
-			// Calculate Xe, i.e. X U {e}
-			itemsetX[itemsetLength] = e;
-			int newItemsetLength = itemsetLength+1;
-			
-			// Calculate cov(Xe), i.e. tidset(X U {e})
-			BitSet tidsetXe = (BitSet)tidsetX.clone();
-			tidsetXe.and(tidsetE.bitset);
-			
-			// The support of XU{e} is the cardinality of its tidset
-			int supportXe = tidsetXe.cardinality();
-			
-			// If XU{e} is infrequent, we don't need to consider it anymore
-			if(supportXe < minsupRelative) {
-				continue;
-			}
-			
-			// ==  Calculate critical objects (cov*(Y, e)) for each item e in Y = XU{e} == 
-			BitSet[] critItemsetY = new BitSet[newItemsetLength];
-			
-			// For the item e
-			BitSet critE = (BitSet)tidsetX.clone();
-			critE.andNot(tidsetE.bitset);
-			critItemsetY[critItemsetY.length-1] = critE;
-			
-			// For any other item e' in X 
-			for(int j=0; j< itemsetLength; j++) {
-				// calculate cov* as follows:
-				critItemsetY[j] = (BitSet)critItemsetX[j].clone();
-				critItemsetY[j].and(tidsetE.bitset);
-			}
+			// for all e in tail
+			for(int i=posTail; i< frequentItems.size(); i++) {
+				// Calculate e
+				Integer e = frequentItems.get(i);
 				
-			// recursive call to explore patterns by extending XU{e} with items from "tail"
-			defme(itemsetX, newItemsetLength, tidsetXe, supportXe, frequentItems, i+1, critItemsetY);
+				// Calculate Cov(e), i.e. the tidset of e
+				BitSetSupport tidsetE = mapItemTIDS.get(e);
+				
+				// Calculate Xe, i.e. X U {e}
+				itemsetX[itemsetLength] = e;
+				int newItemsetLength = itemsetLength+1;
+				
+				// Calculate cov(Xe), i.e. tidset(X U {e})
+				BitSet tidsetXe = (BitSet)tidsetX.clone();
+				tidsetXe.and(tidsetE.bitset);
+				
+				// The support of XU{e} is the cardinality of its tidset
+				int supportXe = tidsetXe.cardinality();
+				
+				// If XU{e} is infrequent, we don't need to consider it anymore
+				if(supportXe < minsupRelative) {
+					continue;
+				}
+				
+				// ==  Calculate critical objects (cov*(Y, e)) for each item e in Y = XU{e} == 
+				BitSet[] critItemsetY = new BitSet[newItemsetLength];
+				
+				// For the item e
+				BitSet critE = (BitSet)tidsetX.clone();
+				critE.andNot(tidsetE.bitset);
+				critItemsetY[critItemsetY.length-1] = critE;
+				
+				// For any other item e' in X 
+				for(int j=0; j< itemsetLength; j++) {
+					// calculate cov* as follows:
+					critItemsetY[j] = (BitSet)critItemsetX[j].clone();
+					critItemsetY[j].and(tidsetE.bitset);
+				}
+					
+				// recursive call to explore patterns by extending XU{e} with items from "tail"
+				defme(itemsetX, newItemsetLength, tidsetXe, supportXe, frequentItems, i+1, critItemsetY);
+			}
 		}
 	}
 
@@ -342,5 +355,13 @@ public class AlgoDefMe {
 	public class BitSetSupport{
 		BitSet bitset = new BitSet();
 		int support;
+	}
+
+	/** 
+	 * Set the maximum pattern length
+	 * @param length the maximum length
+	 */
+	public void setMaximumPatternLength(int length) {
+		this.maxItemsetSize = length;
 	}
 }

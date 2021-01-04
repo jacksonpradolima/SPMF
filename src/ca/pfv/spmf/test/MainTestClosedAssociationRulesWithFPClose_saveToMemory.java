@@ -18,7 +18,7 @@ public class MainTestClosedAssociationRulesWithFPClose_saveToMemory {
 
 	public static void main(String [] arg) throws IOException{
 		// input file path
-		String input = fileToPath("bad.txt");
+		String input = fileToPath("contextZart.txt");
 		
 		// the threshold
 		double minsup = 0.20;

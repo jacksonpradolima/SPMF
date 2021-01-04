@@ -4,11 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
 import ca.pfv.spmf.algorithms.associationrules.TopKRules_and_TNR.AlgoTopKClassRules;
-import ca.pfv.spmf.algorithms.associationrules.TopKRules_and_TNR.AlgoTopKRules;
 import ca.pfv.spmf.algorithms.associationrules.TopKRules_and_TNR.Database;
 
 /**
- * Example of how to use the TOPKClassRules algorithm in source code.
+ * Example of how to usAlgoTopKClassRules.javae the TOPKClassRules algorithm in source code.
  * This algorithm is designed to find association rules where the consequent
  * is fixed to a specific item.
  * @author Philippe Fournier-Viger (Copyright 2010)
@@ -31,6 +30,11 @@ public class MainTestTopKClassRules {
 //		// This optional parameter allows to specify the maximum number of items in the 
 //		// left side (antecedent) of rules found:
 //		algo.setMaxAntecedentSize(2);  // optional
+
+//		// This optional parameter allows to specify a maximum support for the rules to be found.
+//		// The support is a percentage. This is useful to find rare rules
+//		algo.setMaxSupport(0.5);
+		
 //
 		algo.runAlgorithm(k, minConf, database, itemToBeUsedAsConsequent);
 

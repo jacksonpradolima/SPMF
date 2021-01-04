@@ -765,7 +765,7 @@ loop2:	for(Integer i : in){
 			StringBuilder buffer = new StringBuilder();
 			buffer.append(pattern.prefix.toString());
 			// write separator
-			buffer.append(" #SUP: ");
+			buffer.append("#SUP: ");
 			// write support
 			buffer.append(pattern.support);
 	        // if the user wants the sequence IDs, we will show them

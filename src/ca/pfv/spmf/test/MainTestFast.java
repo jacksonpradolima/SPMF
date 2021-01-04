@@ -19,17 +19,21 @@ public class MainTestFast {
 		
 		// output file path
 		String outputPath = ".//output.txt";
+		
+        // Create the algoritm
+        AlgoFast algorithm = new AlgoFast();
 
-		// Create an instance of the algorithm with minsup = 50 %
+		// The minsup parameter will be set to 50 %
 		float minsup = 0.4f;
 		
-		//=== THIS IS THE FIRST WAY OF RUNNING CLOFAST =====
-		// It reads the dataset and run the algorithm.
+		// An optional parameter is to specify a maximum support
+		// Uncomment the two following lines to use it:
+//		float maxsup = 0.8f;
+//      algorithm.setMaximumSupport(maxsup);
 		
-        // run the algoritm
-        AlgoFast algorithm = new AlgoFast();
+		//=== Run the algorithm - this is the first way
+		// - It will read the dataset and run the algorithm.
         algorithm.runAlgorithm(inputFile, outputPath, minsup);
-
         algorithm.printStatistics();
         
 		//=== THIS IS THE SECOND WAY OF RUNNING CLOFAST =====

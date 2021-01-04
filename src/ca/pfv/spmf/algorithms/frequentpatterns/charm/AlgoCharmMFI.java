@@ -61,7 +61,7 @@ public class AlgoCharmMFI {
 
 	/** 
 	 The  patterns that are found 
-	 (if the user want to keep them into memory) */
+	 (if the user wants to keep them into memory) */
 	protected Itemsets maximalItemsets;
 	
 	/** object to write the output file */
@@ -78,17 +78,17 @@ public class AlgoCharmMFI {
 
 	/**
 	 * Run the CHARM-MFI algorithm.
-	 * @param output an output file path or null if the user want to keep the result in memory.
+	 * @param output an output file path or null if the user wants to keep the result in memory.
 	 * @param frequentClosed a set of frequent closed itemsets
 	 * @return the set of maximal itemsets (if the user chose to keep the result in memory.
 	 * @throws IOException An exception if an error occurs while writting the output to a file.
 	 */
 	public Itemsets runAlgorithm(String output, Itemsets frequentClosed) throws IOException {
 		
-		// if the user want to keep the result into memory
+		// if the user wants to keep the result into memory
 		if(output == null){
 			writer = null;
-	    }else{ // if the user want to save the result to a file
+	    }else{ // if the user wants to save the result to a file
 			writer = new BufferedWriter(new FileWriter(output)); 
 		}
 

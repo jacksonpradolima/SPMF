@@ -65,7 +65,7 @@ public class AlgoApriori {
 	/** total number of candidates */
 	protected int totalCandidateCount = 0; 
 	
-	/** number of candidate generated during last execution */
+	/** number of candidates generated during last execution */
 	protected long startTimestamp; //
 	
 	/**  start time of last execution */
@@ -85,7 +85,7 @@ public class AlgoApriori {
 	private List<int[]> database = null;
 	
 	/**The  patterns that are found 
-	 *  (if the user want to keep them into memory)
+	 *  (if the user wants to keep them into memory)
 	 */
 	protected Itemsets patterns = null;
 
@@ -113,11 +113,11 @@ public class AlgoApriori {
 	 */
 	public Itemsets runAlgorithm(double minsup, String input, String output) throws IOException {
 		
-		// if the user want to keep the result into memory
+		// if the user wants to keep the result into memory
 		if(output == null){
 			writer = null;
 			patterns =  new Itemsets("FREQUENT ITEMSETS");
-	    }else{ // if the user want to save the result to a file
+	    }else{ // if the user wants to save the result to a file
 			patterns = null;
 			writer = new BufferedWriter(new FileWriter(output)); 
 		}
@@ -249,7 +249,7 @@ public class AlgoApriori {
 			totalCandidateCount += candidatesK.size();
 
 			// We scan the database one time to calculate the support
-			// of each candidates and keep those with higher suport.
+			// of each candidates and keep those with higher support.
 			// For each transaction:
 			for(int[] transaction: database){
 				// NEW OPTIMIZATION 2013: Skip transactions shorter than k!
@@ -406,7 +406,7 @@ public class AlgoApriori {
 	}
 
 	/**
-	 * Method to check if all the subsets of size k-1 of a candidate of size k are freuqnet
+	 * Method to check if all the subsets of size k-1 of a candidate of size k are frequent
 	 * @param candidate a candidate itemset of size k
 	 * @param levelK_1  the frequent itemsets of size k-1
 	 * @return true if all the subsets are frequet

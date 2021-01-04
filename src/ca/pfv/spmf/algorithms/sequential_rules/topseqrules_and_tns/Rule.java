@@ -26,7 +26,7 @@ import java.util.Set;
  * It is optimized for these algorithms by storing several additional fields that are necessary 
  * for such top-k algorithms. For example, a rule includes the 
  * transactions IDs of the antecedent, the transaction IDs of the consequent, the transaction IDs
- * of the sequences where the antecedent appears before the consequent, maps of occurences for the
+ * of the sequences where the antecedent appears before the consequent, maps of occurrences for the
  * antecedent and consequent, etc.
  * 
  * @see AlgoTopSeqClassRules
@@ -47,10 +47,10 @@ public class Rule implements Comparable<Rule>{
 	Set<Integer> tidsJ; 
 	/** transaction IDs of the sequences where the antecedent appears before the consequent */
 	Set<Integer> tidsIJ; 	
-	/**  maps of first occurences of the antecedent */
-	Map<Integer, Short> occurencesIfirst; 
-	/**  maps of last occurences of the antecedent */
-	Map<Integer, Short> occurencesJlast; 
+	/**  maps of first occurrences of the antecedent */
+	Map<Integer, Short> occurrencesIfirst; 
+	/**  maps of last occurrences of the antecedent */
+	Map<Integer, Short> occurrencesJlast; 
 	/** flag indicating if both left and right expansion should be explored from this rule */
 	boolean expandLR = false; 
 	 /** confidence of the rule */
@@ -65,13 +65,13 @@ public class Rule implements Comparable<Rule>{
 	 * @param tidsI the transaction IDs of the antecedent
 	 * @param tidsJ the transaction IDs of the consequent
 	 * @param tidsIJ transaction IDs of the sequences where the antecedent appears before the consequent
-	 * @param occurencesIfirst maps of first occurences of the antecedent
-	 * @param occurencesJlast maps of last occurences of the antecedent
+	 * @param occurrencesIfirst maps of first occurrences of the antecedent
+	 * @param occurrencesJlast maps of last occurrences of the antecedent
 	 */
 	public Rule(int[] itemset1, int[] itemset2, double confidence, int transactioncount, 
 			Set<Integer> tidsI, Set<Integer> tidsJ, Set<Integer> tidsIJ, 
-			Map<Integer, Short> occurencesIfirst,
-			Map<Integer, Short> occurencesJlast){
+			Map<Integer, Short> occurrencesIfirst,
+			Map<Integer, Short> occurrencesJlast){
 		this.itemset1 = itemset1;
 		this.itemset2 = itemset2;
 		this.confidence = confidence;
@@ -79,8 +79,8 @@ public class Rule implements Comparable<Rule>{
 		this.tidsI = tidsI;
 		this.tidsJ = tidsJ;
 		this.tidsIJ = tidsIJ;
-		this.occurencesJlast = occurencesJlast;
-		this.occurencesIfirst = occurencesIfirst;
+		this.occurrencesJlast = occurrencesJlast;
+		this.occurrencesIfirst = occurrencesIfirst;
 	}
 
 	/**

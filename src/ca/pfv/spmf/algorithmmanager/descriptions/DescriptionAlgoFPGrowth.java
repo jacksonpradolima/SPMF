@@ -60,6 +60,9 @@ public class DescriptionAlgoFPGrowth extends DescriptionOfAlgorithm {
 		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
 			algorithm.setMaximumPatternLength(getParamAsInteger(parameters[1]));
 		}
+		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+			algorithm.setMinimumPatternLength(getParamAsInteger(parameters[2]));
+		}
 		algorithm.runAlgorithm(inputFile, outputFile, minsup);
 		algorithm.printStats();
 	}
@@ -67,9 +70,10 @@ public class DescriptionAlgoFPGrowth extends DescriptionOfAlgorithm {
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[2];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[3];
 		parameters[0] = new DescriptionOfParameter("Minsup (%)", "(e.g. 0.4 or 40%)", Double.class, false);
 		parameters[1] = new DescriptionOfParameter("Max pattern length", "(e.g. 2 items)", Integer.class, true);
+		parameters[2] = new DescriptionOfParameter("Min pattern length", "(e.g. 2 items)", Integer.class, true);
 		return parameters;
 	}
 

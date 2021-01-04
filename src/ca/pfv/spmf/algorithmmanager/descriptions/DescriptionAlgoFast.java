@@ -56,6 +56,10 @@ public class DescriptionAlgoFast extends DescriptionOfAlgorithm {
 
 		AlgoFast algo = new AlgoFast();
 		
+		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+			algo.setMaximumSupport(getParamAsFloat(parameters[1]));
+		}
+		
 		algo.runAlgorithm(inputFile, outputFile,
 				getParamAsFloat(parameters[0]));
 		algo.printStatistics();
@@ -64,8 +68,9 @@ public class DescriptionAlgoFast extends DescriptionOfAlgorithm {
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[1];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[2];
 		parameters[0] = new DescriptionOfParameter("Minsup (%)", "(e.g. 0.5 or 50%)", Float.class, false);
+		parameters[1] = new DescriptionOfParameter("Maxsup (%)", "(e.g. 0.8 or 80%)", Float.class, false);
 		return parameters;
 	}
 

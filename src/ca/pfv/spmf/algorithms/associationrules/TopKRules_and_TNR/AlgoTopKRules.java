@@ -88,6 +88,7 @@ public class AlgoTopKRules {
 	/** the maximum size of the consequent of rules (optional) */
 	int maxConsequentSize = Integer.MAX_VALUE;
 
+	
 	/**
 	 * Default constructor
 	 */
@@ -638,4 +639,5 @@ public class AlgoTopKRules {
 	public void setMaxConsequentSize(int maxConsequentSize) {
 		this.maxConsequentSize = maxConsequentSize;
 	}
+
 }

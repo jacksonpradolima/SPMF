@@ -16,7 +16,7 @@ import java.util.Map;
 
 import ca.pfv.spmf.tools.MemoryLogger;
 
-/**
+/*
  * Copyright (c) 2019 Peng Yang, Philippe Fournier-Viger et al.
 
  * This file is part of the SPMF DATA MINING SOFTWARE *
@@ -64,7 +64,7 @@ public class AlgoSPPgrowth {
     /** object to write the output file */
     BufferedWriter writer = null; 
 
-    /** The  patterns that are found (if the user want to keep them into memory) */
+    /** The  patterns that are found (if the user wants to keep them into memory) */
     protected Itemsets patterns = null;
 
     /** This variable is used to determine the size of buffers to store itemsets.
@@ -133,11 +133,11 @@ public class AlgoSPPgrowth {
         MemoryLogger.getInstance().reset();
         MemoryLogger.getInstance().checkMemory();
 
-        // if the user want to keep the result into memory
+        // if the user wants to keep the result into memory
         if (output == null) {
             writer = null;
             patterns = new Itemsets("Periodic Frequent Time-Interval of Itemsets");
-        } else { // if the user want to save the result to a file
+        } else { // if the user wants to save the result to a file
             patterns = null;
             writer = new BufferedWriter(new FileWriter(output));
             itemsetOutputBuffer = new int[BUFFERS_SIZE];

@@ -40,7 +40,6 @@ public class MainTestCMClaSP_saveToFile {
 
         //double relativeSupport = sequenceDatabase.loadFile(fileToPath("contextClaSP.txt"), support);
         double relativeSupport = sequenceDatabase.loadFile(fileToPath("contextPrefixSpan.txt"), support);
-        //double relativeSupport = sequenceDatabase.loadFile(fileToPath("gazelle.txt"), support);
 
         AlgoCM_ClaSP algorithm = new AlgoCM_ClaSP(relativeSupport, abstractionCreator, findClosedPatterns, executePruningMethods);
 

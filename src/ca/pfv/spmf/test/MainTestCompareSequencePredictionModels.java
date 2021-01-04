@@ -19,6 +19,13 @@ public class MainTestCompareSequencePredictionModels {
 
 	public static void main(String[] args) throws IOException {
 		
+			// The following line is to set optional parameters for the prediction model. 
+			// We can activate the recursive divider strategy to obtain more noise
+			// tolerant predictions (see paper). We can also use a splitting method
+			// to reduce the model size (see explanation below).
+			String optionalParameters = "windowSize:1 consequentSize:2";
+			
+			
 			//instantiate the evaluator
 			// with the directory containing the datasets
 			Evaluator evaluator = new Evaluator("/home/ted/java/IPredict/datasets");

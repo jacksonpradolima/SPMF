@@ -727,8 +727,8 @@ public class AlgoERMiner {
 					Set<Integer> alreadyProcessedWithRespectToK = new HashSet<Integer>();
 					for(List<Integer> itemsetjj : sequence.getItemsets()) {
 						
-						for(Integer itemkk : itemsetjj) {
-							if(itemkk == itemk || alreadyProcessedWithRespectToK.contains(itemkk)
+						for(Integer     itemkk    : itemsetjj) {
+							if(itemkk.equals(itemk) || alreadyProcessedWithRespectToK.contains(itemkk)
 									||  mapItemCount.get(itemkk).size() < minsuppRelative){
 								continue;
 							}

@@ -31,7 +31,7 @@ import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
 public class Main {
 
     // variable for the current version of SPMF
-    public final static String SPMF_VERSION = "2.40";
+    public final static String SPMF_VERSION = "2.42c";
     
     /**
      * Method to launch the software. If there are command line arguments, it

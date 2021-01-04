@@ -137,12 +137,12 @@ public class AlgoAgrawalFaster94{
 			throw new IllegalArgumentException("The maximum length must be at least 1.");
 		}
 		
-		// if the user want to keep the result into memory
+		// if the user wants to keep the result into memory
 		if(output == null){
 			writer = null;
 			rules =  new AssocRules("ASSOCIATION RULES");
 	    }else{ 
-	    	// if the user want to save the result to a file
+	    	// if the user wants to save the result to a file
 	    	rules = null;
 			writer = new BufferedWriter(new FileWriter(output)); 
 		}

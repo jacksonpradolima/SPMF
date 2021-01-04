@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ca.pfv.spmf.algorithms.frequentpatterns.fpgrowth.FPTree;
 import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
 import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemsets;
 import ca.pfv.spmf.tools.MemoryLogger;
@@ -89,6 +90,9 @@ public class AlgoRPGrowth {
 
 		 /** maximum pattern length */
 		 private int maxPatternLength = 1000;
+		 
+		/** minimum pattern length */
+		private int minPatternLength = 0;
 
 		 /**
 		  * Constructor
@@ -182,20 +186,24 @@ public class AlgoRPGrowth {
 		     //Add the sorted items to the RP tree
 		     //If (last item in sorted transaction is < minRelSup, we accept the transaction)   		     
 		     //get the last item in transaction; because the last item in the transaction is the smallest count size
-		     int myCheck = transaction.get(transaction.size() - 1);
-		     //take item and get its count
-		     int count = mapSupport.get(myCheck);
-		     //if the last item is below minSupportRelative then it is Rare by our definition, so it is of interest and added to the tree
-		     if(count < this.minSupportRelative) {
-		    	 tree.addTransaction(transaction);
-		     }	    	 
+		     
+		     	 if(!transaction.isEmpty()) {/* BUG FIX to account for a check against an empty transaction 01/29/2020 Blake Johns*/
+		     		 int myCheck = transaction.get(transaction.size() - 1);
+		     		 //take item and get its count
+		     		 int count = mapSupport.get(myCheck);
+		     		 //if the last item is below minSupportRelative then it is Rare by our definition, so it is of interest and added to the tree
+		     		 if(count < this.minSupportRelative) {
+		     			 tree.addTransaction(transaction);
+		     		 }	    	 
+		     	 }
 		   }
+		   
 		   // close the input file
 		   reader.close();
 
 		   // We create the header table for the tree using the calculated support of single items
 		   tree.createHeaderList(mapSupport);
-		   
+		  
 		   // (5) We start to mine the RP-Tree by calling the recursive method.
 		   // Initially, the prefix alpha is empty.
 		   // if at least one item is not frequent
@@ -461,10 +469,13 @@ public class AlgoRPGrowth {
 
 
 		 /**
-		  * Write a frequent item set that is found to the output file or
+		  * Write an infrequent item set that is found to the output file or
 		  * keep into memory if the user prefer that the result be saved into memory.
 		  */
 		 private void saveItemset(int [] itemset, int itemsetLength, int support) throws IOException {
+			if (itemsetLength < minPatternLength) {
+				return;
+			}
 
 		   // increase the number of item sets found for statistics purpose
 		   itemsetCount++;
@@ -535,4 +546,13 @@ public class AlgoRPGrowth {
 		 public void setMaximumPatternLength(int length) {
 		   maxPatternLength = length;
 		 }
+		 
+	/**
+	 * Set the minimum pattern length
+	 * 
+	 * @param length the minimum length
+	 */
+	public void setMinimumPatternLength(int minPatternLength) {
+		this.minPatternLength = minPatternLength;
+	}
 }

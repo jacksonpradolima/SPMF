@@ -26,7 +26,7 @@ public class MainTestAddTimeStampsToSequenceDatabase {
 	
 	public static void main(String [] arg) throws IOException{
 		
-		String inputFile = fileToPath("contextPrefixspan.txt");
+		String inputFile = fileToPath("contextPrefixSpan.txt");
 		String outputFile = ".//output.txt";
 		
 		AddTimeStampsToSequenceDatabase converter = new AddTimeStampsToSequenceDatabase();

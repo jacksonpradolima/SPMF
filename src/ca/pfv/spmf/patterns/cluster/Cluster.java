@@ -32,7 +32,7 @@ public class Cluster {
 	protected List<DoubleArray> vectors = new ArrayList<DoubleArray>();
 
 	public Cluster() {
-		super();
+		
 	}
 
 	/**

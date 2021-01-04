@@ -25,6 +25,9 @@ public class MainTestRPGrowth_saveToFile {
 		// Uncomment the following line to set the maximum pattern length (number of items per itemset, e.g. 3 )
 //		algo.setMaximumPatternLength(3);
 		
+		// Uncomment the following line to set the maximum pattern length (number of items per itemset, e.g. 2 )
+//		algo.setMinimumPatternLength(2);
+		
 		algo.runAlgorithm(input, output, minsup, minraresup); //running the algorithm
 		algo.printStats(); //print the execution time and other stats
 		

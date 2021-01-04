@@ -73,7 +73,7 @@ public class AlgoEclat {
 	
 	/** 
 	 The  patterns that are found 
-	 (if the user want to keep them into memory) */
+	 (if the user wants to keep them into memory) */
 	protected Itemsets frequentItemsets;
 	
 	/** object to write the output file */
@@ -124,11 +124,11 @@ public class AlgoEclat {
 		// initialize the buffer for storing the current itemset
 		itemsetBuffer = new int[BUFFERS_SIZE];
 		
-		// if the user want to keep the result into memory
+		// if the user wants to keep the result into memory
 		if(output == null){
 			writer = null;
 			frequentItemsets =  new Itemsets("FREQUENT ITEMSETS");
-	    }else{ // if the user want to save the result to a file
+	    }else{ // if the user wants to save the result to a file
 	    	frequentItemsets = null;
 			writer = new BufferedWriter(new FileWriter(output)); 
 		}

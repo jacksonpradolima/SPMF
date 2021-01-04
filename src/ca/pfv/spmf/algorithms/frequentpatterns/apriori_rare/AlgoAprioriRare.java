@@ -61,10 +61,10 @@ public class AlgoAprioriRare {
 	protected int k; 
 
 	// variables for statistics
-	protected int totalCandidateCount = 0; // number of candidate generated during last execution
+	protected int totalCandidateCount = 0; // number of candidates generated during last execution
 	protected long startTimestamp; // start time of last execution
 	protected long endTimestamp; // end time of last execution
-	private int itemsetCount;  // itemset found during last execution
+	private int itemsetCount;  // itemset count, found during the last execution
 	private int databaseSize;
 	
 	// the minimum support set by the user
@@ -99,11 +99,11 @@ public class AlgoAprioriRare {
 	 */
 	public Itemsets runAlgorithm(double minsup, String input, String output) throws IOException {
 		
-		// if the user want to keep the result into memory
+		// if the user wants to keep the result into memory
 		if(output == null){
 			writer = null;
 			patterns =  new Itemsets("MINIMAL RARE ITEMSETS");
-	    }else{ // if the user want to save the result to a file
+	    }else{ // if the user wants to save the result to a file
 			patterns = null;
 			writer = new BufferedWriter(new FileWriter(output)); 
 		}
@@ -111,11 +111,11 @@ public class AlgoAprioriRare {
 		// record the start time
 		startTimestamp = System.currentTimeMillis();
 		
-		// set the number of itemset found to zero
+		// set the number of itemsets found to zero
 		itemsetCount = 0;
-		// set the number of candidate found to zero
+		// set the number of candidates found to zero
 		totalCandidateCount = 0;
-		// reset the utility for checking the memory usage
+		// reset the tool for checking the memory usage
 		MemoryLogger.getInstance().reset();
 
 		// READ THE INPUT FILE
@@ -143,7 +143,7 @@ public class AlgoAprioriRare {
 			// split the line according to spaces
 			String[] lineSplited = line.split(" ");
 			
-			// create an array of int to store the items in this transaction
+			// create an array of integers to store the items in this transaction
 			int transaction[] = new int[lineSplited.length];
 			
 			// for each item in this line (transaction)
@@ -168,7 +168,7 @@ public class AlgoAprioriRare {
 		// close the input file
 		reader.close();
 		
-		// conver the minimum support as a percentage to a 
+		// convert the minimum support as a percentage to a 
 		// relative minimum support as an integer
 		this.minsupRelative = (int) Math.ceil(minsup * databaseSize);
 		
@@ -231,8 +231,8 @@ public class AlgoAprioriRare {
 			// we add the number of candidates generated to the total
 			totalCandidateCount += candidatesK.size();
 
-			// We scan the database one time to calculate the support
-			// of each candidates and keep those with higher suport.
+			// We scan the database once to calculate the support
+			// of each candidates and keep those with higher support.
 			// For each transaction:
 			for(int[] transaction: database){
 				// for each candidate:
@@ -242,7 +242,7 @@ public class AlgoAprioriRare {
 					int pos = 0;
 					// for each item in this transaction
 					for(int item: transaction){
-						// if the item correspond to the current item of candidate
+						// if the item corresponds to the current item of candidate
 						if(item == candidate.itemset[pos]){
 							// we will try to find the next item of candidate next
 							pos++;
@@ -380,7 +380,7 @@ public class AlgoAprioriRare {
 	}
 
 	/**
-	 * Method to check if all the subsets of size k-1 of a candidate of size k are freuqnet
+	 * Method to check if all the subsets of size k-1 of a candidate of size k are frequent
 	 * @param candidate a candidate itemset of size k
 	 * @param levelK_1  the frequent itemsets of size k-1
 	 * @return true if all the subsets are frequet

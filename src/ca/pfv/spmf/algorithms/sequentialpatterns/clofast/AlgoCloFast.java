@@ -613,7 +613,7 @@ public class AlgoCloFast {
 		startTimestamp = System.currentTimeMillis();
 		MemoryLogger.getInstance().reset();
 
-        this.ds = FastDataset.fromPrefixspanSource(inputFile, minsup);
+        this.ds = FastDataset.fromPrefixspanSource(inputFile, minsup, Float.MAX_VALUE);
         
         // run the algoritm
         run();

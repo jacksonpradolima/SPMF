@@ -585,7 +585,7 @@ main2:		for(int itemJ=itemI+1; itemJ <= database.maxItem; itemJ++){
 				}while(kRules.size() > k);
 			}
 			// set the minimum support to the support of the rule having
-			// the lowest suport.
+			// the lowest support.
 			this.minsuppRelative = kRules.minimum().getAbsoluteSupport();
 		}
 //		System.out.println(this.minsuppRelative);

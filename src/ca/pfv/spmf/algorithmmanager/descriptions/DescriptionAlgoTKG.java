@@ -83,7 +83,7 @@ public class DescriptionAlgoTKG extends DescriptionOfAlgorithm {
         
 		DescriptionOfParameter[] parameters = new DescriptionOfParameter[5];
 		parameters[0] = new DescriptionOfParameter("k", "(e.g. 3)", Double.class, false);
-		parameters[1] = new DescriptionOfParameter("Max Number of Edges", "(e.g. 2)", Boolean.class, true);
+		parameters[1] = new DescriptionOfParameter("Max Number of Edges", "(e.g. 2)", Integer.class, true);
 		parameters[2] = new DescriptionOfParameter("Output Single Vertices", "(e.g. true)", Boolean.class, true);
 		parameters[3] = new DescriptionOfParameter("Output DOT file", "(e.g. false)", Boolean.class, true);
 		parameters[4] = new DescriptionOfParameter("Output Graph IDs", "(e.g. true)", Boolean.class, true);

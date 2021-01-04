@@ -244,7 +244,7 @@ public class AlgoMSApriori {
 			// Now, the algorithm will discover itemset of size k > 1 starting from k=2
 			List<Itemset> level = null;
 			k = 2;
-			// Generate candidates and test them for k>1 by inscreasing k at each iteration
+			// Generate candidates and test them for k>1 by increasing k at each iteration
 			// until no candidates can be generated
 			do {
 				// check the memory usage
@@ -263,7 +263,7 @@ public class AlgoMSApriori {
 				}
 	
 				// We scan the database one time to calculate the support
-				// of each candidates and keep those with higher suport.
+				// of each candidates and keep those with higher support.
 				
 				// for each transaction
 				for (Integer[] transaction : database) {

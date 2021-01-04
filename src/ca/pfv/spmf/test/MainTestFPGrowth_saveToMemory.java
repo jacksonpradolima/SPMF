@@ -28,6 +28,9 @@ public class MainTestFPGrowth_saveToMemory {
 		// Uncomment the following line to set the maximum pattern length (number of items per itemset, e.g. 3 )
 //		algo.setMaximumPatternLength(3);
 		
+		// Uncomment the following line to set the minimum pattern length (number of items per itemset, e.g. 2 )
+//		algo.setMinimumPatternLength(2);
+		
 		// Run the algorithm
 		// Note that here we use "null" as output file path because we want to keep the results into memory instead of saving to a file
 		Itemsets patterns = algo.runAlgorithm(input, null, minsup);  

@@ -67,7 +67,7 @@ public class AlgoFPGrowth {
 	BufferedWriter writer = null; // object to write the output file
 	
 	// The  patterns that are found 
-	// (if the user want to keep them into memory)
+	// (if the user wants to keep them into memory)
 	protected Itemsets patterns = null;
 		
 	// This variable is used to determine the size of buffers to store itemsets.
@@ -87,6 +87,11 @@ public class AlgoFPGrowth {
 	
 	/** maximum pattern length */
 	private int maxPatternLength = 1000;
+	
+	/** minimum pattern length */
+	private int minPatternLength = 0;
+
+
 
 	/**
 	 * Constructor
@@ -457,6 +462,9 @@ loop1:	for (long i = 1, max = 1 << position; i < max; i++) {
 	 * keep into memory if the user prefer that the result be saved into memory.
 	 */
 	private void saveItemset(int [] itemset, int itemsetLength, int support) throws IOException {
+		if(itemsetLength < minPatternLength) {
+			return;
+		}
 		
 		// increase the number of itemsets found for statistics purpose
 		itemsetCount++;
@@ -503,7 +511,7 @@ loop1:	for (long i = 1, max = 1 << position; i < max; i++) {
 	 * Print statistics about the algorithm execution to System.out.
 	 */
 	public void printStats() {
-		System.out.println("=============  FP-GROWTH 0.96r19 - STATS =============");
+		System.out.println("=============  FP-GROWTH 2.42 - STATS =============");
 		long temps = endTime - startTimestamp;
 		System.out.println(" Transactions count from database : " + transactionCount);
 		System.out.print(" Max memory usage: " + MemoryLogger.getInstance().getMaxMemory() + " mb \n");
@@ -526,6 +534,14 @@ loop1:	for (long i = 1, max = 1 << position; i < max; i++) {
 	 */
 	public void setMaximumPatternLength(int length) {
 		maxPatternLength = length;
+	}
+	
+	/** 
+	 * Set the minimum pattern length
+	 * @param length the minimum length
+	 */
+	public void setMinimumPatternLength(int minPatternLength) {
+		this.minPatternLength = minPatternLength;
 	}
 
 }

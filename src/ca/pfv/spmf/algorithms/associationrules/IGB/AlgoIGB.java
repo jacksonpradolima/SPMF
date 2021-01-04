@@ -84,12 +84,12 @@ public class AlgoIGB {
 	 * @throws IOException
 	 */
 	public Rules runAlgorithm(TZTableClosed closedPatternsAndGenerators, int databaseSize, double minconf, String outputFilePath) throws IOException {
-		// if the user want to keep the result into memory
+		// if the user wants to keep the result into memory
 		if(outputFilePath == null){
 			writer = null;
 			rules =  new Rules("IGB ASSOCIATION RULES");
 	    }else{ 
-	    	// if the user want to save the result to a file
+	    	// if the user wants to save the result to a file
 	    	rules = null;
 			writer = new BufferedWriter(new FileWriter(outputFilePath)); 
 		}

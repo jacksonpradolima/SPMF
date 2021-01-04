@@ -29,6 +29,7 @@ public class MainTestTopKRules {
 //		// This optional parameter allows to specify the maximum number of items in the 
 //		// right side (consequent) of rules found:
 //		algo.setMaxConsequentSize(1);  // optional
+		
 		algo.runAlgorithm(k, minConf, database);
 
 		algo.printStats();

@@ -62,7 +62,7 @@ public class AlgoTopKClassRules {
 	/**  a transaction database */
 	Database database;   
 
-	/** minimum support that will be reased during the search */
+	/** minimum support that will be raised during the search */
 	int minsuppRelative;
 	
 	/** a vertical representation of the database 
@@ -87,6 +87,19 @@ public class AlgoTopKClassRules {
 	
 	/** the list of items that can be used as consequent for all rules */
 	 int[] itemToBeUsedAsConsequent;
+	 
+	/**
+	 * An optional parameter to set a maximum value for the rules to be found, as a
+	 * relative value (number of transactions)
+	 */
+	private int maxSupportRelative = Integer.MAX_VALUE;
+
+	/**
+	 * An optional parameter to set a maximum value for the rules to be found, as a
+	 * percentage
+	 * */
+	private double maxSupport = Double.MAX_VALUE;
+	
 	/**
 	 * Default constructor
 	 */
@@ -98,6 +111,7 @@ public class AlgoTopKClassRules {
 	 * @param k the value of k.
 	 * @param minConfidence the minimum confidence threshold.
 	 * @param database the database.
+	 * @param maxSupport2 
 	 * @param fixedItemAsConsequent an item that must be the consequent of all rules
 	 */
 	public void runAlgorithm(int k, double minConfidence, Database database,  int[] itemToBeUsedAsConsequent) {
@@ -110,6 +124,10 @@ public class AlgoTopKClassRules {
 		this.database = database;
 		this.k = k;
 		this.itemToBeUsedAsConsequent = itemToBeUsedAsConsequent;
+		
+		// calculate the max support if the user decide to use this optional parameter
+		// by multiplying by the database size
+		maxSupportRelative = (int) Math.ceil(maxSupport * database.getTransactions().size());
 
 		// prepare internal variables and structures
 		this.minsuppRelative = 1;
@@ -122,6 +140,7 @@ public class AlgoTopKClassRules {
 			public int compare(ClassRuleG o1, ClassRuleG o2) {
 				return - (o1.compareTo(o2));
 			}});
+		
 
 		// record the start time
 		timeStart = System.currentTimeMillis(); 
@@ -349,6 +368,11 @@ public class AlgoTopKClassRules {
 	 * @param support the support of the rule
 	 */
 	private void save(ClassRuleG rule, int support) {
+		// If the user is using the maximum threshold to find rare rules, we should
+		// not save results having a too high support (above maxSup)
+		if(support > maxSupportRelative) {
+			return;
+		}
 		// We add the rule to the set of top-k rules
 		kRules.add(rule);
 		// if the size becomes larger than k
@@ -396,6 +420,10 @@ public class AlgoTopKClassRules {
 	public void printStats() {
 		System.out.println("=============  TOP-K CLASS RULES SPMF v.2.28 - STATS =============");
 		System.out.println("Minsup : " + minsuppRelative);
+		// if the user has been using the maxsupport optional parameter:
+		if(maxSupportRelative < Double.MAX_VALUE) {
+			System.out.println("Maxsup : " + maxSupportRelative);
+		}
 		System.out.println("Rules count: " + kRules.size());
 		System.out.println("Memory : " + MemoryLogger.getInstance().getMaxMemory() + " mb");
 		System.out.println("Total time : " + (timeEnd - timeStart) + " ms");
@@ -448,6 +476,15 @@ public class AlgoTopKClassRules {
 	 */
 	public void setMaxAntecedentSize(int maxAntecedentSize) {
 		this.maxAntecedentSize = maxAntecedentSize;
+	}
+	
+
+	/**
+	 * Set a maximum support for the rules to be found (to find rare rules)
+	 * @param maxSupport
+	 */
+	public void setMaxSupport(double maxSupport) {
+		this.maxSupport = maxSupport;
 	}
 
 

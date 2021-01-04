@@ -161,7 +161,7 @@ public class AlgoCHUIMinerMax {
 	 * @param input the input file path
 	 * @param output the output file path
 	 * @param minUtility the minimum utility threshold
-	 * @param output the output file path or null if the user want to keep result in memory
+	 * @param output the output file path or null if the user wants to keep result in memory
 	 * @return  the set of MHUIs if the user chose to save the result to memory
 	 * @throws IOException exception if error while writing the file
 	 */

@@ -39,7 +39,6 @@ public class MainTestCloSpan_saveToMemory {
 
         sequenceDatabase.loadFile(fileToPath("contextPrefixSpan.txt"), support);
         //sequenceDatabase.loadFile(fileToPath("contextCloSpan.txt"), support);
-        //sequenceDatabase.loadFile(fileToPath("gazelle.txt"), support);
 
         //System.out.println(sequenceDatabase.toString());
 

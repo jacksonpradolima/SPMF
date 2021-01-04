@@ -54,7 +54,7 @@ public class AlgoFHSAR {
 	long startTimestamp = 0; // the start time of the last execution
 	long endTimeStamp = 0; // the end time of the last execution
 
-	// the relative minimum suport (integer) chosen by the user
+	// the relative minimum support (integer) chosen by the user
 	private int minSuppRelative;
 
 	/**

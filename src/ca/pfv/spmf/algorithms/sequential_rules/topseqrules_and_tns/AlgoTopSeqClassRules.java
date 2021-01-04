@@ -82,9 +82,9 @@ public class AlgoTopSeqClassRules {
 	
 	/**Arrays where the ith position contains
 	// the map of last or first occurrences for the item i
-	// The key of the maps is a sequence ID and the value is an occurence. */
-	Map<Integer, Short>  arrayMapItemCountFirst[];  // item, <tid, occurence>
-	Map<Integer, Short>  arrayMapItemCountLast[];  // item, <tid, occurence>
+	// The key of the maps is a sequence ID and the value is an occurrence. */
+	Map<Integer, Short>  arrayMapItemCountFirst[];  // item, <tid, occurrence>
+	Map<Integer, Short>  arrayMapItemCountLast[];  // item, <tid, occurrence>
 	
 	/**  the maximum size of the antecedent of rules (optional) */
 	int maxAntecedentSize = Integer.MAX_VALUE;
@@ -123,7 +123,7 @@ public class AlgoTopSeqClassRules {
 		// set minsup = 1 (will be increased by the algorithm progressively)
 		this.minsuppRelative = 1;
 		
-		// create the structure for storing the first/last occurences
+		// create the structure for storing the first/last occurrences
 		arrayMapItemCountFirst = new HashMap[database.maxItem+1];
 		arrayMapItemCountLast = new HashMap[database.maxItem+1];
 		
@@ -135,7 +135,7 @@ public class AlgoTopSeqClassRules {
 		timeStart = System.currentTimeMillis();
 		
 		if(maxAntecedentSize >=1){
-			// scan the database to count the occurence of each item
+			// scan the database to count the occurrence of each item
 			scanDatabase(database);	
 			// start the algorithm
 			start();
@@ -158,15 +158,15 @@ public class AlgoTopSeqClassRules {
 		
 		// For each pair of frequent items i  and j such that i != j
 main1:	for(int itemI=database.minItem; itemI<= database.maxItem; itemI++){
-			// Get the map of occurences of item I
-			Map<Integer, Short> occurencesIfirst = arrayMapItemCountFirst[itemI];
+			// Get the map of occurrences of item I
+			Map<Integer, Short> occurrencesIfirst = arrayMapItemCountFirst[itemI];
 			
 			// if none continue
-			if(occurencesIfirst == null){
+			if(occurrencesIfirst == null){
 				continue main1;
 			}
 			// get  the set of sequence IDs containing I
-			Set<Integer> tidsI = occurencesIfirst.keySet();
+			Set<Integer> tidsI = occurrencesIfirst.keySet();
 			// if the support of I (cardinality of the tids) is lower
 			// than minsup, than it is not frequent, so we skip this item
 			if(tidsI.size() < minsuppRelative){
@@ -178,33 +178,33 @@ main2:		for(int itemJ : itemToBeUsedAsConsequent){
 					continue;
 				}
 				
-				// Get the map of occurences of item J
-				Map<Integer, Short> occurencesJfirst = (Map<Integer, Short>) arrayMapItemCountFirst[itemJ];
+				// Get the map of occurrences of item J
+				Map<Integer, Short> occurrencesJfirst = (Map<Integer, Short>) arrayMapItemCountFirst[itemJ];
 				
 				// if none continue
-				if(occurencesJfirst == null){
+				if(occurrencesJfirst == null){
 					continue main2;
 				}
 				// get  the set of sequence IDs containing J
-				Set<Integer> tidsJ = occurencesJfirst.keySet();
+				Set<Integer> tidsJ = occurrencesJfirst.keySet();
 				// if the support of J (cardinality of the tids) is lower
 				// than minsup, than it is not frequent, so we skip this item
 				if(tidsJ.size() < minsuppRelative){
 					continue main2;
 				}
 				
-				// (1) Build list of common  tids  and count occurences 
+				// (1) Build list of common  tids  and count occurrences 
 				// of i ==> j  and  j ==> i.
 				
 				// These two hashsets will store the tids of: 
 				Set<Integer> tidsIJ = new HashSet<Integer>();  // i ==> j
 				Set<Integer> tidsJI = new HashSet<Integer>(); // j ==> i.
 
-				// These maps will store the last occurence of I 
-				// and last occurence of J for each sequence ID (a.k.a. tid)
+				// These maps will store the last occurrence of I 
+				// and last occurrence of J for each sequence ID (a.k.a. tid)
 				//  key: tid     value:  itemset position 
-				Map<Integer, Short> occurencesJlast = (Map<Integer, Short>) arrayMapItemCountLast[itemJ];
-				Map<Integer, Short> occurencesIlast = arrayMapItemCountLast[itemI];
+				Map<Integer, Short> occurrencesJlast = (Map<Integer, Short>) arrayMapItemCountLast[itemJ];
+				Map<Integer, Short> occurrencesIlast = arrayMapItemCountLast[itemI];
 
 				// if there is less tids in J, then
 				// we will loop over J instead of I to calculate the tidsets
@@ -214,22 +214,22 @@ main2:		for(int itemJ : itemToBeUsedAsConsequent){
 					int left = tidsJ.size();
 					
 					// for each tid where J eappears
-					for(Entry<Integer, Short> entry : occurencesJfirst.entrySet()){
+					for(Entry<Integer, Short> entry : occurrencesJfirst.entrySet()){
 						Integer tid = entry.getKey();
 						
-						// get the first occurence of I
-						Short occIFirst = occurencesIfirst.get(tid);
+						// get the first occurrence of I
+						Short occIFirst = occurrencesIfirst.get(tid);
 						// if there is one
 						if(occIFirst !=  null){
-							// get the first and last occurences of J
-							Short occJFirst = occurencesJfirst.get(tid);
-							Short occJLast = occurencesJlast.get(tid);
+							// get the first and last occurrences of J
+							Short occJFirst = occurrencesJfirst.get(tid);
+							Short occJLast = occurrencesJlast.get(tid);
 							// If the first of I appears before the last of J
 							if(occIFirst < occJLast){
 								// current tid to the tidset of  i ==> j 
 								tidsIJ.add(tid);
 							}
-							Short occILast = occurencesIlast.get(tid);
+							Short occILast = occurrencesIlast.get(tid);
 							// If the first of J appears before the last of I
 							if(occJFirst < occILast){
 								// current tid to the tidset of  j ==> i 
@@ -252,23 +252,23 @@ main2:		for(int itemJ : itemToBeUsedAsConsequent){
 					// this repsents the number of itemsets left to be scanned
 					int left = tidsI.size();
 					
-					for(Entry<Integer, Short> entry : occurencesIfirst.entrySet()){
+					for(Entry<Integer, Short> entry : occurrencesIfirst.entrySet()){
 						Integer tid = entry.getKey();
 						
-						// get the first occurence of J
-						Short occJFirst = occurencesJfirst.get(tid);
+						// get the first occurrence of J
+						Short occJFirst = occurrencesJfirst.get(tid);
 						
 						// if there is one
 						if(occJFirst !=  null){
-							// get the first and last occurences of I
-							Short occIFirst = occurencesIfirst.get(tid);
-							Short occILast = occurencesIlast.get(tid);
+							// get the first and last occurrences of I
+							Short occIFirst = occurrencesIfirst.get(tid);
+							Short occILast = occurrencesIlast.get(tid);
 							// If the first of J appears before the last of I
 							if(occJFirst < occILast){
 								// current tid to the tidset of  j ==> i
 								tidsJI.add(tid);
 							}
-							Short occJLast = occurencesJlast.get(tid);
+							Short occJLast = occurrencesJlast.get(tid);
 							// If the first of I appears before the last of J
 							if(occIFirst < occJLast){
 								// current tid to the tidset of  i ==> j 
@@ -294,11 +294,11 @@ main2:		for(int itemJ : itemToBeUsedAsConsequent){
 				// if the rule I ==> J  is frequent
 				if(supIJ >= minsuppRelative){
 					// create the rule
-					double confIJ = ((double)tidsIJ.size()) / occurencesIfirst.size();
+					double confIJ = ((double)tidsIJ.size()) / occurrencesIfirst.size();
 					int[] itemsetI = new int[1];
 					itemsetI[0]= itemI;
 					
-					ClassRule ruleIJ = new ClassRule(itemsetI, itemJ, confIJ, supIJ, tidsI, tidsJ, tidsIJ, occurencesJlast);
+					ClassRule ruleIJ = new ClassRule(itemsetI, itemJ, confIJ, supIJ, tidsI, tidsJ, tidsIJ, occurrencesJlast);
 					
 					// if the rule is valid
 					if(confIJ >= minConfidence){
@@ -378,7 +378,7 @@ main2:		for(int itemJ : itemToBeUsedAsConsequent){
 	 * This method search for items for expanding left side of a rule I --> J 
 	 * with any item c. This results in rules of the form I U�{c} --> J. The method makes sure that:
 	 *   - c  is not already included in I or J
-	 *   - c appear at least minsup time in tidsIJ before last occurence of J
+	 *   - c appear at least minsup time in tidsIJ before last occurrence of J
 	 *   - c is lexically bigger than all items in I
 	 */
     private void expandL(ClassRule rule) {  
@@ -395,11 +395,11 @@ main2:		for(int itemJ : itemToBeUsedAsConsequent){
     	// for each sequence containing I-->J
     	int left = rule.tidsIJ.size();
     	for(Integer tid : rule.tidsIJ){
-    		// get the sequence and occurences of J in that sequence
+    		// get the sequence and occurrences of J in that sequence
     		Sequence sequence = database.getSequences().get(tid);
-			Short end = rule.occurencesJlast.get(tid);
+			Short end = rule.occurrencesJlast.get(tid);
 			
-			// for each itemset before the last occurence of J
+			// for each itemset before the last occurrence of J
 itemLoop:	for(int k=0; k < end; k++){
 				Integer[] itemset = sequence.get(k);
 				// for each item
@@ -471,7 +471,7 @@ itemLoop:	for(int k=0; k < end; k++){
 				itemsetIC[rule.getItemset1().length] = itemC;
 
 				// if the confidence is high enough, then it is a valid rule
-				ClassRule candidate = new ClassRule(itemsetIC,rule.getItemset2(), confIC_J, tidsIC_J.size(), tidsIC, null, tidsIC_J, rule.occurencesJlast);
+				ClassRule candidate = new ClassRule(itemsetIC,rule.getItemset2(), confIC_J, tidsIC_J.size(), tidsIC, null, tidsIC_J, rule.occurrencesJlast);
 				if(confIC_J >= minConfidence){
 					// save the rule
 					save(candidate, tidsIC_J.size());
@@ -490,8 +490,8 @@ itemLoop:	for(int k=0; k < end; k++){
 	 * This method calculate the frequency of each item in one database pass.
 	 * @param database : a sequence database 
 	 * @return A map such that key = item
-	 *                         value = a map  where a key = tid  and a value = Occurence
-	 * This map allows knowing the frequency of each item and their first and last occurence in each sequence.
+	 *                         value = a map  where a key = tid  and a value = occurrence
+	 * This map allows knowing the frequency of each item and their first and last occurrence in each sequence.
 	 */
 	private void scanDatabase(SequenceDatabase database) {
 		// (1) Count the support of each item in the database in one database pass
@@ -505,13 +505,13 @@ itemLoop:	for(int k=0; k < end; k++){
 				// for each item in that sequence
 				for(int i=0; i<itemset.length; i++ ){
 					Integer itemI = itemset[i];
-					// if the map of occurences of that item is null, create a new one
+					// if the map of occurrences of that item is null, create a new one
 					if(arrayMapItemCountFirst[itemI] == null){
 						arrayMapItemCountFirst[itemI] =  new HashMap<Integer, Short>();
 						arrayMapItemCountLast[itemI] = new HashMap<Integer, Short>();
 					}
-					// then update the occurences by adding j as the 
-					// first and/or last occurence(s) in sequence k
+					// then update the occurrences by adding j as the 
+					// first and/or last occurrence(s) in sequence k
 					Short oldPosition = arrayMapItemCountFirst[itemI].get(tid);
 					if(oldPosition == null){
 						arrayMapItemCountFirst[itemI].put(tid, j);

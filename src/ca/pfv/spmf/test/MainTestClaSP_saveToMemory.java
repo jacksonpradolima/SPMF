@@ -41,7 +41,6 @@ public class MainTestClaSP_saveToMemory {
 
         //double relativeSupport = sequenceDatabase.loadFile(fileToPath("contextClaSP.txt"), support);
         double relativeSupport = sequenceDatabase.loadFile(fileToPath("contextPrefixSpan.txt"), support);
-        //double relativeSupport = sequenceDatabase.loadFile(fileToPath("gazelle.txt"), support);
 
         AlgoClaSP algorithm = new AlgoClaSP(relativeSupport, abstractionCreator, findClosedPatterns, executePruningMethods);
 

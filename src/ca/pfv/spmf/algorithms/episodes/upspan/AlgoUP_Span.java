@@ -496,8 +496,9 @@ public class AlgoUP_Span {
 	 */
 	public void MiningEP(String Pepisode, int EpisodeExactUtility, ArrayList<Integer> Pos, ArrayList<Integer> Poe,
 			ArrayList<Integer> Pmos, ArrayList<Integer> Pmoe) {
+
 		numberOfCandidates++;
-		// System.out.println(Pepisode+"=="+Pos);
+//		System.out.println(Pepisode+"=="+Pos);
 		MiningSimult(Pepisode, EpisodeExactUtility, Pos, Poe, Pmos, Pmoe);
 		MiningSerial(Pepisode, EpisodeExactUtility, Pos, Poe, Pmos, Pmoe);
 	}
@@ -590,6 +591,9 @@ public class AlgoUP_Span {
 				Num_FreEP++;
 
 				String Nepisode = Pepisode.concat(" " + String.valueOf(freF1.get(i)));
+				
+
+				
 				FreEP.add(Nepisode);
 				EPCount.add(EventExactUtility[freF1.get(i)]);
 				// System.out.println("Episode:"+Nepisode+"
@@ -619,6 +623,8 @@ public class AlgoUP_Span {
 		int EventExactUtility[] = new int[eventType + 1];
 		Arrays.fill(LocalCount, 0);
 		Arrays.fill(EventExactUtility, 0);
+		
+		
 
 		Map<Integer, ArrayList<Integer>> OS = new HashMap<Integer, ArrayList<Integer>>();
 		Map<Integer, ArrayList<Integer>> OE = new HashMap<Integer, ArrayList<Integer>>();
@@ -693,6 +699,17 @@ public class AlgoUP_Span {
 							MOE.get(EventList.get(k)).remove(ismo);
 							MOS.get(EventList.get(k)).add(ocs);
 							MOE.get(EventList.get(k)).add(oce);
+							// ====  I THINK THE BUG IS THERE... 2020-3-6 but i did not find a solution yet
+							// about how to fix it.. I tried adding the code below... but no success-==============
+////							if("2".equals(Pepisode))
+////								System.out.println("2".equals(Pepisode));
+//							// I have added these lines, which were missing. I have copied from the IF(ismo == -1)
+//							MOS.get(EventList.get(k)).add(ocs);
+//							MOE.get(EventList.get(k)).add(oce);
+//							LocalCount[EventList.get(k)] = totalUtilityByTimeAndDuration.get(ocs);
+//							EventExactUtility[EventList.get(k)] = CalculateUtility(Pepisode + "," + EventList.get(k),
+//									ocs, oce, 1);
+							// ===== END BUG FIX =====================
 						}
 					}
 

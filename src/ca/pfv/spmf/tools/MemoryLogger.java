@@ -24,7 +24,7 @@ package ca.pfv.spmf.tools;
  * a given execution.
  * It is implemented by using the "singleton" design pattern.
  *
- */
+ */  
 public class MemoryLogger {
 	
 	// the only instance  of this class (this is the "singleton" design pattern)

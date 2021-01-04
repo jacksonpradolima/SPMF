@@ -28,6 +28,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import ca.pfv.spmf.tools.MemoryLogger;
+
 /**
  * This is the optimized implementation of the "DCI_Closed" algorithm.  
  * The DCI_Closed algorithm finds all closed itemsets in a transaction database. <br/><br/>
@@ -106,6 +108,9 @@ public class AlgoDCI_Closed_Optimized {
 		// reset number of itemsets found
 		closedCount=0;
 		
+		// Reset tool for loggin memory usage
+		MemoryLogger.getInstance().reset();
+		
 		System.out.println("Running the DCI-Closed algorithm");
 		
 		// Prepare object to write the output file
@@ -116,6 +121,9 @@ public class AlgoDCI_Closed_Optimized {
 		
 		// (0) SCAN TO KNOW THE DATABASE SIZE AND # OF ITEMS TO INITIALISE BIT-MATRIX
 		firstScan(input);
+		
+		// check memory usage
+		MemoryLogger.getInstance().checkMemory();
 		
 		// create the bit matrix
 		final BitMatrix matrix = new BitMatrix(maxItemId, tidsCount);
@@ -155,6 +163,9 @@ public class AlgoDCI_Closed_Optimized {
 			}
 		});
 		
+		// check memory usage
+		MemoryLogger.getInstance().checkMemory();
+				
 		// (3) CALL THE "DCI_CLOSED" RECURSIVE PROCEDURE
 		dci_closed(true, closedset, closedsetTIDs, postset, preset, matrix, matrix);
 		
@@ -163,6 +174,9 @@ public class AlgoDCI_Closed_Optimized {
 		System.out.println(" Number of transactions: " + tidsCount );
 		System.out.println(" Number of frequent closed itemsets: " + closedCount );
 		System.out.println(" Total time ~: " + (System.currentTimeMillis() - startTimestamp) + " ms");
+		System.out.println(" Maximum memory usage : "
+				+ MemoryLogger.getInstance().getMaxMemory() + " mb");
+		System.out.println("==========================================");
 		// close the file
 		writer.close();
 	}
@@ -309,6 +323,9 @@ public class AlgoDCI_Closed_Optimized {
 				}
 			}	
 		}
+		
+		// check memory usage
+		MemoryLogger.getInstance().checkMemory();
 	}
 
 	/**

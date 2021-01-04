@@ -43,8 +43,8 @@ public class ClassRule implements Comparable<ClassRule>{
 	Set<Integer> tidsJ; 
 	/** transaction IDs of the sequences where the antecedent appears before the consequent */
 	Set<Integer> tidsIJ; 	
-	/**  maps of last occurences of the antecedent */
-	Map<Integer, Short> occurencesJlast; 
+	/**  maps of last occurrences of the antecedent */
+	Map<Integer, Short> occurrencesJlast; 
 	 /** confidence of the rule */
 	private double confidence; 
 	
@@ -57,12 +57,12 @@ public class ClassRule implements Comparable<ClassRule>{
 	 * @param tidsI the transaction IDs of the antecedent
 	 * @param tidsJ the transaction IDs of the consequent
 	 * @param tidsIJ transaction IDs of the sequences where the antecedent appears before the consequent
-	 * @param occurencesIfirst maps of first occurences of the antecedent
-	 * @param occurencesJlast maps of last occurences of the antecedent
+	 * @param occurrencesIfirst maps of first occurrences of the antecedent
+	 * @param occurrencesJlast maps of last occurrences of the antecedent
 	 */
 	public ClassRule(int[] itemset1, Integer itemset2, double confidence, int transactioncount, 
 			Set<Integer> tidsI, Set<Integer> tidsJ, Set<Integer> tidsIJ, 
-			Map<Integer, Short> occurencesJlast){
+			Map<Integer, Short> occurrencesJlast){
 		this.itemset1 = itemset1;
 		this.itemset2 = itemset2;
 		this.confidence = confidence;
@@ -70,7 +70,7 @@ public class ClassRule implements Comparable<ClassRule>{
 		this.tidsI = tidsI;
 		this.tidsJ = tidsJ;
 		this.tidsIJ = tidsIJ;
-		this.occurencesJlast = occurencesJlast;
+		this.occurrencesJlast = occurrencesJlast;
 	}
 
 	/**

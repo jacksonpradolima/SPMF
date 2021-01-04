@@ -79,7 +79,7 @@ public class DescriptionAlgoMPFPSDFS extends DescriptionOfAlgorithm {
         
 		DescriptionOfParameter[] parameters = new DescriptionOfParameter[4];
 		parameters[0] = new DescriptionOfParameter("MaxStd (%)", "(e.g. 10)", Double.class, false);
-		parameters[1] = new DescriptionOfParameter("MinRA (%)", "(default: 0.25)", Double.class, true);
+		parameters[1] = new DescriptionOfParameter("MinRA (%)", "(default: 0.25)", Double.class, false);
 		parameters[2] = new DescriptionOfParameter("MaxPer", "(e.g. 10)", Integer.class, false);
 		parameters[3] = new DescriptionOfParameter("Minsup", "(e.g. 2)", Integer.class, false);
 		return parameters;

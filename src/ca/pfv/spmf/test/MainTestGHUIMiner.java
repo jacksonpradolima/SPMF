@@ -26,7 +26,7 @@ public class MainTestGHUIMiner {
 		String input = fileToPath("DB_Utility.txt");
 		int min_utility =  30; 
 		
-		String output = ".//GHUIs.txt";
+		String output = ".//output.txt";
 		
 		// (1) Applying the CHUI-Miner algorithm to find 
 		// closed high utility itemsets (CHUIs)

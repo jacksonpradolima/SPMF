@@ -244,7 +244,7 @@ public class AlgoPASCAL {
 	
 				
 				// We scan the database one time to calculate the support
-				// of each candidates and keep those with higher suport.
+				// of each candidates and keep those with higher support.
 				for (ItemsetPascal candidate : candidatesK) {
 					// CODE SPECIFIC TO PASCAL
 					// PRUNING STRATEGY
@@ -441,7 +441,7 @@ public class AlgoPASCAL {
 
 	/**
 	 * Method to check if all the subsets of size k-1 of a candidate of size k
-	 * are freuqnet
+	 * are frequent
 	 * 
 	 * @param candidate
 	 *            a candidate itemset of size k

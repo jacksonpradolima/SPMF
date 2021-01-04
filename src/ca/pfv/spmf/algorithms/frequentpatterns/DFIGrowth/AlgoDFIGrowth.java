@@ -17,6 +17,7 @@ package ca.pfv.spmf.algorithms.frequentpatterns.DFIGrowth;
 * You should have received a copy of the GNU General Public License along with 
 * SPMF. If not, see <http://www.gnu.org/licenses/>. 
 * 
+* @copyright Cheng-Wei Wu et al.
 */
 
 import java.io.BufferedReader;

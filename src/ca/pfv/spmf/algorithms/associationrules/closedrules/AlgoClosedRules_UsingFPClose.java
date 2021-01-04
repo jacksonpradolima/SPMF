@@ -126,12 +126,12 @@ public class AlgoClosedRules_UsingFPClose extends AlgoAgrawalFaster94{
 	private AssocRules runAlgorithm(Itemsets patterns, String output, int databaseSize)
 			throws IOException {
 		
-		// if the user want to keep the result into memory
+		// if the user wants to keep the result into memory
 		if(output == null){
 			writer = null;
 			rules =  new AssocRules("ASSOCIATION RULES");
 	    }else{ 
-	    	// if the user want to save the result to a file
+	    	// if the user wants to save the result to a file
 	    	rules = null;
 			writer = new BufferedWriter(new FileWriter(output)); 
 		}

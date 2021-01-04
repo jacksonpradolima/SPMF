@@ -122,7 +122,7 @@ public class AlgoClosedRules extends AlgoAgrawalFaster94{
 			writer = null;
 			rules =  new AssocRules("ASSOCIATION RULES");
 	    }else{ 
-	    	// if the user want to save the result to a file
+	    	// if the user wants to save the result to a file
 	    	rules = null;
 			writer = new BufferedWriter(new FileWriter(output)); 
 		}

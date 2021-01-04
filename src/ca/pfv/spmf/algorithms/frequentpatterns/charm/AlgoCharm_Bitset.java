@@ -124,11 +124,11 @@ public class AlgoCharm_Bitset {
 		// Reset the tool to assess the maximum memory usage (for statistics)
 		MemoryLogger.getInstance().reset();
 		
-		// if the user want to keep the result into memory
+		// if the user wants to keep the result into memory
 		if(output == null){
 			writer = null;
 			closedItemsets =  new Itemsets("FREQUENT CLOSED ITEMSETS");
-	    }else{ // if the user want to save the result to a file
+	    }else{ // if the user wants to save the result to a file
 	    	closedItemsets = null;
 			writer = new BufferedWriter(new FileWriter(output)); 
 		}

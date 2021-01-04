@@ -40,7 +40,7 @@ public class MainTestCPTPlus {
 		// activate the CCF and CBS strategies which generally improves its performance (see paper)
 		String optionalParameters = "CCF:true CBS:true CCFmin:1 CCFmax:6 CCFsup:2 splitMethod:0 splitLength:4 minPredictionRatio:1.0 noiseRatio:1.0";
 		// Here is a brief description of the parameter used in the above line:
-		//  CCF:true  --> activate the CCF strategy
+		//  CCF:true  --> activate the CCF strategy 
 		//  CBS:true -->  activate the CBS strategy
 		//  CCFmax:6 --> indicate that the CCF strategy will not use pattern having more than 6 items
 		//  CCFsup:2 --> indicate that a pattern is frequent for the CCF strategy if it appears in at least 2 sequences

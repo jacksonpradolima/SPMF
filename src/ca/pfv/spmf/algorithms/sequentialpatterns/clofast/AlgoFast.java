@@ -64,10 +64,12 @@ public class AlgoFast {
 	long endTimestamp = 0;  
 	
 	/** the number of patterns generated */
-	int patternCount = 0;  
+	int patternCount = 0; 
 	
-
-
+	/** a maximum support value (optional parameter) */
+	float maxSup = Float.MAX_VALUE;
+	
+	
     /**
      * Constructor
      */
@@ -132,7 +134,7 @@ public class AlgoFast {
 
             SparseIdList sil = SparseIdList.IStep(n.getSil(), rightBrother.getSil());
 
-            if (sil.getAbsoluteSupport() >= ds.getAbsMinSup()) {
+            if (sil.getAbsoluteSupport() >= ds.getAbsMinSup() && sil.getAbsoluteSupport() <= ds.getAbsMaxSup()) {
                 // create the new sequence as replica
                 Itemset newItemset = n.getItemset().clone();
                 newItemset.addItem(rightBrother.getItemset().getLast());
@@ -209,7 +211,7 @@ public class AlgoFast {
                 }
             }
             //finally
-            if (count >= ds.getAbsMinSup()) {
+            if (count >= ds.getAbsMinSup() && count <= ds.getAbsMaxSup()) {
                 Sequence sequence = node.getSequence().clone();
                 sequence.add(brotherNode.getSequence().getLastItemset());
                 tree.addChild(node, sequence, new VerticalIdList(newPosList, count), count);
@@ -247,7 +249,7 @@ public class AlgoFast {
 		startTimestamp = System.currentTimeMillis();
 		MemoryLogger.getInstance().reset();
 
-        this.ds = FastDataset.fromPrefixspanSource(inputFile, minsup);
+        this.ds = FastDataset.fromPrefixspanSource(inputFile, minsup, maxSup);
         
         // run the algoritm
         run();
@@ -300,6 +302,14 @@ public class AlgoFast {
 		r.append('\n');
 		r.append("===================================================\n");
 		System.out.println(r.toString());	
+	}
+
+	/**
+	 * Set a maximum support value
+	 * @param maxsup the maximum support
+	 */
+	public void setMaximumSupport(float maxSup) {
+		this.maxSup = maxSup;
 	}
     
 

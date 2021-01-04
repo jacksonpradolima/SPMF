@@ -48,7 +48,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoMSAprioriSrinivas {
 
-	/** the current level in the apriori generation (itemsets of size k) **/
+	/** the current level of the apriori generation (itemsets of size k) **/
 	protected int k;
 	
 	/** the array of MIS value where the position i indicate the MIS of item with ID i. */
@@ -113,16 +113,17 @@ public class AlgoMSAprioriSrinivas {
 		startTimestamp = System.currentTimeMillis();
 		// Prepare for writing the output file
 		writer = new BufferedWriter(new FileWriter(output));
-		// Reset the number of itemset found to 0
+		// Reset the number of itemsets found to 0
 		itemsetCount = 0;
-		// reseter the utility for recording the max memory usage
+		// reset the tool for recording the max memory usage
 		MemoryLogger.getInstance().reset();
 		
 		// variable to store the maximum item id in the database
 		int maxItemID = -1; // pfv
 
-		// the number of transaction in the database
+		// the number of transactions in the database
 		int transactionCount = 0;
+		
 		// map to count the support of each item
 		// key: item  value: support of the item
 		Map<Integer, Integer> mapItemCount = new HashMap<Integer, Integer>(); 
@@ -190,7 +191,7 @@ public class AlgoMSAprioriSrinivas {
 		// initialize array for storing the MIS values for each item
 		MIS = new int[maxItemID + 1];
 
-		// transform the LS value to a relative value by multiplying by
+		// transform the LS value into a relative value by multiplying by
 		// the number of transactions
 		this.LSRelative = (int) Math.ceil(LS * transactionCount);   // pfv
 
@@ -203,7 +204,7 @@ public class AlgoMSAprioriSrinivas {
 		for (Entry<Integer, Integer> entry : mapItemCount.entrySet()) {
 			// add the item to M
 			M.add(entry.getKey());
-			// calculate the MIS value for that item by using the formula described in the paper
+			// calculate the MIS value of that item by using the formula described in the paper
 			MIS[entry.getKey()] = (int) (beta * entry.getValue());
 			// if the MIS value for that item is lower than LS, then set it to LS 
 			if (MIS[entry.getKey()] < LSRelative){
@@ -260,7 +261,7 @@ public class AlgoMSAprioriSrinivas {
 			// Now, the algorithm will discover itemset of size k > 1 starting from k=2
 			List<Itemset> level = null;
 			k = 2;
-			// Generate candidates and test them for k>1 by inscreasing k at each iteration
+			// Generate candidates and test them for k>1 by increasing k at each iteration
 			// until no candidates can be generated
 			do {
 				// check the memory usage
@@ -284,7 +285,7 @@ public class AlgoMSAprioriSrinivas {
 					// otherwise, we use the general procedure for candidate generation
 					candidatesK = generateCandidateSizeK(level);
 					// We scan the database one time to calculate the support
-					// of each candidates and keep those with higher suport.
+					// of each candidates and keep those with higher support.
 					
 					// for each transaction
 					for (Integer[] transaction : database) {

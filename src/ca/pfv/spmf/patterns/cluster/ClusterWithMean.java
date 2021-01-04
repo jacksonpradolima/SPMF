@@ -34,7 +34,6 @@ public class ClusterWithMean extends Cluster {
 	 * @param vectorsSize the size of the vectors to be stored in this cluster
 	 */
 	public ClusterWithMean(int vectorsSize){
-		super();
 		sum = new DoubleArray(new double[vectorsSize]);
 	}
 	

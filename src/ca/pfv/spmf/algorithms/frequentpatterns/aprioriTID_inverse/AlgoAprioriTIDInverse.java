@@ -155,11 +155,11 @@ public class AlgoAprioriTIDInverse {
 		// reset number of itemsets found
 		itemsetCount = 0;
 		
-		// if the user want to keep the result into memory
+		// if the user wants to keep the result into memory
 		if(output == null){
 			writer = null;
 			patterns =  new Itemsets("FREQUENT ITEMSETS");
-	    }else{ // if the user want to save the result to a file
+	    }else{ // if the user wants to save the result to a file
 			patterns = null;
 			writer = new BufferedWriter(new FileWriter(output)); 
 		}

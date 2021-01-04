@@ -63,10 +63,16 @@ public class FastDataset {
     /** Minimum support */
     private final float minSup;
     
-    /** Absolute minimum support */
+    /** Maximum support */
+    private final float maxSup;
+    
+    /** Absolute minimum support (optional parameter)*/
     private int absMinSup;
+    
+    /** Absolute maximum support */
+    private int absMaxSup;
 
-    /**
+	/**
      * @param numRows
      * @param minSup
      */
@@ -74,9 +80,29 @@ public class FastDataset {
         this.itemSILMap = new HashMap<>();
         this.numRows = numRows;
         this.minSup = minSup;
+		this.maxSup = 1f;
         absMinSup = absoluteSupport(minSup, numRows);
         if (absMinSup == 0)
             absMinSup = 1;
+		absMaxSup = (int) numRows;
+    }
+	
+    /**
+     * @param numRows
+     * @param minSup
+	 * @param maxSup
+     */
+    private FastDataset(long numRows, float minSup, float maxSup) {
+        this.itemSILMap = new HashMap<>();
+        this.numRows = numRows;
+        this.minSup = minSup;
+		this.maxSup = maxSup;
+        absMinSup = absoluteSupport(minSup, numRows);
+        if (absMinSup == 0)
+            absMinSup = 1;
+		absMaxSup = absoluteSupport(maxSup, numRows);
+        if (absMaxSup == 0)
+            absMaxSup = 1;
     }
 
     /**
@@ -85,7 +111,7 @@ public class FastDataset {
     private void computeFrequentItems() {
         final Map<String, SparseIdList> newMap = new TreeMap<>();
         itemSILMap.forEach((item, sparseIdList) -> {
-            if (sparseIdList.getAbsoluteSupport() >= absMinSup)
+            if (sparseIdList.getAbsoluteSupport() >= absMinSup && sparseIdList.getAbsoluteSupport() <= absMaxSup)
                 newMap.put(item, sparseIdList);
         });
         itemSILMap = newMap;
@@ -127,13 +153,22 @@ public class FastDataset {
         return absMinSup;
     }
     
+	/**
+     * Get the absolute maximum support
+     * @return the absolute maximum support
+     */
+    public int getAbsMaxSup() {
+        return absMaxSup;
+    }
+	
     /**
      * Read an input file in SPMF format.
      * @param path the path of the file
-     * @param relativeSupport the relative minimum suppor threshold
+     * @param relativeMinSupport the relative minimum support threshold
+     * @param relativeMaxSupport the relative maximum support threshold
      * @return a memory representation of the databaset
      */
-    public static FastDataset fromPrefixspanSource(String path, float relativeSupport) throws IOException { 	
+    public static FastDataset fromPrefixspanSource(String path, float relativeMinSupport, float relativeMaxSupport) throws IOException { 	
     	long numRows =0;
     	//========================== CODE CHANGED BY PHILIPPE =====================
     	// count the number of lines in the file
@@ -152,7 +187,7 @@ public class FastDataset {
 		}
 		lnr.close();
 
-        final FastDataset fastDataset = new FastDataset(numRows, relativeSupport);
+        final FastDataset fastDataset = new FastDataset(numRows, relativeMinSupport, relativeMaxSupport);
 
         int lineNumber = 0;
         FileInputStream fin = new FileInputStream(new File(path));
@@ -196,12 +231,13 @@ public class FastDataset {
 
     /**
      * @param path
-     * @param relativeSupport
+     * @param relativeMinSupport
+     * @param relativeMaxSupport
      * @return
      */
-    public static FastDataset fromPrefixspanSource(Path path, float relativeSupport) throws IOException {
+    public static FastDataset fromPrefixspanSource(Path path, float relativeMinSupport, float relativeMaxSupport) throws IOException {
         long numRows = Files.lines(path).count();
-        final FastDataset fastDataset = new FastDataset(numRows, relativeSupport);
+        final FastDataset fastDataset = new FastDataset(numRows, relativeMinSupport, relativeMaxSupport);
 
         int lineNumber = 0;
         String line;
@@ -252,14 +288,15 @@ public class FastDataset {
     /**
      *
      * @param path
-     * @param relativeSupport
+     * @param relativeMinSupport
+     * @param relativeMaxSupport
      * @return
      * @throws IOException
      */
-    public static FastDataset fromSpamSource(Path path, float relativeSupport) throws IOException {
+    public static FastDataset fromSpamSource(Path path, float relativeMinSupport, float relativeMaxSupport) throws IOException {
 
         long numRows = countNumRowsSpamSource(path);
-        final FastDataset fastDataset = new FastDataset(numRows, relativeSupport);
+        final FastDataset fastDataset = new FastDataset(numRows, relativeMinSupport, relativeMaxSupport);
 
         Files.lines(path).filter(l -> l.length() > 0).forEach(l -> {
             String[] split = l.split(" ");

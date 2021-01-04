@@ -1,7 +1,7 @@
 # SPMF
 [An Open-Source Data Mining Library](http://www.philippe-fournier-viger.com/spmf/) - GitHub Fork
 
-This is a fork of the SPMF based on release 2.40-2019-10-23. The original site is http://www.philippe-fournier-viger.com/spmf/ with the source code at [here](http://www.philippe-fournier-viger.com/spmf/index.php?link=download.php)
+This is a fork of the SPMF based on release 2.42-2020-03-11. The original site is http://www.philippe-fournier-viger.com/spmf/ with the source code at [here](http://www.philippe-fournier-viger.com/spmf/index.php?link=download.php)
 
 **NOTE** The [owner](jacksonpradolima) of this repository has no affiliation with official SPMF project. This repo is periodically updated as a kindness to others who have shown interest in it. Therefore, this exists to provide an easy way to access and contribute with the project, nothing more.
 
@@ -12,16 +12,18 @@ SPMF is an open-source data mining mining library written in Java, specialized i
 
 It is distributed under the GPL v3 license.
 
-It offers implementations of 178 data mining algorithms for:
+It offers implementations of 196 data mining algorithms for:
 - association rule mining,
 - itemset mining,
-- sequential pattern mining,
+- sequential pattern,
 - sequential rule mining,
 - sequence prediction,
 - periodic pattern mining, 
+- episode mining,
 - high-utility pattern mining,
-- clustering and classification,
-- time-series mining.
+- time-series mining,
+- clustering and classification.
+
 
 The source code of each algorithm can be easily integrated in other Java software.
 

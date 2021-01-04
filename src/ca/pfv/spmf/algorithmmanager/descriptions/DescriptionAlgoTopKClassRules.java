@@ -75,6 +75,10 @@ public class DescriptionAlgoTopKClassRules extends DescriptionOfAlgorithm {
 			algo.setMaxAntecedentSize(getParamAsInteger(parameters[3]));
 		}
 		
+		if (parameters.length >=5 && "".equals(parameters[4]) == false) {
+			algo.setMaxSupport(getParamAsDouble(parameters[4]));
+		}
+		
 		algo.runAlgorithm(k, minconf, database, requiredItems);
 		algo.printStats();
 		algo.writeResultTofile(outputFile); // to save results to file
@@ -83,11 +87,12 @@ public class DescriptionAlgoTopKClassRules extends DescriptionOfAlgorithm {
 	@Override
 	public DescriptionOfParameter[] getParametersDescription() {
         
-		DescriptionOfParameter[] parameters = new DescriptionOfParameter[4];
+		DescriptionOfParameter[] parameters = new DescriptionOfParameter[5];
 		parameters[0] = new DescriptionOfParameter("k", "(e.g. 2)", Integer.class, false);
 		parameters[1] = new DescriptionOfParameter("Minconf (%)", "(e.g. 0.8 or 80%)", Double.class, false);
 		parameters[2] = new DescriptionOfParameter("Fixed consequent items", "(e.g. 1,2,3)", String.class, false);
 		parameters[3] = new DescriptionOfParameter("Max antecedent size", "(e.g. 1 items)", Integer.class, true);
+		parameters[4] = new DescriptionOfParameter("Maxsup (%)", "(e.g. 0.8 or 80%)", Double.class, true);
 		return parameters;
 	}
 

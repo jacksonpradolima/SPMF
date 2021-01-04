@@ -31,7 +31,7 @@ Moreover, SPMF can be used as a standalone program with a simple user interface 
 
 SPMF is fast and lightweight (no dependencies to other libraries).
 
-The current version is v2.40 and was released the 23rd October 2019. 
+The current version is v2.42 and was released the 11th March 2020. 
 
 Informations:
 - [Algorithms](http://www.philippe-fournier-viger.com/spmf/index.php?link=algorithms.php)
